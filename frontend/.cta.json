@@ -1,11 +1,11 @@
 {
-  "projectName": "sports-places",
-  "mode": "file-router",
-  "typescript": true,
-  "tailwind": false,
-  "packageManager": "npm",
-  "git": true,
-  "version": 1,
-  "framework": "react-cra",
-  "chosenAddOns": []
+    "projectName": "sports-places",
+    "mode": "file-router",
+    "typescript": true,
+    "tailwind": true,
+    "packageManager": "npm",
+    "git": true,
+    "version": 1,
+    "framework": "react-cra",
+    "chosenAddOns": []
 }
