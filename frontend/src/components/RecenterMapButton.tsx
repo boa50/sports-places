@@ -1,5 +1,6 @@
 import { useMapEvents } from 'react-leaflet'
 import { Icon } from './ui/Icon'
+import { defaults } from './defaults'
 
 export default function RecenterMapButton() {
     const map = useMapEvents({
@@ -7,8 +8,10 @@ export default function RecenterMapButton() {
             map.locate()
         },
         locationfound: (location) => {
-            console.log('location found:', location)
-            map.flyTo([location.latlng.lat, location.latlng.lng], 14)
+            map.flyTo(
+                [location.latlng.lat, location.latlng.lng],
+                defaults.usersZoom
+            )
         },
     })
     return (

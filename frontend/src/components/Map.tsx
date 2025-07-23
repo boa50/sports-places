@@ -7,18 +7,23 @@ import {
     ScaleControl,
 } from 'react-leaflet'
 import RecenterMapButton from '../components/RecenterMapButton'
+import { defaults } from './defaults'
 
 interface Props {
     id: string
+    userLocation?: { latitude: number; longitude: number }
 }
 
-export default function Map({ id }: Props) {
+export default function Map({ id, userLocation }: Props) {
     return (
         <MapContainer
             id={id}
             className="h-dvh"
-            center={[20, 0]}
-            zoom={3}
+            center={[
+                userLocation ? userLocation.latitude : defaults.latitude,
+                userLocation ? userLocation.longitude : defaults.longitude,
+            ]}
+            zoom={userLocation ? defaults.usersZoom : defaults.zoom}
             scrollWheelZoom={true}
             zoomControl={false}
         >

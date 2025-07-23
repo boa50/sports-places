@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
 import Map from '../components/Map'
 
 export const Route = createFileRoute('/')({
@@ -6,5 +7,37 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
-    return <Map id="root" />
+    const [isLoading, setIsLoading] = useState(true)
+    const [RenderedMap, setRenderedMap] = useState(<Map id="root" />)
+
+    useEffect(() => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setRenderedMap(
+                        <Map
+                            id="root"
+                            userLocation={{
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude,
+                            }}
+                        />
+                    )
+                    setIsLoading(false)
+                },
+                (err) => {
+                    setIsLoading(false)
+                },
+                { timeout: 10000, maximumAge: Infinity }
+            )
+        } else {
+            setIsLoading(false)
+        }
+    }, [])
+
+    if (isLoading) {
+        return <></>
+    }
+
+    return RenderedMap
 }
