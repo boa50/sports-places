@@ -1,6 +1,6 @@
 import { useMapEvents } from 'react-leaflet'
 
-function RecenterMapButton() {
+export default function RecenterMapButton() {
     const map = useMapEvents({
         click: () => {
             map.locate()
@@ -20,5 +20,3 @@ function RecenterMapButton() {
         </button>
     )
 }
-
-export default RecenterMapButton
