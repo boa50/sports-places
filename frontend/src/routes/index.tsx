@@ -5,7 +5,9 @@ import {
     Marker,
     Popup,
     ZoomControl,
+    ScaleControl,
 } from 'react-leaflet'
+import RecenterMapButton from '../components/recenterMapButton'
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -16,8 +18,8 @@ function Index() {
         <MapContainer
             id="root"
             className="h-dvh"
-            center={[51.505, -0.09]}
-            zoom={13}
+            center={[20, 0]}
+            zoom={3}
             scrollWheelZoom={true}
             zoomControl={false}
         >
@@ -30,6 +32,8 @@ function Index() {
                     A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
             </Marker>
+            <ScaleControl position="bottomleft" />
+            <RecenterMapButton />
             <ZoomControl position="bottomright" />
         </MapContainer>
     )
