@@ -1,4 +1,5 @@
 import { useMapEvents } from 'react-leaflet'
+import { Icon } from './ui/Icon'
 
 export default function RecenterMapButton() {
     const map = useMapEvents({
@@ -13,10 +14,10 @@ export default function RecenterMapButton() {
     return (
         <button
             type="button"
-            className="absolute z-400 px-3 py-2 text-sm font-medium text-center bottom-24 right-3
-            text-stone-900 bg-white rounded-lg hover:bg-gray-100 ring-2 ring-black/20"
+            className="absolute z-400 p-1.75 text-sm font-medium text-center bottom-24 right-3
+            text-stone-900 bg-white rounded-sm hover:bg-gray-100 ring-2 ring-black/20"
         >
-            Locate
+            <Icon type="location" />
         </button>
     )
 }
