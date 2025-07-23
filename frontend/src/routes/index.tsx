@@ -25,7 +25,7 @@ function Index() {
                     )
                     setIsLoading(false)
                 },
-                (err) => {
+                () => {
                     setIsLoading(false)
                 },
                 { timeout: 10000, maximumAge: Infinity }
