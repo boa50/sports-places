@@ -6,6 +6,7 @@ import {
     ZoomControl,
     ScaleControl,
 } from 'react-leaflet'
+import { latLngBounds, latLng } from 'leaflet'
 import RecenterMapButton from '../components/RecenterMapButton'
 import { defaults } from './defaults'
 
@@ -15,6 +16,8 @@ interface Props {
 }
 
 export default function Map({ id, userLocation }: Props) {
+    const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
+
     return (
         <MapContainer
             id={id}
@@ -24,8 +27,11 @@ export default function Map({ id, userLocation }: Props) {
                 userLocation ? userLocation.longitude : defaults.longitude,
             ]}
             zoom={userLocation ? defaults.usersZoom : defaults.zoom}
+            minZoom={defaults.zoom}
             scrollWheelZoom={true}
             zoomControl={false}
+            maxBounds={maxBounds}
+            maxBoundsViscosity={1.0}
         >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
