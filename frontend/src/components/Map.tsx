@@ -10,6 +10,9 @@ import { latLngBounds, latLng } from 'leaflet'
 import RecenterMapButton from '../components/RecenterMapButton'
 import { defaults } from './defaults'
 
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { reviewsQueryOptions } from '../queryOptions/reviews'
+
 interface Props {
     id: string
     userLocation?: { latitude: number; longitude: number }
@@ -17,6 +20,11 @@ interface Props {
 
 export default function Map({ id, userLocation }: Props) {
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
+
+    const reviewsQuery = useSuspenseQuery(reviewsQueryOptions)
+    const reviews = reviewsQuery.data
+
+    console.log(reviews)
 
     return (
         <MapContainer
