@@ -1,9 +1,4 @@
-import pandas as pd
-from dotenv import load_dotenv
-from connection import execute_query
-
-
-load_dotenv()
+from queries.connection import execute_query
 
 
 def get_reviews_data():
@@ -11,9 +6,4 @@ def get_reviews_data():
 
     data, column_names = execute_query(sql)
 
-    df = pd.DataFrame(data, columns=column_names)
-
-    return df
-
-
-print(get_reviews_data())
+    return data, column_names

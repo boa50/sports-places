@@ -8,7 +8,7 @@ interface Props {
 export default function Review({ review }: Props) {
     return (
         <Marker position={[review.lat, review.long]}>
-            <Popup>{review.text}</Popup>
+            <Popup>{review.txt}</Popup>
         </Marker>
     )
 }
