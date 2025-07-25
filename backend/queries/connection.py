@@ -32,6 +32,7 @@ def execute_query(sql):
 
     except psycopg2.Error as e:
         print(f"Error connecting to PostgreSQL: {e}")
+        rows = -1
 
     finally:
         # Close the cursor and connection

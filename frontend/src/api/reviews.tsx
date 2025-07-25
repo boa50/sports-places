@@ -1,21 +1,26 @@
 import type { Review } from '../types'
 
-export const fetchReviews = async (
-    databaseUrl?: string | unknown
-): Promise<Review[]> => {
+export const fetchReviews = async (): Promise<Review[]> => {
     console.info('Fetching reviews...')
-    const response = await fetch(`${getApiUrl(databaseUrl)}/reviews`)
+    const response = await fetch(`${getApiUrl()}/reviews`)
 
     return await response.json()
 }
 
-function getApiUrl(databaseUrl?: string | unknown): string {
-    const dbUrl =
-        databaseUrl !== undefined
-            ? typeof databaseUrl === 'string'
-                ? databaseUrl
-                : import.meta.env.VITE_BACKEND_URL
-            : import.meta.env.VITE_BACKEND_URL
+export const createReview = async () => {
+    const response = await fetch(`${getApiUrl()}/review`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ lat: 0, long: 0, txt: 'test' }),
+    })
+    if (!response.ok) {
+        throw new Error('Failed to create review')
+    }
+    return response.json()
+}
 
-    return `${dbUrl}/api`
+function getApiUrl(): string {
+    return `${import.meta.env.VITE_BACKEND_URL}/api`
 }

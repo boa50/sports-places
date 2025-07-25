@@ -10,3 +10,7 @@ def get_reviews():
     df = df.drop(columns=["userid"])
 
     return df
+
+
+def create_review():
+    return qu.insert_review_data()

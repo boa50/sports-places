@@ -30,6 +30,14 @@ def get_reviews():
     return Response(df.to_json(orient="records"), media_type="application/json")
 
 
+@app.post("/api/review")
+async def create_review():
+    # print(review)
+    ret = reviews.create_review()
+
+    return ret
+
+
 if __name__ == "__main__":
     import uvicorn
 
