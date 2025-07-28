@@ -17,10 +17,9 @@ import ReviewsMarkers from './ReviewsMarkers'
 
 import { Suspense, useState } from 'react'
 
-function ClickHandler({ onMapClick, togglePanel }) {
+function ClickHandler({ onMapClick }) {
     useMapEvent('click', (e) => {
         onMapClick(e.latlng)
-        togglePanel()
     })
     return null
 }
@@ -28,10 +27,16 @@ function ClickHandler({ onMapClick, togglePanel }) {
 interface Props {
     id: string
     userLocation?: { latitude: number; longitude: number }
-    togglePanel: Function
+    openPanel: () => void
+    setSelectedPlace: (place: string) => void
 }
 
-export default function Map({ id, userLocation, togglePanel }: Props) {
+export default function Map({
+    id,
+    userLocation,
+    openPanel,
+    setSelectedPlace,
+}: Props) {
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
     const [markerPosition, setMarkerPosition] = useState(null)
 
@@ -63,13 +68,13 @@ export default function Map({ id, userLocation, togglePanel }: Props) {
             maxBoundsViscosity={1.0}
         >
             {/* {getComponents()} */}
-            <MapComponents />
+            <MapComponents
+                openPanel={openPanel}
+                setSelectedPlace={setSelectedPlace}
+            />
 
             {/* Listen for clicks */}
-            <ClickHandler
-                onMapClick={setMarkerPosition}
-                togglePanel={togglePanel}
-            />
+            <ClickHandler onMapClick={setMarkerPosition} />
 
             {/* Show marker if position is set */}
             {markerPosition && (
@@ -79,17 +84,27 @@ export default function Map({ id, userLocation, togglePanel }: Props) {
                         long: markerPosition.lng,
                         txt: 'Teste',
                     }}
+                    openPanel={openPanel}
+                    setSelectedPlace={setSelectedPlace}
                 />
             )}
         </MapContainer>
     )
 }
 
-function MapComponents() {
+interface MapComponentsProps {
+    openPanel: () => void
+    setSelectedPlace: (place: string) => void
+}
+
+function MapComponents({ openPanel, setSelectedPlace }: MapComponentsProps) {
     return (
         <>
             <Suspense>
-                <ReviewsMarkers />
+                <ReviewsMarkers
+                    openPanel={openPanel}
+                    setSelectedPlace={setSelectedPlace}
+                />
             </Suspense>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

@@ -1,11 +1,12 @@
-import { useState, useEffect, type MouseEventHandler } from 'react'
+import { useState, useEffect } from 'react'
 
 interface Props {
     isOpen: boolean
-    togglePanel: MouseEventHandler
+    closePanel: () => void
+    seletedPlace: string | undefined
 }
 
-export default function SidePanel({ isOpen, togglePanel }: Props) {
+export default function SidePanel({ isOpen, closePanel, seletedPlace }: Props) {
     const [isMobile, setIsMobile] = useState(false)
 
     // Check if mobile on mount and resize
@@ -41,9 +42,18 @@ export default function SidePanel({ isOpen, togglePanel }: Props) {
             <div className={getPanelClasses()}>
                 <div className="p-4">
                     <h2 className="text-xl font-bold">Panel Content</h2>
-                    <p className="mt-2">This is your side panel content.</p>
+                    <div className="mt-2">
+                        {seletedPlace === undefined ? (
+                            <p>
+                                There are no reviews for this place, write the
+                                first one :)
+                            </p>
+                        ) : (
+                            <p>There are pleny of reviews for here</p>
+                        )}
+                    </div>
                     <button
-                        onClick={togglePanel}
+                        onClick={closePanel}
                         className="mt-4 bg-red-500 text-white px-3 py-1 rounded"
                     >
                         Close

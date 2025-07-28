@@ -10,13 +10,21 @@ export const Route = createFileRoute('/')({
 function Index() {
     const [isLoading, setIsLoading] = useState(true)
     const [isOpenPanel, setIsOpenPanel] = useState(false)
-    const togglePanel = () => {
-        console.log(isOpenPanel)
-
-        setIsOpenPanel(!isOpenPanel)
+    const [selectedPlace, setSelectedPlace] = useState<string | undefined>(
+        undefined
+    )
+    const openPanel = () => {
+        setIsOpenPanel(true)
+    }
+    const closePanel = () => {
+        setIsOpenPanel(false)
     }
     const [RenderedMap, setRenderedMap] = useState(
-        <Map id="root" togglePanel={togglePanel} />
+        <Map
+            id="root"
+            openPanel={openPanel}
+            setSelectedPlace={setSelectedPlace}
+        />
     )
 
     useEffect(() => {
@@ -30,7 +38,8 @@ function Index() {
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude,
                             }}
-                            togglePanel={togglePanel}
+                            openPanel={openPanel}
+                            setSelectedPlace={setSelectedPlace}
                         />
                     )
                     setIsLoading(false)
@@ -51,7 +60,11 @@ function Index() {
 
     return (
         <>
-            <SidePanel isOpen={isOpenPanel} togglePanel={togglePanel} />
+            <SidePanel
+                isOpen={isOpenPanel}
+                closePanel={closePanel}
+                seletedPlace={selectedPlace}
+            />
             {RenderedMap}
         </>
     )
