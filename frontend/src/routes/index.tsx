@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import Map from '../components/Map'
+import SidePanel from '../components/SidePanel'
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -8,7 +9,15 @@ export const Route = createFileRoute('/')({
 
 function Index() {
     const [isLoading, setIsLoading] = useState(true)
-    const [RenderedMap, setRenderedMap] = useState(<Map id="root" />)
+    const [isOpenPanel, setIsOpenPanel] = useState(false)
+    const togglePanel = () => {
+        console.log(isOpenPanel)
+
+        setIsOpenPanel(!isOpenPanel)
+    }
+    const [RenderedMap, setRenderedMap] = useState(
+        <Map id="root" togglePanel={togglePanel} />
+    )
 
     useEffect(() => {
         if ('geolocation' in navigator) {
@@ -21,6 +30,7 @@ function Index() {
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude,
                             }}
+                            togglePanel={togglePanel}
                         />
                     )
                     setIsLoading(false)
@@ -39,5 +49,10 @@ function Index() {
         return <></>
     }
 
-    return RenderedMap
+    return (
+        <>
+            <SidePanel isOpen={isOpenPanel} togglePanel={togglePanel} />
+            {RenderedMap}
+        </>
+    )
 }

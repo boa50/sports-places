@@ -19,10 +19,10 @@ import { createReview } from '../api/reviews'
 
 import { useState } from 'react'
 
-function ClickHandler({ onMapClick, mutate }) {
+function ClickHandler({ onMapClick, togglePanel }) {
     useMapEvent('click', (e) => {
         onMapClick(e.latlng)
-        mutate()
+        togglePanel()
     })
     return null
 }
@@ -30,9 +30,10 @@ function ClickHandler({ onMapClick, mutate }) {
 interface Props {
     id: string
     userLocation?: { latitude: number; longitude: number }
+    togglePanel: Function
 }
 
-export default function Map({ id, userLocation }: Props) {
+export default function Map({ id, userLocation, togglePanel }: Props) {
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
     const [markerPosition, setMarkerPosition] = useState(null)
 
@@ -66,7 +67,10 @@ export default function Map({ id, userLocation }: Props) {
             {getComponents()}
 
             {/* Listen for clicks */}
-            <ClickHandler onMapClick={setMarkerPosition} mutate={mutate} />
+            <ClickHandler
+                onMapClick={setMarkerPosition}
+                togglePanel={togglePanel}
+            />
 
             {/* Show marker if position is set */}
             {markerPosition && (

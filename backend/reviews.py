@@ -1,5 +1,6 @@
 import pandas as pd
 import queries.queries as qu
+from classes import Review
 
 
 def get_reviews():
@@ -12,5 +13,8 @@ def get_reviews():
     return df
 
 
-def create_review():
-    return qu.insert_review_data()
+def create_review(review: Review):
+    print(review)
+    # return qu.insert_review_data(review)
+
+    return 0

@@ -1,13 +1,5 @@
 from queries.connection import execute_query
-
-# Just for tests
-import random
-
-
-def create_random_float():
-    min_val = -50.0
-    max_val = 50.0
-    return min_val + (max_val - min_val) * random.random()
+from classes import Review
 
 
 def get_reviews_data():
@@ -21,15 +13,10 @@ def get_reviews_data():
         return list(), list()
 
 
-def insert_review_data():
-    userid = 0
-    lat = create_random_float()
-    long = create_random_float()
-    txt = "Some text " + str(create_random_float())
-
+def insert_review_data(review: Review):
     sql = f"""
         INSERT INTO Reviews
-        VALUES ({userid}, {lat}, {long}, '{txt}')
+        VALUES ({review.userId}, {review.lat}, {review.long}, '{review.txt}')
     """
 
     data, _ = execute_query(sql)
