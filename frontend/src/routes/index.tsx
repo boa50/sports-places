@@ -9,21 +9,21 @@ export const Route = createFileRoute('/')({
 
 function Index() {
     const [isLoading, setIsLoading] = useState(true)
-    const [isOpenPanel, setIsOpenPanel] = useState(false)
-    const [selectedPlace, setSelectedPlace] = useState<string | undefined>(
-        undefined
-    )
-    const openPanel = () => {
-        setIsOpenPanel(true)
-    }
-    const closePanel = () => {
-        setIsOpenPanel(false)
-    }
+    // const [isOpenPanel, setIsOpenPanel] = useState(false)
+    // const [selectedPlace, setSelectedPlace] = useState<string | undefined>(
+    //     undefined
+    // )
+    // const openPanel = () => {
+    //     setIsOpenPanel(true)
+    // }
+    // const closePanel = () => {
+    //     setIsOpenPanel(false)
+    // }
     const [RenderedMap, setRenderedMap] = useState(
         <Map
             id="root"
-            openPanel={openPanel}
-            setSelectedPlace={setSelectedPlace}
+            // openPanel={openPanel}
+            // setSelectedPlace={setSelectedPlace}
         />
     )
 
@@ -38,8 +38,8 @@ function Index() {
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude,
                             }}
-                            openPanel={openPanel}
-                            setSelectedPlace={setSelectedPlace}
+                            // openPanel={openPanel}
+                            // setSelectedPlace={setSelectedPlace}
                         />
                     )
                     setIsLoading(false)
@@ -60,11 +60,7 @@ function Index() {
 
     return (
         <>
-            <SidePanel
-                isOpen={isOpenPanel}
-                closePanel={closePanel}
-                seletedPlace={selectedPlace}
-            />
+            <SidePanel />
             {RenderedMap}
         </>
     )

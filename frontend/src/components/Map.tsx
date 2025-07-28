@@ -16,8 +16,15 @@ import ReviewsMarkers from './ReviewsMarkers'
 // import { createReview } from '../api/reviews'
 
 import { Suspense, useState } from 'react'
+import { useAppContext } from '../contexts/AppContext'
 
-function ClickHandler({ onMapClick }) {
+import type { LatLng } from 'leaflet'
+
+function ClickHandler({
+    onMapClick,
+}: {
+    onMapClick: (latlng: LatLng) => void
+}) {
     useMapEvent('click', (e) => {
         onMapClick(e.latlng)
     })
@@ -27,18 +34,12 @@ function ClickHandler({ onMapClick }) {
 interface Props {
     id: string
     userLocation?: { latitude: number; longitude: number }
-    openPanel: () => void
-    setSelectedPlace: (place: string) => void
 }
 
-export default function Map({
-    id,
-    userLocation,
-    openPanel,
-    setSelectedPlace,
-}: Props) {
+export default function Map({ id, userLocation }: Props) {
+    const { dispatch } = useAppContext()
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
-    const [markerPosition, setMarkerPosition] = useState(null)
+    const [markerPosition, setMarkerPosition] = useState<LatLng | null>(null)
 
     // const { mutate, isError, isSuccess, data, error } = useMutation({
     //     mutationFn: createReview,
@@ -51,6 +52,12 @@ export default function Map({
     //         console.error('Error creating post:', error)
     //     },
     // })
+
+    const handleMapClick = (latlng: LatLng) => {
+        setMarkerPosition(latlng)
+        dispatch({ type: 'CLEAR_SELECTED_PLACE' })
+        dispatch({ type: 'OPEN_PANEL' })
+    }
 
     return (
         <MapContainer
@@ -68,13 +75,10 @@ export default function Map({
             maxBoundsViscosity={1.0}
         >
             {/* {getComponents()} */}
-            <MapComponents
-                openPanel={openPanel}
-                setSelectedPlace={setSelectedPlace}
-            />
+            <MapComponents />
 
             {/* Listen for clicks */}
-            <ClickHandler onMapClick={setMarkerPosition} />
+            <ClickHandler onMapClick={handleMapClick} />
 
             {/* Show marker if position is set */}
             {markerPosition && (
@@ -84,27 +88,17 @@ export default function Map({
                         long: markerPosition.lng,
                         txt: 'Teste',
                     }}
-                    openPanel={openPanel}
-                    setSelectedPlace={setSelectedPlace}
                 />
             )}
         </MapContainer>
     )
 }
 
-interface MapComponentsProps {
-    openPanel: () => void
-    setSelectedPlace: (place: string) => void
-}
-
-function MapComponents({ openPanel, setSelectedPlace }: MapComponentsProps) {
+function MapComponents() {
     return (
         <>
             <Suspense>
-                <ReviewsMarkers
-                    openPanel={openPanel}
-                    setSelectedPlace={setSelectedPlace}
-                />
+                <ReviewsMarkers />
             </Suspense>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

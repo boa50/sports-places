@@ -3,6 +3,7 @@ import {
     Outlet,
     Link,
 } from '@tanstack/react-router'
+import { AppProvider } from '../contexts/AppContext'
 import type { QueryClient } from '@tanstack/react-query'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
@@ -23,10 +24,10 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
     return (
-        <>
+        <AppProvider>
             <Outlet />
             {/* <ReactQueryDevtools buttonPosition="top-right" /> */}
             {/* <TanStackRouterDevtools position="bottom-right" /> */}
-        </>
+        </AppProvider>
     )
 }
