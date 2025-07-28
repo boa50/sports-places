@@ -8,16 +8,14 @@ import {
 import { latLngBounds, latLng } from 'leaflet'
 import { defaults } from './defaults'
 
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { reviewsQueryOptions } from '../queryOptions/reviews'
-
 import Review from '../components/Review'
 import RecenterMapButton from '../components/RecenterMapButton'
+import ReviewsMarkers from './ReviewsMarkers'
 
-import { useMutation } from '@tanstack/react-query'
-import { createReview } from '../api/reviews'
+// import { useMutation } from '@tanstack/react-query'
+// import { createReview } from '../api/reviews'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 
 function ClickHandler({ onMapClick, togglePanel }) {
     useMapEvent('click', (e) => {
@@ -37,17 +35,17 @@ export default function Map({ id, userLocation, togglePanel }: Props) {
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
     const [markerPosition, setMarkerPosition] = useState(null)
 
-    const { mutate, isError, isSuccess, data, error } = useMutation({
-        mutationFn: createReview,
-        onSuccess: (data) => {
-            // Invalidate or update relevant queries after successful mutation
-            // queryClient.invalidateQueries({ queryKey: ['posts'] })
-            console.log('Post created successfully:', data)
-        },
-        onError: (error) => {
-            console.error('Error creating post:', error)
-        },
-    })
+    // const { mutate, isError, isSuccess, data, error } = useMutation({
+    //     mutationFn: createReview,
+    //     onSuccess: (data) => {
+    //         // Invalidate or update relevant queries after successful mutation
+    //         // queryClient.invalidateQueries({ queryKey: ['posts'] })
+    //         console.log('Post created successfully:', data)
+    //     },
+    //     onError: (error) => {
+    //         console.error('Error creating post:', error)
+    //     },
+    // })
 
     return (
         <MapContainer
@@ -64,7 +62,8 @@ export default function Map({ id, userLocation, togglePanel }: Props) {
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
         >
-            {getComponents()}
+            {/* {getComponents()} */}
+            <MapComponents />
 
             {/* Listen for clicks */}
             <ClickHandler
@@ -86,10 +85,12 @@ export default function Map({ id, userLocation, togglePanel }: Props) {
     )
 }
 
-function getComponents() {
+function MapComponents() {
     return (
         <>
-            {getReviews()}
+            <Suspense>
+                <ReviewsMarkers />
+            </Suspense>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -97,19 +98,6 @@ function getComponents() {
             <ScaleControl position="bottomleft" />
             <RecenterMapButton />
             <ZoomControl position="bottomright" />
-        </>
-    )
-}
-
-function getReviews() {
-    const reviewsQuery = useSuspenseQuery(reviewsQueryOptions)
-    const reviews = reviewsQuery.data
-
-    return (
-        <>
-            {reviews.map((review, i) => (
-                <Review key={i} review={review} />
-            ))}
         </>
     )
 }
