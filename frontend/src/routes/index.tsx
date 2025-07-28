@@ -9,23 +9,7 @@ export const Route = createFileRoute('/')({
 
 function Index() {
     const [isLoading, setIsLoading] = useState(true)
-    // const [isOpenPanel, setIsOpenPanel] = useState(false)
-    // const [selectedPlace, setSelectedPlace] = useState<string | undefined>(
-    //     undefined
-    // )
-    // const openPanel = () => {
-    //     setIsOpenPanel(true)
-    // }
-    // const closePanel = () => {
-    //     setIsOpenPanel(false)
-    // }
-    const [RenderedMap, setRenderedMap] = useState(
-        <Map
-            id="root"
-            // openPanel={openPanel}
-            // setSelectedPlace={setSelectedPlace}
-        />
-    )
+    const [RenderedMap, setRenderedMap] = useState(<Map id="root" />)
 
     useEffect(() => {
         if ('geolocation' in navigator) {
@@ -38,8 +22,6 @@ function Index() {
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude,
                             }}
-                            // openPanel={openPanel}
-                            // setSelectedPlace={setSelectedPlace}
                         />
                     )
                     setIsLoading(false)

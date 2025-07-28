@@ -74,10 +74,8 @@ export default function Map({ id, userLocation }: Props) {
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
         >
-            {/* {getComponents()} */}
             <MapComponents />
 
-            {/* Listen for clicks */}
             <ClickHandler onMapClick={handleMapClick} />
 
             {/* Show marker if position is set */}

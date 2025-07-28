@@ -12,7 +12,6 @@ type AppAction =
     | { type: 'CHANGE_SELECTED_PLACE'; payload: string }
     | { type: 'CLEAR_SELECTED_PLACE' }
 
-// Initial state
 const initialState: AppState = {
     isOpenPanel: false,
     selectedPlace: undefined,
@@ -45,7 +44,6 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
     }
 }
 
-// Create context
 const AppContext = createContext<
     | {
           state: AppState
@@ -54,7 +52,6 @@ const AppContext = createContext<
     | undefined
 >(undefined)
 
-// Create provider component
 export const AppProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(appReducer, initialState)
 

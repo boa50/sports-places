@@ -17,7 +17,6 @@ export default function SidePanel() {
         return () => window.removeEventListener('resize', checkIfMobile)
     }, [])
 
-    // Panel classes based on device and state
     const getPanelClasses = () => {
         const baseClasses =
             'fixed z-500 bg-white shadow-lg transition-all duration-300 ease-in-out'
