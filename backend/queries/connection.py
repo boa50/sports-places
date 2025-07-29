@@ -20,7 +20,7 @@ def execute_query(sql):
 
         cur.execute(sql)
 
-        if sql[:6] == "SELECT":
+        if sql.strip()[:6] == "SELECT":
             # Fetch data
             rows = cur.fetchall()
 

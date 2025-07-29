@@ -1,5 +1,6 @@
 export type Review = {
+    user_id: number
     lat: number
-    long: number
-    txt: string
+    lng: number
+    rating: number
 }

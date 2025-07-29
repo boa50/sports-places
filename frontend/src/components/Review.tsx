@@ -12,14 +12,14 @@ export default function Review({ review }: Props) {
     const handleClick = () => {
         dispatch({
             type: 'CHANGE_SELECTED_PLACE',
-            payload: `${review.lat}, ${review.long}`,
+            payload: `${review.lat}, ${review.lng}. Rating: ${review.rating}`,
         })
         dispatch({ type: 'OPEN_PANEL' })
     }
 
     return (
         <Marker
-            position={[review.lat, review.long]}
+            position={[review.lat, review.lng]}
             eventHandlers={{ click: handleClick }}
         />
     )

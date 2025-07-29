@@ -3,7 +3,11 @@ from classes import Review
 
 
 def get_reviews_data():
-    sql = "SELECT * FROM Reviews;"
+    sql = """
+        SELECT user_id, lat, lng, rating FROM reviews
+        INNER JOIN users USING (user_id)
+        INNER JOIN places USING (place_id);
+    """
 
     data, column_names = execute_query(sql)
 

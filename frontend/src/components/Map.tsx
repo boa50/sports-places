@@ -82,9 +82,10 @@ export default function Map({ id, userLocation }: Props) {
             {markerPosition && (
                 <Review
                     review={{
+                        user_id: -1,
                         lat: markerPosition.lat,
-                        long: markerPosition.lng,
-                        txt: 'Teste',
+                        lng: markerPosition.lng,
+                        rating: 0,
                     }}
                 />
             )}

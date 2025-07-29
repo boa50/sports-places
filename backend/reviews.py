@@ -8,8 +8,6 @@ def get_reviews():
 
     df = pd.DataFrame(data, columns=column_names)
 
-    df = df.drop(columns=["userid"])
-
     return df
 
 
