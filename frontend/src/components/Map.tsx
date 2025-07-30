@@ -8,9 +8,9 @@ import {
 import { latLngBounds, latLng } from 'leaflet'
 import { defaults } from './defaults'
 
-import Review from '../components/Review'
+import PlaceMarker from './PlaceMarker'
 import RecenterMapButton from '../components/RecenterMapButton'
-import ReviewsMarkers from './ReviewsMarkers'
+import PlacesMarkers from './PlacesMarkers'
 
 // import { useMutation } from '@tanstack/react-query'
 // import { createReview } from '../api/reviews'
@@ -40,6 +40,7 @@ export default function Map({ id, userLocation }: Props) {
     const { dispatch } = useAppContext()
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
     const [markerPosition, setMarkerPosition] = useState<LatLng | null>(null)
+    const [isShowNewPlace, setIsShowNewPlace] = useState<boolean>(true)
 
     // const { mutate, isError, isSuccess, data, error } = useMutation({
     //     mutationFn: createReview,
@@ -55,6 +56,7 @@ export default function Map({ id, userLocation }: Props) {
 
     const handleMapClick = (latlng: LatLng) => {
         setMarkerPosition(latlng)
+        setIsShowNewPlace(true)
         dispatch({ type: 'CLEAR_SELECTED_PLACE' })
         dispatch({ type: 'OPEN_PANEL' })
     }
@@ -74,30 +76,35 @@ export default function Map({ id, userLocation }: Props) {
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
         >
-            <MapComponents />
+            <MapComponents clearNewPlace={() => setIsShowNewPlace(false)} />
 
             <ClickHandler onMapClick={handleMapClick} />
 
             {/* Show marker if position is set */}
-            {markerPosition && (
-                <Review
+            {markerPosition && isShowNewPlace && (
+                <PlaceMarker
                     review={{
                         user_id: -1,
                         lat: markerPosition.lat,
                         lng: markerPosition.lng,
                         rating: 0,
                     }}
+                    hasClickAction={false}
                 />
             )}
         </MapContainer>
     )
 }
 
-function MapComponents() {
+interface MapComponentsProps {
+    clearNewPlace: () => void
+}
+
+function MapComponents({ clearNewPlace }: MapComponentsProps) {
     return (
         <>
             <Suspense>
-                <ReviewsMarkers />
+                <PlacesMarkers clearNewPlace={clearNewPlace} />
             </Suspense>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
