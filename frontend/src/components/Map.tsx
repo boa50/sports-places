@@ -37,10 +37,9 @@ interface Props {
 }
 
 export default function Map({ id, userLocation }: Props) {
-    const { dispatch } = useAppContext()
+    const { state, dispatch } = useAppContext()
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
     const [markerPosition, setMarkerPosition] = useState<LatLng | null>(null)
-    const [isShowNewPlace, setIsShowNewPlace] = useState<boolean>(true)
 
     // const { mutate, isError, isSuccess, data, error } = useMutation({
     //     mutationFn: createReview,
@@ -56,7 +55,7 @@ export default function Map({ id, userLocation }: Props) {
 
     const handleMapClick = (latlng: LatLng) => {
         setMarkerPosition(latlng)
-        setIsShowNewPlace(true)
+        dispatch({ type: 'SHOW_NEW_PLACE_MARKER' })
         dispatch({ type: 'CLEAR_SELECTED_PLACE' })
         dispatch({ type: 'OPEN_PANEL' })
     }
@@ -76,12 +75,11 @@ export default function Map({ id, userLocation }: Props) {
             maxBounds={maxBounds}
             maxBoundsViscosity={1.0}
         >
-            <MapComponents clearNewPlace={() => setIsShowNewPlace(false)} />
+            <MapComponents />
 
             <ClickHandler onMapClick={handleMapClick} />
 
-            {/* Show marker if position is set */}
-            {markerPosition && isShowNewPlace && (
+            {markerPosition && state.isShowNewPlaceMarker && (
                 <PlaceMarker
                     review={{
                         user_id: -1,
@@ -96,15 +94,11 @@ export default function Map({ id, userLocation }: Props) {
     )
 }
 
-interface MapComponentsProps {
-    clearNewPlace: () => void
-}
-
-function MapComponents({ clearNewPlace }: MapComponentsProps) {
+function MapComponents() {
     return (
         <>
             <Suspense>
-                <PlacesMarkers clearNewPlace={clearNewPlace} />
+                <PlacesMarkers />
             </Suspense>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

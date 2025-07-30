@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAppContext } from '../contexts/AppContext'
+import { Icon } from './ui/Icon'
 
 export default function SidePanel() {
     const { state, dispatch } = useAppContext()
@@ -32,11 +33,26 @@ export default function SidePanel() {
         }
     }
 
+    const closeButtonHandleClick = () => {
+        dispatch({ type: 'CLOSE_PANEL' })
+        dispatch({ type: 'HIDE_NEW_PLACE_MARKER' })
+    }
+
     return (
         <>
             <div className={getPanelClasses()}>
+                <div className="flex justify-between p-4">
+                    <h2 className="text-xl font-bold">Title</h2>
+                    <button
+                        type="button"
+                        className="self-center cursor-pointer text-stone-900 hover:text-sky-800"
+                        onClick={closeButtonHandleClick}
+                    >
+                        <Icon type="x" size={6} />
+                    </button>
+                </div>
                 <div className="p-4">
-                    <h2 className="text-xl font-bold">Panel Content</h2>
+                    <h2 className="text-xl font-bold">Content</h2>
                     <div className="mt-2">
                         {state.selectedPlace === undefined ? (
                             <p>
@@ -50,12 +66,6 @@ export default function SidePanel() {
                             </p>
                         )}
                     </div>
-                    <button
-                        onClick={() => dispatch({ type: 'CLOSE_PANEL' })}
-                        className="mt-4 bg-red-500 text-white px-3 py-1 rounded"
-                    >
-                        Close
-                    </button>
                 </div>
             </div>
         </>

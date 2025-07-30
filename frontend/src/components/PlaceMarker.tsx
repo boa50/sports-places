@@ -4,15 +4,10 @@ import type { Review as ReviewType } from '@/types'
 
 interface Props {
     review: ReviewType
-    clearNewPlace?: () => void
     hasClickAction?: boolean
 }
 
-export default function PlaceMarker({
-    review,
-    clearNewPlace,
-    hasClickAction = true,
-}: Props) {
+export default function PlaceMarker({ review, hasClickAction = true }: Props) {
     const { dispatch } = useAppContext()
 
     const handleClick = () => {
@@ -23,10 +18,7 @@ export default function PlaceMarker({
             payload: `${review.lat}, ${review.lng}. Rating: ${review.rating}`,
         })
         dispatch({ type: 'OPEN_PANEL' })
-
-        if (clearNewPlace !== undefined) {
-            clearNewPlace()
-        }
+        dispatch({ type: 'HIDE_NEW_PLACE_MARKER' })
     }
 
     return (
