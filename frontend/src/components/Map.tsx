@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { useState } from 'react'
 import { useAppContext } from '../contexts/AppContext'
 import {
     MapContainer,
@@ -78,17 +78,10 @@ export default function Map({ id, userLocation }: Props) {
 
             <ClickHandler onMapClick={handleMapClick} />
 
-            {markerPosition && state.isShowNewPlaceMarker && (
-                <PlaceMarker
-                    review={{
-                        user_id: -1,
-                        lat: markerPosition.lat,
-                        lng: markerPosition.lng,
-                        rating: 0,
-                    }}
-                    hasClickAction={false}
-                />
-            )}
+            <NewPlaceMarker
+                markerPosition={markerPosition}
+                isShowNewPlaceMarker={state.isShowNewPlaceMarker}
+            />
         </MapContainer>
     )
 }
@@ -113,9 +106,7 @@ function MapComponents() {
 
     return (
         <>
-            <Suspense>
-                <PlacesMarkers />
-            </Suspense>
+            <PlacesMarkers />
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -128,5 +119,30 @@ function MapComponents() {
                 isEnabled={isLocationAllowed !== false}
             />
         </>
+    )
+}
+
+interface NewPlaceMarkerProps {
+    markerPosition: LatLng | null
+    isShowNewPlaceMarker: boolean
+}
+
+function NewPlaceMarker({
+    markerPosition,
+    isShowNewPlaceMarker,
+}: NewPlaceMarkerProps) {
+    return (
+        markerPosition &&
+        isShowNewPlaceMarker && (
+            <PlaceMarker
+                review={{
+                    user_id: -1,
+                    lat: markerPosition.lat,
+                    lng: markerPosition.lng,
+                    rating: 0,
+                }}
+                hasClickAction={false}
+            />
+        )
     )
 }
