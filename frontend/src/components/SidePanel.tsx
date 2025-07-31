@@ -20,7 +20,7 @@ export default function SidePanel() {
 
     const getPanelClasses = () => {
         const baseClasses =
-            'fixed z-500 bg-white shadow-lg transition-all duration-300 ease-in-out'
+            'fixed z-1000 bg-white shadow-lg transition-all duration-300 ease-in-out'
 
         if (isMobile) {
             return `${baseClasses} bottom-0 left-0 right-0 h-1/2 rounded-t-lg ${
@@ -45,6 +45,8 @@ export default function SidePanel() {
                     <h2 className="text-xl font-bold">Title</h2>
                     <button
                         type="button"
+                        aria-label="Close"
+                        title="Close"
                         className="self-center cursor-pointer text-stone-900 hover:text-sky-800"
                         onClick={closeButtonHandleClick}
                     >

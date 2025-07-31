@@ -95,6 +95,13 @@ export default function Map({ id, userLocation }: Props) {
 }
 
 function MapComponents() {
+    const map = useMapEvent('locationfound', (location) => {
+        map.flyTo(
+            [location.latlng.lat, location.latlng.lng],
+            defaults.usersZoom
+        )
+    })
+
     return (
         <>
             <Suspense>
@@ -105,8 +112,8 @@ function MapComponents() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <ScaleControl position="bottomleft" />
-            <RecenterMapButton />
             <ZoomControl position="bottomright" />
+            <RecenterMapButton map={map} position="bottomright" />
         </>
     )
 }

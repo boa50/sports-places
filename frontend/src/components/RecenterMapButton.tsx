@@ -1,26 +1,34 @@
-import { useMapEvents } from 'react-leaflet'
 import { Icon } from './ui/Icon'
-import { defaults } from './defaults'
+import CustomControl from './CustomControl'
+import type { Map, ControlPosition } from 'leaflet'
 
-export default function RecenterMapButton() {
-    const map = useMapEvents({
-        click: () => {
-            map.locate()
-        },
-        locationfound: (location) => {
-            map.flyTo(
-                [location.latlng.lat, location.latlng.lng],
-                defaults.usersZoom
-            )
-        },
-    })
+interface Props {
+    map: Map
+    position?: ControlPosition
+}
+
+export default function RecenterMapButton({
+    map,
+    position = 'topleft',
+}: Props) {
     return (
-        <button
-            type="button"
-            className="absolute z-400 p-1.75 text-sm font-medium text-center bottom-24 right-3 cursor-pointer
-            text-stone-900 bg-white rounded-sm hover:bg-gray-100 ring-2 ring-black/20"
-        >
-            <Icon type="location" />
-        </button>
+        <CustomControl position={position}>
+            <button
+                type="button"
+                onClick={() => {
+                    map.locate({
+                        timeout: 10000,
+                        maximumAge: Infinity,
+                        enableHighAccuracy: true,
+                    })
+                }}
+                aria-label="Find location"
+                title="Find location"
+                className="p-1.75 cursor-pointer
+            text-stone-900 bg-white rounded-sm hover:bg-gray-100"
+            >
+                <Icon type="location" />
+            </button>
+        </CustomControl>
     )
 }

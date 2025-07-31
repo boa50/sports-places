@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import Map from '../components/Map'
 import SidePanel from '../components/SidePanel'
+import { checkLocationPermission } from '../utils'
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -12,28 +13,34 @@ function Index() {
     const [RenderedMap, setRenderedMap] = useState(<Map id="root" />)
 
     useEffect(() => {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    setRenderedMap(
-                        <Map
-                            id="root"
-                            userLocation={{
-                                latitude: position.coords.latitude,
-                                longitude: position.coords.longitude,
-                            }}
-                        />
-                    )
-                    setIsLoading(false)
-                },
-                () => {
-                    setIsLoading(false)
-                },
-                { timeout: 10000, maximumAge: Infinity }
-            )
-        } else {
-            setIsLoading(false)
-        }
+        checkLocationPermission().then((status) => {
+            if (status !== 'prompt') {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        setRenderedMap(
+                            <Map
+                                id="root"
+                                userLocation={{
+                                    latitude: position.coords.latitude,
+                                    longitude: position.coords.longitude,
+                                }}
+                            />
+                        )
+                        setIsLoading(false)
+                    },
+                    () => {
+                        setIsLoading(false)
+                    },
+                    {
+                        timeout: 10000,
+                        maximumAge: Infinity,
+                        enableHighAccuracy: false,
+                    }
+                )
+            } else {
+                setIsLoading(false)
+            }
+        })
     }, [])
 
     if (isLoading) {
