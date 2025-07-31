@@ -1,24 +1,23 @@
+import { Suspense, useState } from 'react'
+import { useAppContext } from '../contexts/AppContext'
 import {
     MapContainer,
     TileLayer,
     ZoomControl,
     ScaleControl,
     useMapEvent,
+    useMapEvents,
 } from 'react-leaflet'
 import { latLngBounds, latLng } from 'leaflet'
 import { defaults } from './defaults'
-
 import PlaceMarker from './PlaceMarker'
 import RecenterMapButton from '../components/RecenterMapButton'
 import PlacesMarkers from './PlacesMarkers'
 
+import type { LatLng } from 'leaflet'
+
 // import { useMutation } from '@tanstack/react-query'
 // import { createReview } from '../api/reviews'
-
-import { Suspense, useState } from 'react'
-import { useAppContext } from '../contexts/AppContext'
-
-import type { LatLng } from 'leaflet'
 
 function ClickHandler({
     onMapClick,
@@ -95,11 +94,21 @@ export default function Map({ id, userLocation }: Props) {
 }
 
 function MapComponents() {
-    const map = useMapEvent('locationfound', (location) => {
-        map.flyTo(
-            [location.latlng.lat, location.latlng.lng],
-            defaults.usersZoom
-        )
+    const [isLocationAllowed, setIsLocationAllowed] = useState<
+        boolean | undefined
+    >(undefined)
+
+    const map = useMapEvents({
+        locationfound: (location) => {
+            setIsLocationAllowed(true)
+            map.flyTo(
+                [location.latlng.lat, location.latlng.lng],
+                defaults.usersZoom
+            )
+        },
+        locationerror: () => {
+            setIsLocationAllowed(false)
+        },
     })
 
     return (
@@ -113,7 +122,11 @@ function MapComponents() {
             />
             <ScaleControl position="bottomleft" />
             <ZoomControl position="bottomright" />
-            <RecenterMapButton map={map} position="bottomright" />
+            <RecenterMapButton
+                map={map}
+                position="bottomright"
+                isEnabled={isLocationAllowed !== false}
+            />
         </>
     )
 }

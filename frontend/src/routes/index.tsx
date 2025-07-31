@@ -14,7 +14,7 @@ function Index() {
 
     useEffect(() => {
         checkLocationPermission().then((status) => {
-            if (status !== 'prompt') {
+            if (status === 'granted') {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         setRenderedMap(

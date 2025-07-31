@@ -8,11 +8,13 @@ import type { ReactElement } from 'react'
 interface Props {
     position: ControlPosition
     children?: ReactElement
+    childrenState?: any
 }
 
 export default function CustomControl({
     position = 'topright',
     children,
+    childrenState = undefined,
 }: Props) {
     const map = useMap()
 
@@ -22,7 +24,7 @@ export default function CustomControl({
         // Prevent map clicks when interacting with the control
         L.DomEvent.disableClickPropagation(container)
 
-        // 2. Tell React to render <MyToolbar> inside that container
+        // 2. Tell React to render the children component inside that container
         const root = createRoot(container)
         root.render(children)
 
@@ -39,7 +41,7 @@ export default function CustomControl({
         return () => {
             map.removeControl(control)
         }
-    }, [map, position])
+    }, [map, position, childrenState])
 
     return null // nothing visible in React’s own tree
 }

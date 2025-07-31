@@ -5,14 +5,16 @@ import type { Map, ControlPosition } from 'leaflet'
 interface Props {
     map: Map
     position?: ControlPosition
+    isEnabled?: boolean
 }
 
 export default function RecenterMapButton({
     map,
     position = 'topleft',
+    isEnabled = true,
 }: Props) {
     return (
-        <CustomControl position={position}>
+        <CustomControl position={position} childrenState={isEnabled}>
             <button
                 type="button"
                 onClick={() => {
@@ -22,12 +24,14 @@ export default function RecenterMapButton({
                         enableHighAccuracy: true,
                     })
                 }}
+                disabled={!isEnabled}
                 aria-label="Find location"
                 title="Find location"
-                className="p-1.75 cursor-pointer
-            text-stone-900 bg-white rounded-sm hover:bg-gray-100"
+                className="p-1.75 cursor-pointer 
+                text-stone-900 bg-white rounded-xs hover:bg-gray-100
+                disabled:text-stone-300 disabled:bg-neutral-100 disabled:cursor-default"
             >
-                <Icon type="location" />
+                <Icon type="location" size={4} />
             </button>
         </CustomControl>
     )
