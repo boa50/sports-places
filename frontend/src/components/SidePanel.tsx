@@ -4,7 +4,11 @@ import ReviewsList from './ReviewsList'
 import { Icon } from './ui/Icon'
 import type { AppAction, AppState } from '../types'
 
-export default function SidePanel() {
+interface Props {
+    showWriteReview: () => void
+}
+
+export default function SidePanel({ showWriteReview }: Props) {
     const { state, dispatch } = useAppContext()
     const [isMobile, setIsMobile] = useState(false)
 
@@ -39,7 +43,7 @@ export default function SidePanel() {
         <div className={getPanelClasses()}>
             <div className="flex flex-col h-screen">
                 <Header dispatch={dispatch} />
-                <Content state={state} />
+                <Content state={state} showWriteReview={showWriteReview} />
             </div>
         </div>
     )
@@ -73,9 +77,10 @@ function Header({ dispatch }: HeaderProps) {
 
 interface ContentProps {
     state: AppState
+    showWriteReview: () => void
 }
 
-function Content({ state }: ContentProps) {
+function Content({ state, showWriteReview }: ContentProps) {
     return (
         <div className="flex-1 overflow-y-auto">
             <div className="py-4 flex flex-col border-b border-b-gray-200 items-center">
@@ -85,7 +90,7 @@ function Content({ state }: ContentProps) {
                     title="Write a review"
                     className="cursor-pointer font-medium rounded-lg text-sm p-2.5 focus:outline-none
                     text-sky-800 bg-sky-400/20 hover:bg-sky-400/50"
-                    // onClick={closeButtonHandleClick}
+                    onClick={showWriteReview}
                 >
                     <div className="flex items-center gap-1">
                         <Icon type="review" size={4} filled="none" />

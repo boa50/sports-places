@@ -7,7 +7,7 @@ interface Props {
 
 export function RatingStars({ rating, size = 'normal' }: Props) {
     const totalStars = 5
-    const starSize = size === 'normal' ? 5 : 3.5
+    const starSize = size === 'normal' ? 6 : 3.5
 
     const ratingRounded = Math.round(rating * 2) / 2
     const hasHalf = ratingRounded % 1 != 0
@@ -29,7 +29,7 @@ export function RatingStars({ rating, size = 'normal' }: Props) {
 }
 
 interface StarProps {
-    size: 3.5 | 5
+    size: 3.5 | 6
     filled: 'full' | 'half' | 'none'
 }
 

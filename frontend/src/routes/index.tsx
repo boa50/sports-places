@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import Map from '../components/Map'
 import SidePanel from '../components/SidePanel'
+import ReviewWrite from '../components/ReviewWrite'
 import { checkLocationPermission } from '../utils'
 
 export const Route = createFileRoute('/')({
@@ -10,7 +11,8 @@ export const Route = createFileRoute('/')({
 
 function Index() {
     const [isLoading, setIsLoading] = useState(true)
-    const [RenderedMap, setRenderedMap] = useState(<Map id="root" />)
+    const [RenderedMap, setRenderedMap] = useState(<Map />)
+    const [isShowWriteReview, setIsShowWriteReview] = useState(false)
 
     useEffect(() => {
         checkLocationPermission().then((status) => {
@@ -19,7 +21,6 @@ function Index() {
                     (position) => {
                         setRenderedMap(
                             <Map
-                                id="root"
                                 userLocation={{
                                     latitude: position.coords.latitude,
                                     longitude: position.coords.longitude,
@@ -48,9 +49,17 @@ function Index() {
     }
 
     return (
-        <>
-            <SidePanel />
+        <div id="root">
+            <ReviewWrite
+                isShow={isShowWriteReview}
+                hideWriteReview={() => setIsShowWriteReview(false)}
+            />
+            <SidePanel
+                showWriteReview={() => {
+                    setIsShowWriteReview(true)
+                }}
+            />
             {RenderedMap}
-        </>
+        </div>
     )
 }

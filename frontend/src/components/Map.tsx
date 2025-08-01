@@ -31,11 +31,10 @@ function ClickHandler({
 }
 
 interface Props {
-    id: string
     userLocation?: { latitude: number; longitude: number }
 }
 
-export default function Map({ id, userLocation }: Props) {
+export default function Map({ userLocation }: Props) {
     const { state, dispatch } = useAppContext()
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
     const [markerPosition, setMarkerPosition] = useState<LatLng | null>(null)
@@ -61,7 +60,6 @@ export default function Map({ id, userLocation }: Props) {
 
     return (
         <MapContainer
-            id={id}
             className="h-dvh"
             center={[
                 userLocation ? userLocation.latitude : defaults.latitude,
