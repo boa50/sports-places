@@ -48,7 +48,7 @@ export default function SidePanel() {
                         type="button"
                         aria-label="Close"
                         title="Close"
-                        className="self-center cursor-pointer text-stone-900 hover:text-sky-800"
+                        className="self-center cursor-pointer text-gray-900 hover:text-sky-800"
                         onClick={closeButtonHandleClick}
                     >
                         <Icon type="x" size={6} />

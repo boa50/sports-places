@@ -20,7 +20,7 @@ export default function ReviewsList() {
         <>
             <ul className="flex-1 h-full divide-y divide-gray-200">
                 {reviews.map((review, i) => (
-                    <li key={i} className="w-full p-4">
+                    <li key={i} className="w-full px-6 py-3">
                         {review}
                     </li>
                 ))}
