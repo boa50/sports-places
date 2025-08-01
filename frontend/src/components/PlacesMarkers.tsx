@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { reviewsQueryOptions } from '../queryOptions/reviews'
+import { placesQueryOptions } from '../queryOptions'
 import PlaceMarker from './PlaceMarker'
 
 export default function PlacesMarkers() {
@@ -12,12 +12,12 @@ export default function PlacesMarkers() {
 }
 
 function PlacesMarkersBuild() {
-    const { data: reviews } = useSuspenseQuery(reviewsQueryOptions)
+    const { data: places } = useSuspenseQuery(placesQueryOptions)
 
     return (
         <>
-            {reviews.map((review, i) => (
-                <PlaceMarker key={i} review={review} />
+            {places.map((place, i) => (
+                <PlaceMarker key={i} place={place} />
             ))}
         </>
     )

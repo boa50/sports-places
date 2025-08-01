@@ -137,11 +137,10 @@ function NewPlaceMarker({
         markerPosition &&
         isShowNewPlaceMarker && (
             <PlaceMarker
-                review={{
-                    user_id: -1,
+                place={{
+                    place_id: -1,
                     lat: markerPosition.lat,
                     lng: markerPosition.lng,
-                    rating: 0,
                 }}
                 hasClickAction={false}
             />

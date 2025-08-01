@@ -1,20 +1,27 @@
 from queries.connection import execute_query
+from queries.utils import return_select, return_commit
 from classes import Review
 
 
-def get_reviews_data():
+def get_places_data():
     sql = """
-        SELECT user_id, lat, lng, rating FROM reviews
-        INNER JOIN users USING (user_id)
-        INNER JOIN places USING (place_id);
+        SELECT * FROM places;
     """
 
     data, column_names = execute_query(sql)
 
-    if data != -1:
-        return data, column_names
-    else:
-        return list(), list()
+    return return_select(data, column_names)
+
+
+def get_reviews_data(place_id: str):
+    sql = f"""
+        SELECT user_id, rating rating FROM reviews
+        WHERE place_id = {place_id};
+    """
+
+    data, column_names = execute_query(sql)
+
+    return return_select(data, column_names)
 
 
 def insert_review_data(review: Review):
@@ -25,8 +32,4 @@ def insert_review_data(review: Review):
 
     data, _ = execute_query(sql)
 
-    if data != -1:
-        print("Review inserted with success!")
-        return 0
-    else:
-        return -1
+    return return_commit(data, "Review inserted with success!")

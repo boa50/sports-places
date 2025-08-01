@@ -1,8 +1,8 @@
+import { getApiUrl } from './utils'
 import type { Review } from '../types'
 
-export const fetchReviews = async (): Promise<Review[]> => {
-    console.info('Fetching reviews...')
-    const response = await fetch(`${getApiUrl()}/reviews`)
+export const fetchReviews = async (place_id: number): Promise<Review[]> => {
+    const response = await fetch(`${getApiUrl()}/reviews?place_id=${place_id}`)
 
     return await response.json()
 }
@@ -19,8 +19,4 @@ export const createReview = async () => {
         throw new Error('Failed to create review')
     }
     return response.json()
-}
-
-function getApiUrl(): string {
-    return `${import.meta.env.VITE_BACKEND_URL}/api`
 }

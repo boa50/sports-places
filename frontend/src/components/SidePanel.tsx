@@ -105,10 +105,7 @@ function Content({ state, showWriteReview }: ContentProps) {
                         :)
                     </p>
                 ) : (
-                    <>
-                        {/* <p className="pl-4">{state.selectedPlace}</p> */}
-                        <ReviewsList />
-                    </>
+                    <ReviewsList />
                 )}
             </div>
         </div>

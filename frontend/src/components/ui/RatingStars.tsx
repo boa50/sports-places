@@ -45,11 +45,10 @@ export function RatingStarsInteractive({
     return (
         <div className="flex">
             {[...Array(totalStars).keys()].map((d, i) => (
-                <>
+                <div key={i}>
                     <input
                         type="radio"
                         id={`value${i + 1}`}
-                        key={i + 1}
                         name="ratingStarsRadio"
                         value={i + 1}
                         checked={rating === i + 1}
@@ -63,7 +62,7 @@ export function RatingStarsInteractive({
                             <Star size={starSize} filled="none" />
                         )}
                     </label>
-                </>
+                </div>
             ))}
         </div>
     )
