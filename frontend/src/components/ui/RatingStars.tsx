@@ -28,6 +28,47 @@ export function RatingStars({ rating, size = 'normal' }: Props) {
     )
 }
 
+interface InteractiveProps {
+    rating: number
+    size?: 'normal' | 'small'
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export function RatingStarsInteractive({
+    rating,
+    size = 'normal',
+    handleChange,
+}: InteractiveProps) {
+    const totalStars = 5
+    const starSize = size === 'normal' ? 6 : 3.5
+
+    return (
+        <div className="flex">
+            {[...Array(totalStars).keys()].map((d, i) => (
+                <>
+                    <input
+                        type="radio"
+                        id={`value${i + 1}`}
+                        key={i + 1}
+                        name="ratingStarsRadio"
+                        value={i + 1}
+                        checked={rating === i + 1}
+                        onChange={handleChange}
+                        className="hidden peer"
+                    />
+                    <label htmlFor={`value${i + 1}`}>
+                        {d < rating ? (
+                            <Star size={starSize} filled="full" />
+                        ) : (
+                            <Star size={starSize} filled="none" />
+                        )}
+                    </label>
+                </>
+            ))}
+        </div>
+    )
+}
+
 interface StarProps {
     size: 3.5 | 6
     filled: 'full' | 'half' | 'none'

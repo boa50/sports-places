@@ -1,4 +1,5 @@
-import { RatingStars } from './ui/RatingStars'
+import { useState } from 'react'
+import { RatingStarsInteractive } from './ui/RatingStars'
 
 interface Props {
     isShow: boolean
@@ -6,13 +7,19 @@ interface Props {
 }
 
 export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
+    const [rating, setRating] = useState(0)
+
+    const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRating(parseInt(e.target.value))
+    }
+
     const handlePost = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log('Form submitted')
+        setRating(0)
     }
     const handleCancel = () => {
         hideWriteReview()
-        console.log('Form cancelled')
+        setRating(0)
     }
 
     return (
@@ -34,8 +41,12 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
                                 className="flex flex-col gap-4"
                                 onSubmit={handlePost}
                             >
-                                <div className="flex items-center justify-center p-4">
-                                    <RatingStars rating={3.5} size="normal" />
+                                <div className="flex flex-col items-center justify-center p-4">
+                                    <RatingStarsInteractive
+                                        rating={rating}
+                                        size="normal"
+                                        handleChange={handleRatingChange}
+                                    />
                                 </div>
                                 <div className="flex gap-2 justify-end">
                                     <button
