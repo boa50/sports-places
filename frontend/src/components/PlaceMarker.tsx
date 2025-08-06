@@ -15,7 +15,7 @@ export default function PlaceMarker({ place, hasClickAction = true }: Props) {
 
         dispatch({
             type: 'CHANGE_SELECTED_PLACE',
-            payload: `${place.place_id}`,
+            payload: place,
         })
         dispatch({ type: 'OPEN_PANEL' })
         dispatch({ type: 'HIDE_NEW_PLACE_MARKER' })

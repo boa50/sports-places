@@ -5,7 +5,13 @@ import PlaceMarker from './PlaceMarker'
 
 export default function PlacesMarkers() {
     return (
-        <Suspense>
+        <Suspense
+            fallback={
+                <div className="fixed z-1500 flex items-end justify-center w-screen h-screen">
+                    <div className="bg-white/70 px-2 py-0">Loading places</div>
+                </div>
+            }
+        >
             <PlacesMarkersBuild />
         </Suspense>
     )

@@ -1,6 +1,6 @@
 import pandas as pd
 import queries.queries as qu
-from classes import Review
+from classes import ReviewWrite, PlaceWrite
 
 
 def get_places():
@@ -19,8 +19,17 @@ def get_reviews(place_id: str):
     return df
 
 
-def create_review(review: Review):
-    print(review)
-    # return qu.insert_review_data(review)
+def create_review(review: ReviewWrite):
+    if review.place_id == -1:
+        newPlace = PlaceWrite(**{"lat": review.lat, "lng": review.lng})
+        place_id = qu.insert_place(newPlace)
 
-    return 0
+        if isinstance(place_id, list):
+            review.place_id = place_id[0][0]
+
+    review_data = qu.insert_review_data(review)
+
+    if isinstance(review_data, list):
+        return 0
+    else:
+        return -1

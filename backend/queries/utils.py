@@ -9,6 +9,6 @@ def return_commit(data: list | int | None, message: str | None):
     if data != -1:
         if message is not None:
             print(message)
-        return 0
+        return data
     else:
         return -1

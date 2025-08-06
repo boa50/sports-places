@@ -3,7 +3,7 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import data
-from classes import Review
+from classes import ReviewWrite
 
 load_dotenv()
 
@@ -38,7 +38,7 @@ def get_reviews(place_id: str):
 
 
 @app.post("/api/review")
-async def create_review(review: Review):
+async def create_review(review: ReviewWrite):
     ret = data.create_review(review)
     return ret
 

@@ -29,6 +29,7 @@ def execute_query(sql):
         else:
             # Commit data
             conn.commit()
+            rows = cur.fetchall()
 
     except psycopg2.Error as e:
         print(f"Error connecting to PostgreSQL: {e}")

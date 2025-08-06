@@ -57,6 +57,7 @@ function Header({ dispatch }: HeaderProps) {
     const closeButtonHandleClick = () => {
         dispatch({ type: 'CLOSE_PANEL' })
         dispatch({ type: 'HIDE_NEW_PLACE_MARKER' })
+        dispatch({ type: 'CLEAR_SELECTED_PLACE' })
     }
 
     return (
@@ -99,7 +100,7 @@ function Content({ state, showWriteReview }: ContentProps) {
                 </button>
             </div>
             <div className="mt-2">
-                {state.selectedPlace === undefined ? (
+                {state.selectedPlace?.place_id === -1 ? (
                     <p className="pl-4">
                         There are no reviews for this place, write the first one
                         :)

@@ -11,14 +11,14 @@ export type Review = {
 
 export type AppState = {
     isOpenPanel: boolean
-    selectedPlace: number | undefined
+    selectedPlace: Place | undefined
     isShowNewPlaceMarker: boolean
 }
 
 export type AppAction =
     | { type: 'OPEN_PANEL' }
     | { type: 'CLOSE_PANEL' }
-    | { type: 'CHANGE_SELECTED_PLACE'; payload: number }
+    | { type: 'CHANGE_SELECTED_PLACE'; payload: Place }
     | { type: 'CLEAR_SELECTED_PLACE' }
     | { type: 'SHOW_NEW_PLACE_MARKER' }
     | { type: 'HIDE_NEW_PLACE_MARKER' }

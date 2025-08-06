@@ -1,8 +1,14 @@
 from pydantic import BaseModel
 
 
-class Review(BaseModel):
-    userId: int
+class ReviewWrite(BaseModel):
+    user_id: int
+    place_id: int
     lat: float
-    long: float
-    txt: str
+    lng: float
+    rating: int
+
+
+class PlaceWrite(BaseModel):
+    lat: float
+    lng: float

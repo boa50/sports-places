@@ -15,9 +15,7 @@ import RecenterMapButton from '../components/RecenterMapButton'
 import PlacesMarkers from './PlacesMarkers'
 
 import type { LatLng } from 'leaflet'
-
-// import { useMutation } from '@tanstack/react-query'
-// import { createReview } from '../api/reviews'
+import type { Place } from '../types'
 
 function ClickHandler({
     onMapClick,
@@ -37,24 +35,22 @@ interface Props {
 export default function Map({ userLocation }: Props) {
     const { state, dispatch } = useAppContext()
     const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
-    const [markerPosition, setMarkerPosition] = useState<LatLng | null>(null)
-
-    // const { mutate, isError, isSuccess, data, error } = useMutation({
-    //     mutationFn: createReview,
-    //     onSuccess: (data) => {
-    //         // Invalidate or update relevant queries after successful mutation
-    //         // queryClient.invalidateQueries({ queryKey: ['posts'] })
-    //         console.log('Post created successfully:', data)
-    //     },
-    //     onError: (error) => {
-    //         console.error('Error creating post:', error)
-    //     },
-    // })
+    const [markerPlace, setMarkerPlace] = useState<Place | null>(null)
 
     const handleMapClick = (latlng: LatLng) => {
-        setMarkerPosition(latlng)
+        const place = {
+            place_id: -1,
+            lat: latlng.lat,
+            lng: latlng.lng,
+        }
+        setMarkerPlace(place)
+
+        dispatch({
+            type: 'CHANGE_SELECTED_PLACE',
+            payload: place,
+        })
+
         dispatch({ type: 'SHOW_NEW_PLACE_MARKER' })
-        dispatch({ type: 'CLEAR_SELECTED_PLACE' })
         dispatch({ type: 'OPEN_PANEL' })
     }
 
@@ -77,7 +73,7 @@ export default function Map({ userLocation }: Props) {
             <ClickHandler onMapClick={handleMapClick} />
 
             <NewPlaceMarker
-                markerPosition={markerPosition}
+                markerPlace={markerPlace}
                 isShowNewPlaceMarker={state.isShowNewPlaceMarker}
             />
         </MapContainer>
@@ -125,25 +121,18 @@ function MapComponents() {
 }
 
 interface NewPlaceMarkerProps {
-    markerPosition: LatLng | null
+    markerPlace: Place | null
     isShowNewPlaceMarker: boolean
 }
 
 function NewPlaceMarker({
-    markerPosition,
+    markerPlace,
     isShowNewPlaceMarker,
 }: NewPlaceMarkerProps) {
     return (
-        markerPosition &&
+        markerPlace &&
         isShowNewPlaceMarker && (
-            <PlaceMarker
-                place={{
-                    place_id: -1,
-                    lat: markerPosition.lat,
-                    lng: markerPosition.lng,
-                }}
-                hasClickAction={false}
-            />
+            <PlaceMarker place={markerPlace} hasClickAction={false} />
         )
     )
 }

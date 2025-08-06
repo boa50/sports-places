@@ -1,6 +1,6 @@
 from queries.connection import execute_query
 from queries.utils import return_select, return_commit
-from classes import Review
+from classes import ReviewWrite, PlaceWrite
 
 
 def get_places_data():
@@ -24,12 +24,24 @@ def get_reviews_data(place_id: str):
     return return_select(data, column_names)
 
 
-def insert_review_data(review: Review):
+def insert_review_data(review: ReviewWrite):
     sql = f"""
-        INSERT INTO Reviews
-        VALUES ({review.userId}, {review.lat}, {review.long}, '{review.txt}')
+        INSERT INTO reviews (user_id, place_id, rating)
+        VALUES ({review.user_id}, {review.place_id}, {review.rating});
     """
 
     data, _ = execute_query(sql)
 
     return return_commit(data, "Review inserted with success!")
+
+
+def insert_place(place: PlaceWrite):
+    sql = f"""
+        INSERT INTO places (lat, lng)
+        VALUES ({place.lat}, {place.lng})
+        RETURNING place_id;
+    """
+
+    data, _ = execute_query(sql)
+
+    return return_commit(data, "Place inserted with success!")
