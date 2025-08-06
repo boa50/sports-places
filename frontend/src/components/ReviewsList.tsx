@@ -3,10 +3,17 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { reviewsQueryOptions } from '../queryOptions'
 import { Suspense } from 'react'
 import { useAppContext } from '../contexts/AppContext'
+import { Spinner } from './ui'
 
 export default function ReviewsList() {
     return (
-        <Suspense>
+        <Suspense
+            fallback={
+                <div className="flex justify-center py-3">
+                    <Spinner />
+                </div>
+            }
+        >
             <ReviewsListBuild />
         </Suspense>
     )

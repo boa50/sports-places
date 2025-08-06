@@ -26,13 +26,13 @@ def livetest():
 
 
 @app.get("/api/places")
-def get_places():
+async def get_places():
     df = data.get_places()
     return Response(df.to_json(orient="records"), media_type="application/json")
 
 
 @app.get("/api/reviews")
-def get_reviews(place_id: str):
+async def get_reviews(place_id: str):
     df = data.get_reviews(place_id=place_id)
     return Response(df.to_json(orient="records"), media_type="application/json")
 
