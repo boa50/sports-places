@@ -3,6 +3,7 @@ import type { ReactNode, Dispatch } from 'react'
 import type { AppState, AppAction } from '../types'
 
 const initialState: AppState = {
+    isMobile: false,
     isOpenPanel: false,
     selectedPlace: undefined,
     isShowNewPlaceMarker: true,
@@ -10,6 +11,11 @@ const initialState: AppState = {
 
 const appReducer = (state: AppState, action: AppAction): AppState => {
     switch (action.type) {
+        case 'SET_IS_MOBILE':
+            return {
+                ...state,
+                isMobile: action.payload,
+            }
         case 'OPEN_PANEL':
             return {
                 ...state,

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { useAppContext } from '../contexts/AppContext'
 import ReviewsList from './ReviewsList'
 import { Icon } from './ui/Icon'
@@ -10,25 +9,12 @@ interface Props {
 
 export default function SidePanel({ showWriteReview }: Props) {
     const { state, dispatch } = useAppContext()
-    const [isMobile, setIsMobile] = useState(false)
-
-    // Check if mobile on mount and resize
-    useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.matchMedia('(max-width: 768px)').matches)
-        }
-
-        checkIfMobile()
-        window.addEventListener('resize', checkIfMobile)
-
-        return () => window.removeEventListener('resize', checkIfMobile)
-    }, [])
 
     const getPanelClasses = () => {
         const baseClasses =
             'fixed z-1000 bg-white shadow-lg transition-all duration-300 ease-in-out'
 
-        if (isMobile) {
+        if (state.isMobile) {
             return `${baseClasses} bottom-0 left-0 right-0 h-1/2 rounded-t-lg ${
                 state.isOpenPanel ? 'translate-y-0' : 'translate-y-full'
             }`

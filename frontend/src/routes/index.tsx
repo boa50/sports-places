@@ -4,15 +4,30 @@ import Map from '../components/Map'
 import SidePanel from '../components/SidePanel'
 import ReviewWrite from '../components/ReviewWrite'
 import { checkLocationPermission } from '../utils'
+import { useAppContext } from '../contexts/AppContext'
 
 export const Route = createFileRoute('/')({
     component: Index,
 })
 
 function Index() {
+    const { dispatch } = useAppContext()
     const [isLoading, setIsLoading] = useState(true)
     const [RenderedMap, setRenderedMap] = useState(<Map />)
     const [isShowWriteReview, setIsShowWriteReview] = useState(false)
+
+    // Check if mobile on mount and resize
+    useEffect(() => {
+        const checkIfMobile = () => {
+            const isMobile = window.matchMedia('(max-width: 768px)').matches
+            dispatch({ type: 'SET_IS_MOBILE', payload: isMobile })
+        }
+
+        checkIfMobile()
+        window.addEventListener('resize', checkIfMobile)
+
+        return () => window.removeEventListener('resize', checkIfMobile)
+    }, [])
 
     useEffect(() => {
         checkLocationPermission().then((status) => {

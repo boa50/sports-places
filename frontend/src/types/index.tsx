@@ -10,12 +10,14 @@ export type Review = {
 }
 
 export type AppState = {
+    isMobile: boolean
     isOpenPanel: boolean
     selectedPlace: Place | undefined
     isShowNewPlaceMarker: boolean
 }
 
 export type AppAction =
+    | { type: 'SET_IS_MOBILE'; payload: boolean }
     | { type: 'OPEN_PANEL' }
     | { type: 'CLOSE_PANEL' }
     | { type: 'CHANGE_SELECTED_PLACE'; payload: Place }
