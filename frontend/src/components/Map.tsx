@@ -34,7 +34,7 @@ interface Props {
 
 export default function Map({ userLocation }: Props) {
     const { state, dispatch } = useAppContext()
-    const maxBounds = latLngBounds(latLng(-90, -Infinity), latLng(90, Infinity))
+    const maxBounds = latLngBounds(latLng(-90, -170), latLng(90, 190))
     const [markerPlace, setMarkerPlace] = useState<Place | null>(null)
 
     const handleMapClick = (latlng: LatLng) => {
