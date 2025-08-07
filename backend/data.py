@@ -30,6 +30,6 @@ def create_review(review: ReviewWrite):
     review_data = qu.insert_review_data(review)
 
     if isinstance(review_data, list):
-        return 0
+        return review.place_id
     else:
         return -1

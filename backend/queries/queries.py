@@ -27,7 +27,8 @@ def get_reviews_data(place_id: str):
 def insert_review_data(review: ReviewWrite):
     sql = f"""
         INSERT INTO reviews (user_id, place_id, rating)
-        VALUES ({review.user_id}, {review.place_id}, {review.rating});
+        VALUES ({review.user_id}, {review.place_id}, {review.rating})
+        RETURNING review_id;
     """
 
     data, _ = execute_query(sql)

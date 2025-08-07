@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { RatingStarsInteractive } from './ui/RatingStars'
 import { createReview } from '../api'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAppContext } from '../contexts/AppContext'
 import type { Place } from '../types'
 
@@ -11,8 +11,9 @@ interface Props {
 }
 
 export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
-    const { state } = useAppContext()
+    const { state, dispatch } = useAppContext()
     const [rating, setRating] = useState(0)
+    const queryClient = useQueryClient()
 
     const writeReviewMutation = useMutation({
         mutationFn: (review: {
@@ -22,11 +23,16 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
         }) => createReview(review.user_id, review.place, review.rating),
         onSuccess: (data) => {
             // Invalidate or update relevant queries after successful mutation
-            // queryClient.invalidateQueries({ queryKey: ['posts'] })
-            // console.log('Review created successfully:', data)
+            queryClient.invalidateQueries({ queryKey: ['places'] })
+            queryClient.invalidateQueries({ queryKey: ['reviews', data] })
+            dispatch({
+                type: 'CHANGE_SELECTED_PLACE',
+                payload: { place_id: data, lat: -999, lng: -999 },
+            })
+            console.info('Review created')
         },
         onError: (error) => {
-            // console.error('Error creating review:', error)
+            console.error('Error creating review')
         },
     })
 
