@@ -21,15 +21,19 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
             place: Place
             rating: number
         }) => createReview(review.user_id, review.place, review.rating),
-        onSuccess: (data) => {
+        onSuccess: (data: { place_id: number; is_new_place: boolean }) => {
             // Invalidate or update relevant queries after successful mutation
-            queryClient.invalidateQueries({ queryKey: ['places'] })
-            queryClient.invalidateQueries({ queryKey: ['reviews', data] })
+            if (data.is_new_place)
+                queryClient.invalidateQueries({ queryKey: ['places'] })
+
+            queryClient.invalidateQueries({
+                queryKey: ['reviews', data.place_id],
+            })
             dispatch({
                 type: 'CHANGE_SELECTED_PLACE',
-                payload: { place_id: data, lat: -999, lng: -999 },
+                payload: { place_id: data.place_id, lat: -999, lng: -999 },
             })
-            console.info('Review created')
+            console.info('Review created', data)
         },
         onError: (error) => {
             console.error('Error creating review')

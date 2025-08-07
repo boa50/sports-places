@@ -20,7 +20,10 @@ def get_reviews(place_id: str):
 
 
 def create_review(review: ReviewWrite):
+    is_new_place = False
+
     if review.place_id == -1:
+        is_new_place = True
         newPlace = PlaceWrite(**{"lat": review.lat, "lng": review.lng})
         place_id = qu.insert_place(newPlace)
 
@@ -30,6 +33,6 @@ def create_review(review: ReviewWrite):
     review_data = qu.insert_review_data(review)
 
     if isinstance(review_data, list):
-        return review.place_id
+        return {"place_id": review.place_id, "is_new_place": is_new_place}
     else:
         return -1
