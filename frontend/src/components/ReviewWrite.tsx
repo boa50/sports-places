@@ -12,7 +12,10 @@ interface Props {
 
 export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     const { state, dispatch } = useAppContext()
-    const [rating, setRating] = useState(0)
+    const [rating, setRating] = useState<number>(0)
+    const [experienceDate, setExperienceDate] = useState<string>(
+        new Date().toISOString().slice(0, 10)
+    )
     const queryClient = useQueryClient()
 
     const writeReviewMutation = useMutation({
@@ -20,7 +23,14 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
             user_id: number
             place: Place
             rating: number
-        }) => createReview(review.user_id, review.place, review.rating),
+            experience_date: string
+        }) =>
+            createReview(
+                review.user_id,
+                review.place,
+                review.experience_date,
+                review.rating
+            ),
         onSuccess: (data: { place_id: number; is_new_place: boolean }) => {
             if (data.is_new_place)
                 queryClient.invalidateQueries({ queryKey: ['places'] })
@@ -32,7 +42,7 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
                 type: 'CHANGE_SELECTED_PLACE',
                 payload: { place_id: data.place_id, lat: -999, lng: -999 },
             })
-            console.info('Review created', data)
+            console.info('Review created')
         },
         onError: (error) => {
             console.error('Error creating review')
@@ -42,21 +52,32 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRating(parseInt(e.target.value))
     }
+    const handleExperienceDateChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setExperienceDate(e.target.value)
+    }
+    const resetExperinceDate = () => {
+        setExperienceDate(new Date().toISOString().slice(0, 10))
+    }
 
     const handlePost = (e: React.FormEvent) => {
         e.preventDefault()
         writeReviewMutation.mutate({
             user_id: 1,
             place: state.selectedPlace ?? { place_id: -1, lat: 0, lng: 0 },
+            experience_date: experienceDate,
             rating: rating,
         })
 
         hideWriteReview()
         setRating(0)
+        resetExperinceDate()
     }
     const handleCancel = () => {
         hideWriteReview()
         setRating(0)
+        resetExperinceDate()
     }
 
     return (
@@ -71,10 +92,14 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
                         <div className="relative bg-white rounded-lg shadow-sm p-4">
                             <Header />
                             <form
-                                className="flex flex-col gap-4"
+                                className="flex flex-col gap-4 mt-1"
                                 onSubmit={handlePost}
                             >
-                                <Ratings
+                                <ReviewContent
+                                    experienceDate={experienceDate}
+                                    handleExperienceDateChange={
+                                        handleExperienceDateChange
+                                    }
                                     rating={rating}
                                     handleRatingChange={handleRatingChange}
                                 />
@@ -92,6 +117,36 @@ function Header() {
     return (
         <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">Review</h3>
+        </div>
+    )
+}
+
+interface ReviewContentProps {
+    experienceDate: string
+    handleExperienceDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    rating: number
+    handleRatingChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+function ReviewContent({
+    experienceDate,
+    handleExperienceDateChange,
+    rating,
+    handleRatingChange,
+}: ReviewContentProps) {
+    return (
+        <div className="flex flex-col">
+            <div className="flex gap-2 text-gray-500 justify-center text-sm">
+                <div className="self-center">Date of the experience:</div>
+                <input
+                    type="date"
+                    name="experience-date"
+                    className="border rounded-lg p-1 focus:outline-sky-700"
+                    value={experienceDate}
+                    onChange={handleExperienceDateChange}
+                ></input>
+            </div>
+            <Ratings rating={rating} handleRatingChange={handleRatingChange} />
         </div>
     )
 }

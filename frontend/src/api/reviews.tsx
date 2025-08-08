@@ -3,7 +3,7 @@ import type { Place, Review } from '../types'
 
 export type ReviewApi = {
     user_id: number
-    created_at: number
+    experience_date: number
     rating: number
 }
 
@@ -15,7 +15,7 @@ export const fetchReviews = async (place_id: number): Promise<Review[]> => {
     reviews = reviews.map((review: ReviewApi) => {
         return {
             ...review,
-            created_at: new Date(review.created_at),
+            experience_date: new Date(review.experience_date),
         }
     })
 
@@ -25,6 +25,7 @@ export const fetchReviews = async (place_id: number): Promise<Review[]> => {
 export const createReview = async (
     user_id: number,
     place: Place,
+    experience_date: string,
     rating: number
 ) => {
     const response = await fetch(`${getApiUrl()}/review`, {
@@ -37,6 +38,7 @@ export const createReview = async (
             place_id: place.place_id,
             lat: place.lat,
             lng: place.lng,
+            experience_date: experience_date,
             rating: rating,
         }),
     })

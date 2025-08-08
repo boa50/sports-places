@@ -15,9 +15,9 @@ def get_places_data():
 
 def get_reviews_data(place_id: str):
     sql = f"""
-        SELECT user_id, created_at, rating rating FROM reviews
+        SELECT user_id, experience_date, rating rating FROM reviews
         WHERE place_id = {place_id}
-        ORDER BY created_at DESC;
+        ORDER BY experience_date DESC;
     """
 
     data, column_names = execute_query(sql)
@@ -27,8 +27,8 @@ def get_reviews_data(place_id: str):
 
 def insert_review_data(review: ReviewWrite):
     sql = f"""
-        INSERT INTO reviews (user_id, place_id, rating)
-        VALUES ({review.user_id}, {review.place_id}, {review.rating})
+        INSERT INTO reviews (user_id, place_id, experience_date, rating)
+        VALUES ({review.user_id}, {review.place_id}, '{review.experience_date}', {review.rating})
         RETURNING review_id;
     """
 

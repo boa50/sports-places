@@ -20,7 +20,7 @@ export default function Review({ review }: Props) {
                     <RatingStars rating={review.rating} size="small" />
                 </div>
                 <div className="text-gray-500">
-                    {getRelativeTime(review.created_at)}
+                    {getRelativeTime(review.experience_date)}
                 </div>
             </div>
         </div>

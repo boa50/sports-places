@@ -6,6 +6,7 @@ class ReviewWrite(BaseModel):
     place_id: int
     lat: float
     lng: float
+    experience_date: str
     rating: int
 
 
