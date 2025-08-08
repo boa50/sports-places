@@ -1,10 +1,25 @@
 import { getApiUrl } from './utils'
 import type { Place, Review } from '../types'
 
+export type ReviewApi = {
+    user_id: number
+    created_at: number
+    rating: number
+}
+
 export const fetchReviews = async (place_id: number): Promise<Review[]> => {
     const response = await fetch(`${getApiUrl()}/reviews?place_id=${place_id}`)
 
-    return await response.json()
+    let reviews = await response.json()
+
+    reviews = reviews.map((review: ReviewApi) => {
+        return {
+            ...review,
+            created_at: new Date(review.created_at),
+        }
+    })
+
+    return reviews
 }
 
 export const createReview = async (

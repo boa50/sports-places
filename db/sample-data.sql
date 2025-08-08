@@ -16,14 +16,14 @@ INSERT INTO places(lat, lng)
 VALUES (18.103154190383496, 30.289366938803536);
 
 -- REVIEWS
-INSERT INTO reviews(user_id, place_id, rating)
-VALUES (1, 1, 3);
+INSERT INTO reviews(user_id, place_id, rating, created_at)
+VALUES (1, 1, 3, '2024-08-21');
 
-INSERT INTO reviews(user_id, place_id, rating)
-VALUES (1, 2, 4);
+INSERT INTO reviews(user_id, place_id, rating, created_at)
+VALUES (1, 2, 4, '2024-12-21');
 
-INSERT INTO reviews(user_id, place_id, rating)
-VALUES (1, 2, 2);
+INSERT INTO reviews(user_id, place_id, rating, created_at)
+VALUES (1, 2, 2, '2023-01-01');
 
-INSERT INTO reviews(user_id, place_id, rating)
-VALUES (1, 3, 5);
+INSERT INTO reviews(user_id, place_id, rating, created_at)
+VALUES (1, 3, 5, '2024-12-21');

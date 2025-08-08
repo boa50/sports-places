@@ -15,8 +15,9 @@ def get_places_data():
 
 def get_reviews_data(place_id: str):
     sql = f"""
-        SELECT user_id, rating rating FROM reviews
-        WHERE place_id = {place_id};
+        SELECT user_id, created_at, rating rating FROM reviews
+        WHERE place_id = {place_id}
+        ORDER BY created_at DESC;
     """
 
     data, column_names = execute_query(sql)

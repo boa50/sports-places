@@ -6,6 +6,7 @@ export type Place = {
 
 export type Review = {
     user_id: number
+    created_at: Date
     rating: number
 }
 
