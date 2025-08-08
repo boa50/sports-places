@@ -142,6 +142,7 @@ function ReviewContent({
                     type="date"
                     name="experience-date"
                     className="border rounded-lg p-1 focus:outline-sky-700"
+                    max={new Date().toISOString().slice(0, 10)}
                     value={experienceDate}
                     onChange={handleExperienceDateChange}
                 ></input>
