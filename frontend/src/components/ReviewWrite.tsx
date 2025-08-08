@@ -103,7 +103,10 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
                                     rating={rating}
                                     handleRatingChange={handleRatingChange}
                                 />
-                                <Buttons handleCancel={handleCancel} />
+                                <Buttons
+                                    handleCancel={handleCancel}
+                                    rating={rating}
+                                />
                             </form>
                         </div>
                     </div>
@@ -171,9 +174,10 @@ function Ratings({ rating, handleRatingChange }: RatingsProps) {
 
 interface ButtonsProps {
     handleCancel: () => void
+    rating: number
 }
 
-function Buttons({ handleCancel }: ButtonsProps) {
+function Buttons({ handleCancel, rating }: ButtonsProps) {
     return (
         <div className="flex gap-2 justify-end">
             <button
@@ -191,7 +195,9 @@ function Buttons({ handleCancel }: ButtonsProps) {
                 aria-label="Post"
                 title="Post"
                 className="w-20 cursor-pointer font-medium rounded-lg text-sm p-2.5 focus:outline-none
-                                    text-white bg-sky-600 hover:bg-sky-600/90"
+                                    text-white bg-sky-600 hover:bg-sky-600/90
+                                    disabled:text-gray-100 disabled:bg-gray-400 disabled:cursor-default"
+                disabled={rating === 0}
             >
                 Post
             </button>
