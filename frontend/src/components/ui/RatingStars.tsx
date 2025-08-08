@@ -55,7 +55,7 @@ export function RatingStarsInteractive({
                         onChange={handleChange}
                         className="hidden peer"
                     />
-                    <label htmlFor={`value${i + 1}`}>
+                    <label htmlFor={`value${i + 1}`} className="cursor-pointer">
                         {d < rating ? (
                             <Star size={starSize} filled="full" />
                         ) : (
