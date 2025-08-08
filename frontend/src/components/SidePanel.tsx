@@ -1,6 +1,7 @@
 import { useAppContext } from '../contexts/AppContext'
 import ReviewsList from './ReviewsList'
-import { Icon } from './ui/Icon'
+import { Icon } from './ui'
+import PlaceRating from './PlaceRating'
 import type { AppAction, AppState } from '../types'
 
 interface Props {
@@ -70,7 +71,8 @@ interface ContentProps {
 function Content({ state, showWriteReview }: ContentProps) {
     return (
         <div className="flex-1 overflow-y-auto">
-            <div className="py-4 flex flex-col border-b border-b-gray-200 items-center">
+            <div className="py-4 flex flex-col border-b border-b-gray-200 items-center gap-4">
+                <PlaceRating />
                 <button
                     type="button"
                     aria-label="Write a review"

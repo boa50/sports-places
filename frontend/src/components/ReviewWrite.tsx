@@ -22,7 +22,6 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
             rating: number
         }) => createReview(review.user_id, review.place, review.rating),
         onSuccess: (data: { place_id: number; is_new_place: boolean }) => {
-            // Invalidate or update relevant queries after successful mutation
             if (data.is_new_place)
                 queryClient.invalidateQueries({ queryKey: ['places'] })
 
