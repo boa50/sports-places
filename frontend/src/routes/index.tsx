@@ -1,17 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
+import { useAppContext } from '../contexts/AppContext'
+import { checkLocationPermission } from '../utils'
 import Map from '../components/Map'
 import SidePanel from '../components/SidePanel'
 import ReviewWrite from '../components/ReviewWrite'
-import { checkLocationPermission } from '../utils'
-import { useAppContext } from '../contexts/AppContext'
+import AlertScreen from '../components/AlertScreen'
 
 export const Route = createFileRoute('/')({
     component: Index,
 })
 
 function Index() {
-    const { dispatch } = useAppContext()
+    const { state, dispatch } = useAppContext()
     const [isLoading, setIsLoading] = useState(true)
     const [RenderedMap, setRenderedMap] = useState(<Map />)
     const [isShowWriteReview, setIsShowWriteReview] = useState(false)
@@ -75,6 +76,13 @@ function Index() {
                 }}
             />
             {RenderedMap}
+            {state.isAlertScreenVisible && (
+                <AlertScreen
+                    message={state.alertScreen.message}
+                    type={state.alertScreen.type}
+                    timeToHide={state.alertScreen.timeToHide}
+                />
+            )}
         </div>
     )
 }

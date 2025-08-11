@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { RatingStarsInteractive } from './ui/RatingStars'
-import { createReview } from '../api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createReview } from '../api'
 import { useAppContext } from '../contexts/AppContext'
+import { RatingStarsInteractive } from './ui/RatingStars'
+import { defaults } from './defaults'
 import type { Place } from '../types'
 
 interface Props {
@@ -42,10 +43,25 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
                 type: 'CHANGE_SELECTED_PLACE',
                 payload: { place_id: data.place_id, lat: -999, lng: -999 },
             })
-            console.info('Review created')
+
+            dispatch({
+                type: 'SHOW_ALERT_SCREEN',
+                payload: {
+                    message: 'Review created',
+                    type: 'success',
+                    timeToHide: defaults.alertScreenTimeToHide,
+                },
+            })
         },
-        onError: (error) => {
-            console.error('Error creating review')
+        onError: () => {
+            dispatch({
+                type: 'SHOW_ALERT_SCREEN',
+                payload: {
+                    message: 'Error creating review',
+                    type: 'error',
+                    timeToHide: defaults.alertScreenTimeToHide,
+                },
+            })
         },
     })
 

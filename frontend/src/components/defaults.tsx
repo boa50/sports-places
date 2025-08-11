@@ -3,4 +3,5 @@ export const defaults = {
     longitude: 0,
     zoom: 3,
     usersZoom: 14,
+    alertScreenTimeToHide: 3000,
 }

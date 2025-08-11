@@ -81,6 +81,7 @@ export default function Map({ userLocation }: Props) {
 }
 
 function MapComponents() {
+    const { dispatch } = useAppContext()
     const [isLocationAllowed, setIsLocationAllowed] = useState<
         boolean | undefined
     >(undefined)
@@ -88,13 +89,25 @@ function MapComponents() {
     const map = useMapEvents({
         locationfound: (location) => {
             setIsLocationAllowed(true)
-            map.flyTo(
+
+            dispatch({ type: 'HIDE_ALERT_SCREEN' })
+
+            map.setView(
                 [location.latlng.lat, location.latlng.lng],
                 defaults.usersZoom
             )
         },
         locationerror: () => {
             setIsLocationAllowed(false)
+
+            dispatch({
+                type: 'SHOW_ALERT_SCREEN',
+                payload: {
+                    message: 'Failed to get your location',
+                    type: 'error',
+                    timeToHide: defaults.alertScreenTimeToHide,
+                },
+            })
         },
     })
 

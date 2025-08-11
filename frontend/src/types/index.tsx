@@ -10,11 +10,19 @@ export type Review = {
     rating: number
 }
 
+export type AlertScreen = {
+    message: string
+    type: 'success' | 'error' | 'info'
+    timeToHide?: number | undefined
+}
+
 export type AppState = {
     isMobile: boolean
     isOpenPanel: boolean
     selectedPlace: Place | undefined
     isShowNewPlaceMarker: boolean
+    isAlertScreenVisible: boolean
+    alertScreen: AlertScreen
 }
 
 export type AppAction =
@@ -25,3 +33,5 @@ export type AppAction =
     | { type: 'CLEAR_SELECTED_PLACE' }
     | { type: 'SHOW_NEW_PLACE_MARKER' }
     | { type: 'HIDE_NEW_PLACE_MARKER' }
+    | { type: 'SHOW_ALERT_SCREEN'; payload: AlertScreen }
+    | { type: 'HIDE_ALERT_SCREEN' }

@@ -7,6 +7,8 @@ const initialState: AppState = {
     isOpenPanel: false,
     selectedPlace: undefined,
     isShowNewPlaceMarker: true,
+    isAlertScreenVisible: false,
+    alertScreen: { message: '', type: 'info' },
 }
 
 const appReducer = (state: AppState, action: AppAction): AppState => {
@@ -45,6 +47,18 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
             return {
                 ...state,
                 isShowNewPlaceMarker: false,
+            }
+        case 'SHOW_ALERT_SCREEN':
+            return {
+                ...state,
+                isAlertScreenVisible: true,
+                alertScreen: action.payload,
+            }
+        case 'HIDE_ALERT_SCREEN':
+            return {
+                ...state,
+                isAlertScreenVisible: false,
+                alertScreen: { message: '', type: 'info' },
             }
         default:
             return state

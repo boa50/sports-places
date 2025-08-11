@@ -7,7 +7,7 @@ import AlertScreen from './AlertScreen'
 export default function PlacesMarkers() {
     return (
         <Suspense
-            fallback={<AlertScreen message="Loading places..." type="info" />}
+            fallback={<AlertScreen message="Loading places" type="info" />}
         >
             <PlacesMarkersBuild />
         </Suspense>
