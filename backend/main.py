@@ -3,6 +3,7 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import data
+import utils
 from classes import ReviewWrite
 
 load_dotenv()
@@ -23,6 +24,12 @@ if cors_origins is not None:
 @app.get("/api/livetest")
 def livetest():
     return {"message": "Server Running!"}
+
+
+@app.get("/api/checkLink")
+async def check_trusted_url(url: str):
+    ret = utils.check_trusted_url(url)
+    return ret
 
 
 @app.get("/api/places")
