@@ -17,7 +17,7 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     const [experienceDate, setExperienceDate] = useState<string>(
         new Date().toISOString().slice(0, 10)
     )
-    const [routeLink, setRouteLink] = useState<string | undefined>()
+    const [routeLink, setRouteLink] = useState<string>('')
     const queryClient = useQueryClient()
 
     const writeReviewMutation = useMutation({
@@ -26,7 +26,7 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
             place: Place
             rating: number
             experienceDate: string
-            routeLink?: string
+            routeLink: string | null
         }) =>
             createReview(
                 review.userId,
@@ -83,6 +83,12 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
         setRouteLink(e.target.value)
     }
 
+    const handleCancel = () => {
+        hideWriteReview()
+        setRating(0)
+        resetExperinceDate()
+        setRouteLink('')
+    }
     const handlePost = (e: React.FormEvent) => {
         e.preventDefault()
         writeReviewMutation.mutate({
@@ -90,17 +96,10 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
             place: state.selectedPlace ?? { placeId: -1, lat: 0, lng: 0 },
             experienceDate: experienceDate,
             rating: rating,
-            routeLink: routeLink,
+            routeLink: routeLink !== '' ? routeLink : null,
         })
 
-        hideWriteReview()
-        setRating(0)
-        resetExperinceDate()
-    }
-    const handleCancel = () => {
-        hideWriteReview()
-        setRating(0)
-        resetExperinceDate()
+        handleCancel()
     }
 
     return (
@@ -179,7 +178,8 @@ function ReviewContent({
                     type="date"
                     id="experience-date"
                     name="experience-date"
-                    className="border rounded-lg p-1 focus:outline-sky-700"
+                    className="border rounded-lg p-1 
+                        focus:outline focus:outline-sky-600 focus:border-sky-600"
                     max={new Date().toISOString().slice(0, 10)}
                     value={experienceDate}
                     onChange={handleExperienceDateChange}
@@ -193,7 +193,9 @@ function ReviewContent({
                     type="url"
                     id="route-link"
                     name="route-link"
-                    className="border rounded-lg p-1 focus:outline-sky-700"
+                    className="border rounded-lg p-1 
+                        focus:outline focus:outline-sky-600 focus:border-sky-600 
+                        invalid:border-red-700 focus:invalid:outline-red-700 focus:invalid:border-red-700"
                     placeholder="Put your route url here"
                     value={routeLink}
                     onChange={handleRouteLinkChange}
