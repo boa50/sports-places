@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS reviews  (
     user_id INT NOT NULL,
     place_id INT NOT NULL,
 	experience_date DATE DEFAULT CURRENT_DATE,
+	route_link VARCHAR(250),
     rating INT,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (place_id) REFERENCES places (place_id) ON DELETE CASCADE

@@ -88,7 +88,7 @@ function Content({ state, showWriteReview }: ContentProps) {
                 </button>
             </div>
             <div className="mt-2">
-                {state.selectedPlace?.place_id === -1 ? (
+                {state.selectedPlace?.placeId === -1 ? (
                     <p className="pl-4">
                         There are no reviews for this place, write the first one
                         :)

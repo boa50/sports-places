@@ -1,13 +1,15 @@
 export type Place = {
-    place_id: number
+    placeId: number
     lat: number
     lng: number
 }
 
 export type Review = {
-    user_id: number
-    experience_date: Date
+    userId: number
+    experienceDate: Date
     rating: number
+    routeLink?: string
+    routeLinkTrusted?: boolean
 }
 
 export type AlertScreen = {

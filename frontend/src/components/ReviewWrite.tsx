@@ -41,7 +41,7 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
             })
             dispatch({
                 type: 'CHANGE_SELECTED_PLACE',
-                payload: { place_id: data.place_id, lat: -999, lng: -999 },
+                payload: { placeId: data.place_id, lat: -999, lng: -999 },
             })
 
             dispatch({
@@ -81,7 +81,7 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
         e.preventDefault()
         writeReviewMutation.mutate({
             user_id: 1,
-            place: state.selectedPlace ?? { place_id: -1, lat: 0, lng: 0 },
+            place: state.selectedPlace ?? { placeId: -1, lat: 0, lng: 0 },
             experience_date: experienceDate,
             rating: rating,
         })

@@ -12,11 +12,11 @@ interface Props {
 export default function PlaceMarker({ place, hasClickAction = true }: Props) {
     const { state, dispatch } = useAppContext()
     const [isSelected, setIsSelected] = useState<boolean>(
-        place.place_id === state.selectedPlace?.place_id
+        place.placeId === state.selectedPlace?.placeId
     )
 
     useEffect(() => {
-        setIsSelected(place.place_id === state.selectedPlace?.place_id)
+        setIsSelected(place.placeId === state.selectedPlace?.placeId)
     }, [state.selectedPlace])
 
     const handleClick = () => {

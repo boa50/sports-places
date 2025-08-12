@@ -15,7 +15,7 @@ export default function PlaceRating() {
 function PlaceRatingBuild() {
     const { state } = useAppContext()
     const { data: reviews } = useSuspenseQuery(
-        reviewsQueryOptions(state.selectedPlace?.place_id ?? -1)
+        reviewsQueryOptions(state.selectedPlace?.placeId ?? -1)
     )
 
     const nReviews = reviews.length

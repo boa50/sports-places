@@ -5,6 +5,8 @@ export type ReviewApi = {
     user_id: number
     experience_date: number
     rating: number
+    route_link?: string
+    route_link_trusted?: boolean
 }
 
 export const fetchReviews = async (place_id: number): Promise<Review[]> => {
@@ -14,8 +16,11 @@ export const fetchReviews = async (place_id: number): Promise<Review[]> => {
 
     reviews = reviews.map((review: ReviewApi) => {
         return {
-            ...review,
-            experience_date: new Date(review.experience_date),
+            userId: review.user_id,
+            experienceDate: new Date(review.experience_date),
+            rating: review.rating,
+            routeLink: review.route_link,
+            routeLinkTrusted: review.route_link_trusted,
         }
     })
 
@@ -23,10 +28,11 @@ export const fetchReviews = async (place_id: number): Promise<Review[]> => {
 }
 
 export const createReview = async (
-    user_id: number,
+    userId: number,
     place: Place,
-    experience_date: string,
-    rating: number
+    experienceDate: string,
+    rating: number,
+    routeLink: string
 ) => {
     const response = await fetch(`${getApiUrl()}/review`, {
         method: 'POST',
@@ -34,12 +40,13 @@ export const createReview = async (
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            user_id: user_id,
-            place_id: place.place_id,
+            user_id: userId,
+            place_id: place.placeId,
             lat: place.lat,
             lng: place.lng,
-            experience_date: experience_date,
+            experience_date: experienceDate,
             rating: rating,
+            route_link: routeLink,
         }),
     })
     if (!response.ok) {

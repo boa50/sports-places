@@ -1,5 +1,7 @@
 import pandas as pd
+import numpy as np
 import queries.queries as qu
+import utils
 from classes import ReviewWrite, PlaceWrite
 
 
@@ -15,6 +17,16 @@ def get_reviews(place_id: str):
     data, column_names = qu.get_reviews_data(place_id=place_id)
 
     df = pd.DataFrame(data, columns=column_names)
+
+    def fill_route_link_trusted(row):
+        if row["route_link"] is not None:
+            return utils.check_trusted_url(row["route_link"])["trusted"]
+        else:
+            return np.nan
+
+    df["route_link_trusted"] = df.apply(
+        lambda row: fill_route_link_trusted(row), axis=1
+    )
 
     return df
 

@@ -22,7 +22,7 @@ export default function ReviewsList() {
 function ReviewsListBuild() {
     const { state } = useAppContext()
     const { data: reviews } = useSuspenseQuery(
-        reviewsQueryOptions(state.selectedPlace?.place_id ?? -1)
+        reviewsQueryOptions(state.selectedPlace?.placeId ?? -1)
     )
 
     return (
