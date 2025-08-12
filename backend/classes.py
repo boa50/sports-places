@@ -8,6 +8,7 @@ class ReviewWrite(BaseModel):
     lng: float
     experience_date: str
     rating: int
+    route_link: str | None
 
 
 class PlaceWrite(BaseModel):

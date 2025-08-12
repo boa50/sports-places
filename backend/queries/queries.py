@@ -27,8 +27,20 @@ def get_reviews_data(place_id: str):
 
 def insert_review_data(review: ReviewWrite):
     sql = f"""
-        INSERT INTO reviews (user_id, place_id, experience_date, rating)
-        VALUES ({review.user_id}, {review.place_id}, '{review.experience_date}', {review.rating})
+        INSERT INTO reviews (
+            user_id, 
+            place_id, 
+            experience_date, 
+            rating
+            {", route_link" if review.route_link is not None else ""}
+        )
+        VALUES (
+            {review.user_id}, 
+            {review.place_id}, 
+            '{review.experience_date}', 
+            {review.rating} 
+            {f", '{review.route_link}'" if review.route_link is not None else ""}
+        )
         RETURNING review_id;
     """
 

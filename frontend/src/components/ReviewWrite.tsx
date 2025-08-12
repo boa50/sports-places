@@ -17,20 +17,23 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     const [experienceDate, setExperienceDate] = useState<string>(
         new Date().toISOString().slice(0, 10)
     )
+    const [routeLink, setRouteLink] = useState<string | undefined>()
     const queryClient = useQueryClient()
 
     const writeReviewMutation = useMutation({
         mutationFn: (review: {
-            user_id: number
+            userId: number
             place: Place
             rating: number
-            experience_date: string
+            experienceDate: string
+            routeLink?: string
         }) =>
             createReview(
-                review.user_id,
+                review.userId,
                 review.place,
-                review.experience_date,
-                review.rating
+                review.experienceDate,
+                review.rating,
+                review.routeLink
             ),
         onSuccess: (data: { place_id: number; is_new_place: boolean }) => {
             if (data.is_new_place)
@@ -76,14 +79,18 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     const resetExperinceDate = () => {
         setExperienceDate(new Date().toISOString().slice(0, 10))
     }
+    const handleRouteLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRouteLink(e.target.value)
+    }
 
     const handlePost = (e: React.FormEvent) => {
         e.preventDefault()
         writeReviewMutation.mutate({
-            user_id: 1,
+            userId: 1,
             place: state.selectedPlace ?? { placeId: -1, lat: 0, lng: 0 },
-            experience_date: experienceDate,
+            experienceDate: experienceDate,
             rating: rating,
+            routeLink: routeLink,
         })
 
         hideWriteReview()
@@ -118,6 +125,10 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
                                     }
                                     rating={rating}
                                     handleRatingChange={handleRatingChange}
+                                    routeLink={routeLink}
+                                    handleRouteLinkChange={
+                                        handleRouteLinkChange
+                                    }
                                 />
                                 <Buttons
                                     handleCancel={handleCancel}
@@ -145,6 +156,8 @@ interface ReviewContentProps {
     handleExperienceDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     rating: number
     handleRatingChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    routeLink?: string
+    handleRouteLinkChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 function ReviewContent({
@@ -152,21 +165,40 @@ function ReviewContent({
     handleExperienceDateChange,
     rating,
     handleRatingChange,
+    routeLink,
+    handleRouteLinkChange,
 }: ReviewContentProps) {
     return (
-        <div className="flex flex-col">
-            <div className="flex gap-2 text-gray-500 justify-center text-sm">
-                <div className="self-center">Date of the experience:</div>
+        <div className="flex flex-col gap-2 text-sm text-gray-500">
+            <Ratings rating={rating} handleRatingChange={handleRatingChange} />
+            <div className="flex gap-2 justify-start pt-2">
+                <label htmlFor="experience-date" className="self-center">
+                    Experience date:
+                </label>
                 <input
                     type="date"
+                    id="experience-date"
                     name="experience-date"
                     className="border rounded-lg p-1 focus:outline-sky-700"
                     max={new Date().toISOString().slice(0, 10)}
                     value={experienceDate}
                     onChange={handleExperienceDateChange}
-                ></input>
+                />
             </div>
-            <Ratings rating={rating} handleRatingChange={handleRatingChange} />
+            <div className="flex gap-2 justify-start">
+                <label htmlFor="route-link" className="self-center">
+                    Route link:
+                </label>
+                <input
+                    type="url"
+                    id="route-link"
+                    name="route-link"
+                    className="border rounded-lg p-1 focus:outline-sky-700"
+                    placeholder="Put your route url here"
+                    value={routeLink}
+                    onChange={handleRouteLinkChange}
+                />
+            </div>
         </div>
     )
 }
@@ -178,7 +210,7 @@ interface RatingsProps {
 
 function Ratings({ rating, handleRatingChange }: RatingsProps) {
     return (
-        <div className="flex flex-col items-center justify-center p-4">
+        <div className="flex flex-col items-center justify-center">
             <RatingStarsInteractive
                 rating={rating}
                 size="normal"

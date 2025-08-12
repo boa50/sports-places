@@ -18,15 +18,17 @@ def get_reviews(place_id: str):
 
     df = pd.DataFrame(data, columns=column_names)
 
-    def fill_route_link_trusted(row):
-        if row["route_link"] is not None:
-            return utils.check_trusted_url(row["route_link"])["trusted"]
-        else:
-            return np.nan
+    if df.shape[0] > 0:
 
-    df["route_link_trusted"] = df.apply(
-        lambda row: fill_route_link_trusted(row), axis=1
-    )
+        def fill_route_link_trusted(row):
+            if row["route_link"] is not None:
+                return utils.check_trusted_url(row["route_link"])["trusted"]
+            else:
+                return np.nan
+
+        df["route_link_trusted"] = df.apply(
+            lambda row: fill_route_link_trusted(row), axis=1
+        )
 
     return df
 

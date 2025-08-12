@@ -39,7 +39,7 @@ export default function Map({ userLocation }: Props) {
 
     const handleMapClick = (latlng: LatLng) => {
         const place = {
-            place_id: -1,
+            placeId: -1,
             lat: latlng.lat,
             lng: latlng.lng,
         }

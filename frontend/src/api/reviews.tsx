@@ -32,8 +32,20 @@ export const createReview = async (
     place: Place,
     experienceDate: string,
     rating: number,
-    routeLink: string
+    routeLink?: string
 ) => {
+    console.log(
+        JSON.stringify({
+            user_id: userId,
+            place_id: place.placeId,
+            lat: place.lat,
+            lng: place.lng,
+            experience_date: experienceDate,
+            rating: rating,
+            route_link: routeLink ?? null,
+        })
+    )
+
     const response = await fetch(`${getApiUrl()}/review`, {
         method: 'POST',
         headers: {
@@ -46,7 +58,7 @@ export const createReview = async (
             lng: place.lng,
             experience_date: experienceDate,
             rating: rating,
-            route_link: routeLink,
+            route_link: routeLink ?? null,
         }),
     })
     if (!response.ok) {
