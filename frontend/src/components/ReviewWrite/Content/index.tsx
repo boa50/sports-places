@@ -1,3 +1,4 @@
+import { Icon } from '@/components/ui'
 import Ratings from './Ratings'
 import IsTrustedUrl from './IsTrustedUrl'
 
@@ -8,6 +9,7 @@ interface Props {
     handleRatingChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     routeLink?: string
     handleRouteLinkChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    routeLinkMaxLength: number
 }
 
 export default function ReviewContent({
@@ -17,6 +19,7 @@ export default function ReviewContent({
     handleRatingChange,
     routeLink,
     handleRouteLinkChange,
+    routeLinkMaxLength,
 }: Props) {
     return (
         <div className="flex flex-col gap-2 text-sm text-gray-500">
@@ -52,7 +55,16 @@ export default function ReviewContent({
                     onChange={handleRouteLinkChange}
                 />
                 <div className="self-center">
-                    <IsTrustedUrl url={routeLink ?? ''} />
+                    {routeLink !== undefined &&
+                    routeLink.length <= routeLinkMaxLength ? (
+                        <IsTrustedUrl url={routeLink} />
+                    ) : (
+                        <div
+                            title={`This url is too big, please insert an urll smaller than ${routeLinkMaxLength} characters`}
+                        >
+                            <Icon type="alert" size="size-4" />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

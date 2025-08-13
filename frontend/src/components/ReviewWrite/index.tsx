@@ -22,6 +22,7 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     )
     const [routeLink, setRouteLink] = useState<string>('')
     const queryClient = useQueryClient()
+    const routeLinkMaxLength = 250
 
     const writeReviewMutation = useMutation({
         mutationFn: (review: {
@@ -131,10 +132,14 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
                                     handleRouteLinkChange={
                                         handleRouteLinkChange
                                     }
+                                    routeLinkMaxLength={routeLinkMaxLength}
                                 />
                                 <Buttons
                                     handleCancel={handleCancel}
-                                    rating={rating}
+                                    isPostDisabled={
+                                        rating === 0 ||
+                                        routeLink.length > routeLinkMaxLength
+                                    }
                                 />
                             </form>
                         </div>

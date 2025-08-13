@@ -15,5 +15,5 @@ export const reviewsQueryOptions = (placeId: number) =>
 export const validateRouteLinkQueryOptions = (url: string) =>
     queryOptions({
         queryKey: ['validateRouteLink', url],
-        queryFn: () => (url !== '' ? validateRouteLink(url) : true),
+        queryFn: () => (url !== '' ? validateRouteLink(url) : null),
     })

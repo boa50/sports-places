@@ -26,7 +26,7 @@ export default function IsTrustedUrl({ url }: Props) {
     const query = useQuery(validateRouteLinkQueryOptions(queryKey))
 
     useEffect(() => {
-        setIsUrlTrusted(query.data)
+        if (query.data !== null) setIsUrlTrusted(query.data)
     }, [query.data])
 
     return (
