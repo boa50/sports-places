@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
-import { fetchPlaces, fetchReviews, validateRouteLink } from '../api'
+import { fetchPlaces, fetchReviews, validateRouteLink } from '@/api'
 
 export const placesQueryOptions = queryOptions({
     queryKey: ['places'],

@@ -1,9 +1,9 @@
-import Review from './Review'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { reviewsQueryOptions } from '../queryOptions'
 import { Suspense } from 'react'
-import { useAppContext } from '../contexts/AppContext'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useAppContext } from '@/contexts/AppContext'
+import { reviewsQueryOptions } from '@/queryOptions'
 import { Spinner } from './ui'
+import Review from './Review'
 
 export default function ReviewsList() {
     return (

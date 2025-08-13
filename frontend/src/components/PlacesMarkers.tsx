@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { placesQueryOptions } from '../queryOptions'
+import { placesQueryOptions } from '@/queryOptions'
 import PlaceMarker from './PlaceMarker'
 import AlertScreen from './AlertScreen'
 

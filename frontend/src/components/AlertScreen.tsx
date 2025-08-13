@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { useAppContext } from '../contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { Alert } from './ui'
-import type { AlertScreen as AlertScreenType } from '../types'
+import type { AlertScreen as AlertScreenType } from '@/types'
 
 export default function AlertScreen({
     message,

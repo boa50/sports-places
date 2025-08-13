@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { useAppContext } from '../contexts/AppContext'
-import { checkLocationPermission } from '../utils'
-import Map from '../components/Map'
-import SidePanel from '../components/SidePanel'
-import ReviewWrite from '../components/ReviewWrite'
-import AlertScreen from '../components/AlertScreen'
+import { useAppContext } from '@/contexts/AppContext'
+import { checkLocationPermission } from '@/utils'
+import Map from '@/components/Map'
+import SidePanel from '@/components/SidePanel'
+import ReviewWrite from '@/components/ReviewWrite'
+import AlertScreen from '@/components/AlertScreen'
 
 export const Route = createFileRoute('/')({
     component: Index,

@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
-import { useAppContext } from '../contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { reviewsQueryOptions } from '../queryOptions'
+import { reviewsQueryOptions } from '@/queryOptions'
 import { RatingStars } from './ui'
 
 export default function PlaceRating() {

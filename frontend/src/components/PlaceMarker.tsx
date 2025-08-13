@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import L from 'leaflet'
 import { Marker } from 'react-leaflet'
-import { useAppContext } from '../contexts/AppContext'
-import type { Place } from '../types'
+import { useAppContext } from '@/contexts/AppContext'
+import type { Place } from '@/types'
 
 interface Props {
     place: Place

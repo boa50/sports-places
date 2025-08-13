@@ -1,5 +1,5 @@
 import { getApiUrl } from './utils'
-import type { Place } from '../types'
+import type { Place } from '@/types'
 
 export type PlaceApi = {
     place_id: number

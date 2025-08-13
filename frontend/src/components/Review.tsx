@@ -1,7 +1,6 @@
-import { RatingStars } from './ui/RatingStars'
-import { getRelativeTime } from '../utils'
-import { Icon } from './ui'
-import type { Review } from '../types'
+import { Icon, RatingStars } from './ui'
+import { getRelativeTime } from '@/utils'
+import type { Review } from '@/types'
 
 interface Props {
     review: Review
@@ -36,8 +35,15 @@ export default function Review({ review }: Props) {
                             Route link
                         </a>
                         {!review.routeLinkTrusted && (
-                            <div title="This link could not be verified, check the url before clicking on it">
-                                <Icon type="alert" colour="text-gray-500" />
+                            <div
+                                title="This link could not be verified, check the url before clicking on it"
+                                className="self-center"
+                            >
+                                <Icon
+                                    type="alert"
+                                    colour="text-gray-500"
+                                    size="size-3"
+                                />
                             </div>
                         )}
                     </div>

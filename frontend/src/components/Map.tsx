@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAppContext } from '../contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import {
     MapContainer,
     TileLayer,
@@ -11,11 +11,11 @@ import {
 import { latLngBounds, latLng } from 'leaflet'
 import { defaults } from './defaults'
 import PlaceMarker from './PlaceMarker'
-import RecenterMapButton from '../components/RecenterMapButton'
+import RecenterMapButton from './RecenterMapButton'
 import PlacesMarkers from './PlacesMarkers'
 
 import type { LatLng } from 'leaflet'
-import type { Place } from '../types'
+import type { Place } from '@/types'
 
 function ClickHandler({
     onMapClick,

@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from 'react'
 import type { ReactNode, Dispatch } from 'react'
-import type { AppState, AppAction } from '../types'
+import type { AppState, AppAction } from '@/types'
 
 const initialState: AppState = {
     isMobile: false,

@@ -1,8 +1,8 @@
-import { useAppContext } from '../contexts/AppContext'
-import ReviewsList from './ReviewsList'
+import { useAppContext } from '@/contexts/AppContext'
 import { Icon } from './ui'
+import ReviewsList from './ReviewsList'
 import PlaceRating from './PlaceRating'
-import type { AppAction, AppState } from '../types'
+import type { AppAction, AppState } from '@/types'
 
 interface Props {
     showWriteReview: () => void
