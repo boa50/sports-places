@@ -57,7 +57,7 @@ function Header({ dispatch }: HeaderProps) {
                 className="self-center cursor-pointer text-gray-900 hover:text-sky-800"
                 onClick={closeButtonHandleClick}
             >
-                <Icon type="x" size={6} />
+                <Icon type="x" size="size-6" />
             </button>
         </div>
     )
@@ -82,7 +82,7 @@ function Content({ state, showWriteReview }: ContentProps) {
                     onClick={showWriteReview}
                 >
                     <div className="flex items-center gap-1">
-                        <Icon type="review" size={4} filled="none" />
+                        <Icon type="review" size="size-4" filled="none" />
                         Write a review
                     </div>
                 </button>

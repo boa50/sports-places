@@ -1,6 +1,6 @@
 interface Props {
-    type: 'location' | 'x' | 'star' | 'review' | 'alert'
-    size?: 3 | 3.5 | 4 | 5 | 6
+    type: 'location' | 'x' | 'star' | 'review' | 'alert' | 'success'
+    size?: string
     filled?: 'full' | 'half' | 'none'
     colour?: string
 }
@@ -47,11 +47,19 @@ const iconsData = {
         ],
         strokeWidth: '1',
     },
+    // https://www.svgrepo.com/svg/507146/alert-triangle
+    success: {
+        viewBox: '0 0 36 36',
+        path: [
+            'M18,2A16,16,0,1,0,34,18,16,16,0,0,0,18,2ZM28.45,12.63,15.31,25.76,7.55,18a1.4,1.4,0,0,1,2-2l5.78,5.78L26.47,10.65a1.4,1.4,0,1,1,2,2Z',
+        ],
+        strokeWidth: '1',
+    },
 }
 
 export function Icon({
     type,
-    size = 4,
+    size = 'size-4',
     filled = 'full',
     colour = 'fill-current',
 }: Props) {
@@ -68,14 +76,12 @@ export function Icon({
         </defs>
     )
 
-    const dimensions = getDimensions(size)
-
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox={iconsData[type].viewBox}
             stroke="currentColor"
-            className={`${dimensions} ${colour}`}
+            className={`${size} ${colour}`}
         >
             {filled === 'half' ? <GradientFilling /> : null}
             {iconsData[type].path.map((d, i) => (
@@ -96,22 +102,4 @@ export function Icon({
             ))}
         </svg>
     )
-}
-
-function getDimensions(size: number) {
-    switch (size) {
-        case 3:
-            return 'size-3'
-        case 3.5:
-            return 'size-3.5'
-        case 4:
-            return 'size-4'
-        case 5:
-            return 'size-5'
-        case 6:
-            return 'size-6'
-
-        default:
-            return 'size-4'
-    }
 }

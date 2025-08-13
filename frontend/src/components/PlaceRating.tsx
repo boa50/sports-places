@@ -31,7 +31,7 @@ function PlaceRatingBuild() {
     return (
         <div className="flex flex-col items-center">
             <div className="text-5xl mb-2">{total.toFixed(1)}</div>
-            <RatingStars rating={total} size="small" />
+            <RatingStars rating={total} size="size-3.5" />
             <div className="text-sm text-gray-500">{nReviews} reviews</div>
         </div>
     )

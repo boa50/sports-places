@@ -1,8 +1,10 @@
-import { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState, useEffect } from 'react'
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
+import { validateRouteLinkQueryOptions } from '../queryOptions'
 import { createReview } from '../api'
 import { useAppContext } from '../contexts/AppContext'
-import { RatingStarsInteractive } from './ui/RatingStars'
+import { Icon, RatingStarsInteractive } from './ui'
+import { Spinner } from './ui'
 import { defaults } from './defaults'
 import type { Place } from '../types'
 
@@ -200,8 +202,56 @@ function ReviewContent({
                     value={routeLink}
                     onChange={handleRouteLinkChange}
                 />
+                <div className="self-center">
+                    <IsTrustedUrl url={routeLink ?? ''} />
+                </div>
             </div>
         </div>
+    )
+}
+
+interface IsTrustedUrlProps {
+    url: string
+}
+
+function IsTrustedUrl({ url }: IsTrustedUrlProps) {
+    const [isUrlTrusted, setIsUrlTrusted] = useState<boolean | undefined>()
+    const [queryKey, setQueryKey] = useState<string>('')
+
+    useEffect(() => {
+        setIsUrlTrusted(undefined)
+
+        if (url !== '') {
+            const validateRouteLink = setTimeout(() => {
+                setQueryKey(url)
+            }, 500)
+
+            return () => clearTimeout(validateRouteLink)
+        }
+    }, [url])
+
+    const query = useQuery(validateRouteLinkQueryOptions(queryKey))
+
+    useEffect(() => {
+        setIsUrlTrusted(query.data)
+    }, [query.data])
+
+    return (
+        url !== '' && (
+            <>
+                {isUrlTrusted === undefined && <Spinner size="size-4" />}
+                {isUrlTrusted === true && (
+                    <div title="This link is from a trusted source">
+                        <Icon type="success" size="size-4" />
+                    </div>
+                )}
+                {isUrlTrusted === false && (
+                    <div title="This link could not be verified, make sure it is from a trusted source">
+                        <Icon type="alert" size="size-4" />
+                    </div>
+                )}
+            </>
+        )
     )
 }
 
@@ -215,7 +265,7 @@ function Ratings({ rating, handleRatingChange }: RatingsProps) {
         <div className="flex flex-col items-center justify-center">
             <RatingStarsInteractive
                 rating={rating}
-                size="normal"
+                size="size-8"
                 handleChange={handleRatingChange}
             />
         </div>

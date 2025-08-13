@@ -19,7 +19,7 @@ export default function Review({ review }: Props) {
             <div id="review-content" className="flex flex-col pt-2 gap-y-1">
                 <div className="flex gap-x-2 items-center">
                     <div>
-                        <RatingStars rating={review.rating} size="small" />
+                        <RatingStars rating={review.rating} size="size-3.5" />
                     </div>
                     <div className="text-gray-500">
                         {getRelativeTime(review.experienceDate)}

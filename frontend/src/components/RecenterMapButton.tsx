@@ -42,7 +42,7 @@ export default function RecenterMapButton({
                 text-stone-900 bg-white rounded-xs hover:bg-gray-100
                 disabled:text-stone-300 disabled:bg-neutral-100 disabled:cursor-default"
             >
-                <Icon type="location" size={4} />
+                <Icon type="location" size="size-4" />
             </button>
         </CustomControl>
     )
