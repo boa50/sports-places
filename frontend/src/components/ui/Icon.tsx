@@ -47,7 +47,7 @@ const iconsData = {
         ],
         strokeWidth: '1',
     },
-    // https://www.svgrepo.com/svg/507146/alert-triangle
+    // https://www.svgrepo.com/svg/372095/success-standard
     success: {
         viewBox: '0 0 36 36',
         path: [
