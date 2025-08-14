@@ -9,21 +9,9 @@ import { routeTree } from './routeTree.gen.ts'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { initializeAuth } from './auth'
 
-// Firebase Auth Config
-const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-}
-
-const app = initializeApp(firebaseConfig)
-getAuth(app)
+initializeAuth()
 
 const queryClient = new QueryClient()
 
