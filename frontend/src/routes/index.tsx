@@ -6,6 +6,7 @@ import Map from '@/components/Map'
 import SidePanel from '@/components/SidePanel'
 import ReviewWrite from '@/components/ReviewWrite'
 import AlertScreen from '@/components/AlertScreen'
+import LoginForm from '@/components/LoginForm'
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -16,6 +17,7 @@ function Index() {
     const [isLoading, setIsLoading] = useState(true)
     const [RenderedMap, setRenderedMap] = useState(<Map />)
     const [isShowWriteReview, setIsShowWriteReview] = useState(false)
+    const [isLoginFormOpen, setIsLoginFormOpen] = useState(true)
 
     // Check if mobile on mount and resize
     useEffect(() => {
@@ -74,6 +76,10 @@ function Index() {
                 showWriteReview={() => {
                     setIsShowWriteReview(true)
                 }}
+            />
+            <LoginForm
+                isFormOpen={isLoginFormOpen}
+                closeForm={() => setIsLoginFormOpen(false)}
             />
             {RenderedMap}
             {state.isAlertScreenVisible && (
