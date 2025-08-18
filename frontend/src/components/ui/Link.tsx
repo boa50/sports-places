@@ -1,15 +1,16 @@
 interface Props {
     title: string
     url: string
+    isOpenNewTab?: boolean
 }
 
-export function Link({ title, url }: Props) {
+export function Link({ title, url, isOpenNewTab = false }: Props) {
     return (
         <a
             href={url}
-            target="_blank"
+            target={isOpenNewTab ? '_blank' : '_top'}
             className="text-sm font-medium text-sky-700 hover:underline"
-            title={title}
+            title={url}
         >
             {title}
         </a>

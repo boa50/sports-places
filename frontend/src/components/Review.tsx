@@ -1,4 +1,4 @@
-import { Icon, RatingStars } from './ui'
+import { Icon, RatingStars, Link } from './ui'
 import { getRelativeTime } from '@/utils'
 import type { Review } from '@/types'
 
@@ -26,14 +26,11 @@ export default function Review({ review }: Props) {
                 </div>
                 {review.routeLink && (
                     <div className="flex gap-x-2 items-center">
-                        <a
-                            href={review.routeLink}
-                            target="_blank"
-                            className="font-medium text-sky-700 hover:underline"
-                            title={review.routeLink}
-                        >
-                            Route link
-                        </a>
+                        <Link
+                            title="Route link"
+                            url={review.routeLink}
+                            isOpenNewTab={true}
+                        />
                         {!review.routeLinkTrusted && (
                             <div
                                 title="This link could not be verified, check the url before clicking on it"
