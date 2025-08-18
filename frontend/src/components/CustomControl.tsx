@@ -10,6 +10,12 @@ interface Props {
     children?: ReactElement
     childrenState?: any
     clearDefaultClass?: boolean
+    customMargins?: {
+        top?: string
+        right?: string
+        bottom?: string
+        left?: string
+    }
 }
 
 export default function CustomControl({
@@ -17,6 +23,7 @@ export default function CustomControl({
     children,
     childrenState = undefined,
     clearDefaultClass = true,
+    customMargins = {},
 }: Props) {
     const map = useMap()
 
@@ -28,6 +35,16 @@ export default function CustomControl({
         )
         // Prevent map clicks when interacting with the control
         L.DomEvent.disableClickPropagation(container)
+
+        // Setting custom margins
+        if (customMargins.top !== undefined)
+            container.style.marginTop = customMargins.top
+        if (customMargins.right !== undefined)
+            container.style.marginRight = customMargins.right
+        if (customMargins.bottom !== undefined)
+            container.style.marginBottom = customMargins.bottom
+        if (customMargins.left !== undefined)
+            container.style.marginLeft = customMargins.left
 
         // 2. Tell React to render the children component inside that container
         const root = createRoot(container)

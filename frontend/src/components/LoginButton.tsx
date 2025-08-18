@@ -6,7 +6,11 @@ export default function LoginButton() {
     const { dispatch } = useAppContext()
 
     return (
-        <CustomControl position="topright" clearDefaultClass={false}>
+        <CustomControl
+            position="topright"
+            clearDefaultClass={false}
+            customMargins={{ right: '36px', top: '12px' }}
+        >
             <Button
                 title="Sign in"
                 onClick={() => dispatch({ type: 'SHOW_LOGIN_FORM' })}
