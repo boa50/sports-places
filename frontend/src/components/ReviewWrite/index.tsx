@@ -3,9 +3,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createReview } from '@/api'
 import { useAppContext } from '@/contexts/AppContext'
 import { defaults } from '../defaults'
+import { FormModal } from '../ui'
 import type { Place } from '@/types'
 
-import Header from './Header'
 import ReviewContent from './Content'
 import Buttons from './Buttons'
 
@@ -107,45 +107,28 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     }
 
     return (
-        isShow && (
-            <div className="fixed z-1500 flex items-center justify-center bg-gray-900/30 w-screen h-screen">
-                <div
-                    id="crud-modal"
-                    aria-hidden="true"
-                    className="z-1000 overflow-y-auto overflow-x-hidden flex top-0 right-0 left-0 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-                >
-                    <div className="relative p-4 w-full max-w-md max-h-full">
-                        <div className="relative bg-white rounded-lg shadow-sm p-4">
-                            <Header />
-                            <form
-                                className="flex flex-col gap-4 mt-1"
-                                onSubmit={handlePost}
-                            >
-                                <ReviewContent
-                                    experienceDate={experienceDate}
-                                    handleExperienceDateChange={
-                                        handleExperienceDateChange
-                                    }
-                                    rating={rating}
-                                    handleRatingChange={handleRatingChange}
-                                    routeLink={routeLink}
-                                    handleRouteLinkChange={
-                                        handleRouteLinkChange
-                                    }
-                                    routeLinkMaxLength={routeLinkMaxLength}
-                                />
-                                <Buttons
-                                    handleCancel={handleCancel}
-                                    isPostDisabled={
-                                        rating === 0 ||
-                                        routeLink.length > routeLinkMaxLength
-                                    }
-                                />
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
+        <FormModal
+            title="Write a review"
+            isModalOpen={isShow}
+            closeModal={handleCancel}
+        >
+            <form className="flex flex-col gap-4 mt-1" onSubmit={handlePost}>
+                <ReviewContent
+                    experienceDate={experienceDate}
+                    handleExperienceDateChange={handleExperienceDateChange}
+                    rating={rating}
+                    handleRatingChange={handleRatingChange}
+                    routeLink={routeLink}
+                    handleRouteLinkChange={handleRouteLinkChange}
+                    routeLinkMaxLength={routeLinkMaxLength}
+                />
+                <Buttons
+                    handleCancel={handleCancel}
+                    isPostDisabled={
+                        rating === 0 || routeLink.length > routeLinkMaxLength
+                    }
+                />
+            </form>
+        </FormModal>
     )
 }

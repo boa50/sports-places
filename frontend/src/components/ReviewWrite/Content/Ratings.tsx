@@ -7,10 +7,10 @@ interface Props {
 
 export default function Ratings({ rating, handleRatingChange }: Props) {
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center mb-2">
             <RatingStarsInteractive
                 rating={rating}
-                size="size-8"
+                size="size-10"
                 handleChange={handleRatingChange}
             />
         </div>

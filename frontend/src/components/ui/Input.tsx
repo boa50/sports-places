@@ -7,6 +7,8 @@ interface Props {
     hint?: string
     placeholder?: string
     isFullWidth?: boolean
+    maxValue?: any
+    isSameLine?: boolean
 }
 
 export function Input({
@@ -18,13 +20,18 @@ export function Input({
     hint,
     placeholder = '',
     isFullWidth = false,
+    maxValue,
+    isSameLine = false,
 }: Props) {
     return (
-        <div>
-            <label
-                htmlFor={id}
-                className="block mb-2 text-sm font-medium text-gray-900"
-            >
+        <div
+            className={
+                isSameLine
+                    ? 'flex gap-2 justify-start items-center'
+                    : 'flex flex-col gap-2'
+            }
+        >
+            <label htmlFor={id} className={`text-sm font-medium text-gray-900`}>
                 {label}
             </label>
             <input
@@ -39,6 +46,7 @@ export function Input({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                max={maxValue}
             />
         </div>
     )
