@@ -1,20 +1,17 @@
 import { useState } from 'react'
+import { useAppContext } from '@/contexts/AppContext'
 import { Button, FormModal, Input, Link } from './ui'
 
-interface Props {
-    isFormOpen: boolean
-    closeForm: () => void
-}
-
-export default function LoginForm({ isFormOpen, closeForm }: Props) {
+export default function LoginForm() {
+    const { state, dispatch } = useAppContext()
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
     return (
         <FormModal
             title="Sign in to your account"
-            isModalOpen={isFormOpen}
-            closeModal={closeForm}
+            isModalOpen={state.isLoginFormOpen}
+            closeModal={() => dispatch({ type: 'HIDE_LOGIN_FORM' })}
         >
             <form className="space-y-6" action="#">
                 <Input
@@ -42,9 +39,9 @@ export default function LoginForm({ isFormOpen, closeForm }: Props) {
                 </div>
                 <Button title="Sign in" width="w-full" isSubmit={true} />
                 <div className="flex gap-1">
-                    <p className="text-sm font-light text-gray-900">
+                    <span className="text-sm font-light text-gray-900">
                         Don’t have an account yet?
-                    </p>
+                    </span>
                     <Link title="Sign up" url="#" />
                 </div>
             </form>

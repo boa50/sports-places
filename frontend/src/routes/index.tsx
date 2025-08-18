@@ -17,7 +17,6 @@ function Index() {
     const [isLoading, setIsLoading] = useState(true)
     const [RenderedMap, setRenderedMap] = useState(<Map />)
     const [isShowWriteReview, setIsShowWriteReview] = useState(false)
-    const [isLoginFormOpen, setIsLoginFormOpen] = useState(true)
 
     // Check if mobile on mount and resize
     useEffect(() => {
@@ -77,10 +76,7 @@ function Index() {
                     setIsShowWriteReview(true)
                 }}
             />
-            <LoginForm
-                isFormOpen={isLoginFormOpen}
-                closeForm={() => setIsLoginFormOpen(false)}
-            />
+            <LoginForm />
             {RenderedMap}
             {state.isAlertScreenVisible && (
                 <AlertScreen

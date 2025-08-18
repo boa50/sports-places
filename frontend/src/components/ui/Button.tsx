@@ -4,6 +4,7 @@ interface Props {
     isDisabled?: boolean
     isSubmit?: boolean
     isSecondary?: boolean
+    onClick?: () => void
 }
 
 export function Button({
@@ -12,6 +13,7 @@ export function Button({
     isDisabled = false,
     isSubmit = false,
     isSecondary = false,
+    onClick,
 }: Props) {
     const btnClass = `${width} cursor-pointer font-medium rounded-lg text-sm p-2.5 focus:outline-none ${
         isSecondary
@@ -27,6 +29,7 @@ export function Button({
             title={title}
             className={btnClass}
             disabled={isDisabled}
+            onClick={onClick}
         >
             {title}
         </button>

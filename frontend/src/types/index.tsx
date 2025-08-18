@@ -25,6 +25,7 @@ export type AppState = {
     isShowNewPlaceMarker: boolean
     isAlertScreenVisible: boolean
     alertScreen: AlertScreen
+    isLoginFormOpen: boolean
 }
 
 export type AppAction =
@@ -37,3 +38,5 @@ export type AppAction =
     | { type: 'HIDE_NEW_PLACE_MARKER' }
     | { type: 'SHOW_ALERT_SCREEN'; payload: AlertScreen }
     | { type: 'HIDE_ALERT_SCREEN' }
+    | { type: 'SHOW_LOGIN_FORM' }
+    | { type: 'HIDE_LOGIN_FORM' }

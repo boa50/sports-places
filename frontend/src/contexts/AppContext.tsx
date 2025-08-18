@@ -9,6 +9,7 @@ const initialState: AppState = {
     isShowNewPlaceMarker: true,
     isAlertScreenVisible: false,
     alertScreen: { message: '', type: 'info' },
+    isLoginFormOpen: false,
 }
 
 const appReducer = (state: AppState, action: AppAction): AppState => {
@@ -59,6 +60,16 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
                 ...state,
                 isAlertScreenVisible: false,
                 alertScreen: { message: '', type: 'info' },
+            }
+        case 'SHOW_LOGIN_FORM':
+            return {
+                ...state,
+                isLoginFormOpen: true,
+            }
+        case 'HIDE_LOGIN_FORM':
+            return {
+                ...state,
+                isLoginFormOpen: false,
             }
         default:
             return state

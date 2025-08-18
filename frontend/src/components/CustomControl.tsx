@@ -9,18 +9,23 @@ interface Props {
     position: ControlPosition
     children?: ReactElement
     childrenState?: any
+    clearDefaultClass?: boolean
 }
 
 export default function CustomControl({
     position = 'topright',
     children,
     childrenState = undefined,
+    clearDefaultClass = true,
 }: Props) {
     const map = useMap()
 
     useEffect(() => {
         // 1. Prepare an empty container <div> for React to render into
-        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control')
+        const container = L.DomUtil.create(
+            'div',
+            clearDefaultClass ? 'leaflet-bar leaflet-control' : ''
+        )
         // Prevent map clicks when interacting with the control
         L.DomEvent.disableClickPropagation(container)
 
