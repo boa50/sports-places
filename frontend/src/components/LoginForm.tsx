@@ -7,11 +7,17 @@ export default function LoginForm() {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
+    const handleCloseModal = () => {
+        dispatch({ type: 'HIDE_LOGIN_FORM' })
+        setEmail('')
+        setPassword('')
+    }
+
     return (
         <FormModal
             title="Sign in to your account"
             isModalOpen={state.isLoginFormOpen}
-            closeModal={() => dispatch({ type: 'HIDE_LOGIN_FORM' })}
+            closeModal={handleCloseModal}
         >
             <form className="space-y-6" action="#">
                 <Input
