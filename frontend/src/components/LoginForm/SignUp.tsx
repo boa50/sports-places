@@ -22,7 +22,6 @@ export default function SignUpForm({
 
     const handleSignUp = (email: string, password: string) => {
         setIsProcessing(true)
-
         createUserWithEmail(email, password, setErrorMessage, setIsProcessing)
     }
 

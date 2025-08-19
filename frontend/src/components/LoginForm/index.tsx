@@ -65,6 +65,7 @@ export default function LoginForm() {
                     password={password}
                     setPassword={setPassword}
                     setScreen={setScreen}
+                    setErrorMessage={setErrorMessage}
                 />
             )}
             {screen === 'signUp' && (

@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { signInWithEmail } from '@/auth'
+import ProcessingButton from './ProcessingButton'
 import { Button, Input, Link } from '../ui'
 
 interface Props {
@@ -8,6 +11,7 @@ interface Props {
     setScreen: React.Dispatch<
         React.SetStateAction<'signIn' | 'signUp' | 'forgotPassword'>
     >
+    setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
 export default function SignInForm({
@@ -16,9 +20,20 @@ export default function SignInForm({
     password,
     setPassword,
     setScreen,
+    setErrorMessage,
 }: Props) {
+    const [isProcessing, setIsProcessing] = useState<boolean>(false)
+
+    const handleSignUp = (email: string, password: string) => {
+        setIsProcessing(true)
+        signInWithEmail(email, password, setErrorMessage, setIsProcessing)
+    }
+
     return (
-        <form className="space-y-6" action="#">
+        <form
+            className="space-y-6"
+            action={() => handleSignUp(email, password)}
+        >
             <Input
                 id="email"
                 label="Email"
@@ -28,6 +43,7 @@ export default function SignInForm({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 isFullWidth={true}
+                isDisabled={isProcessing}
             />
             <Input
                 id="password"
@@ -38,6 +54,7 @@ export default function SignInForm({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 isFullWidth={true}
+                isDisabled={isProcessing}
             />
             <div className="flex justify-end">
                 <Link
@@ -45,7 +62,11 @@ export default function SignInForm({
                     onClick={() => setScreen('forgotPassword')}
                 />
             </div>
-            <Button title="Sign In" width="w-full" isSubmit={true} />
+            {isProcessing ? (
+                <ProcessingButton width="w-full" />
+            ) : (
+                <Button title="Sign In" width="w-full" isSubmit={true} />
+            )}
             <div className="flex gap-1">
                 <span className="text-sm font-light text-gray-900">
                     Don’t have an account yet?
