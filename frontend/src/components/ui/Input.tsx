@@ -9,6 +9,7 @@ interface Props {
     isFullWidth?: boolean
     maxValue?: any
     isSameLine?: boolean
+    isDisabled?: boolean
 }
 
 export function Input({
@@ -22,6 +23,7 @@ export function Input({
     isFullWidth = false,
     maxValue,
     isSameLine = false,
+    isDisabled = false,
 }: Props) {
     return (
         <div
@@ -31,7 +33,10 @@ export function Input({
                     : 'flex flex-col gap-2'
             }
         >
-            <label htmlFor={id} className={`text-sm font-medium text-gray-900`}>
+            <label
+                htmlFor={id}
+                className={`text-sm font-medium ${isDisabled ? 'text-gray-500' : 'text-gray-900'}`}
+            >
                 {label}
             </label>
             <input
@@ -42,11 +47,13 @@ export function Input({
                 className={`bg-gray-50 border border-gray-300 rounded-lg p-2.5 text-sm text-gray-900
                         focus:outline focus:outline-sky-600 focus:border-sky-600 
                         invalid:border-red-700 
+                        disabled:text-gray-500 disabled:bg-gray-200
                         ${isFullWidth && ' w-full '}`}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
                 max={maxValue}
+                disabled={isDisabled}
             />
         </div>
     )

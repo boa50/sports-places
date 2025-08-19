@@ -4,21 +4,39 @@ import {
     signInWithEmailAndPassword,
 } from 'firebase/auth'
 
-export function createUserWithEmail(email: string, password: string) {
+export function createUserWithEmail(
+    email: string,
+    password: string,
+    setErrorMessage?: (message: string) => void,
+    setIsProcessing?: (status: boolean) => void
+) {
     const auth = getAuth()
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed up
-            const user = userCredential.user
-            console.log('User created with success')
-            // ...
+            console.log('User Created', userCredential.user)
         })
         .catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            console.log('Error creating a new user')
-            // ..
+            if (setErrorMessage !== undefined)
+                switch (error.code) {
+                    case 'auth/weak-password':
+                        setErrorMessage(
+                            'The password should have at least 6 characters'
+                        )
+                        break
+                    case 'auth/email-already-in-use':
+                        setErrorMessage('Email already in use')
+                        break
+
+                    default:
+                        setErrorMessage(
+                            'An error occurred while creatin an account, try again later'
+                        )
+                        break
+                }
+        })
+        .finally(() => {
+            if (setIsProcessing !== undefined) setIsProcessing(false)
         })
 }
 
