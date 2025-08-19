@@ -26,6 +26,10 @@ export default function LoginForm() {
     }
 
     useEffect(() => {
+        setErrorMessage(undefined)
+    }, [email, password])
+
+    useEffect(() => {
         resetFields()
 
         switch (screen) {
