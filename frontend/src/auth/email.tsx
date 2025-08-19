@@ -2,6 +2,7 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    sendPasswordResetEmail,
 } from 'firebase/auth'
 
 export function createUserWithEmail(
@@ -13,7 +14,7 @@ export function createUserWithEmail(
     const auth = getAuth()
 
     createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {})
+        .then(() => {})
         .catch((error) => {
             if (setErrorMessage !== undefined)
                 switch (error.code) {
@@ -46,7 +47,7 @@ export function signInWithEmail(
     const auth = getAuth()
 
     signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {})
+        .then(() => {})
         .catch((error) => {
             if (setErrorMessage !== undefined)
                 switch (error.code) {
@@ -59,6 +60,30 @@ export function signInWithEmail(
                         )
                         break
                 }
+        })
+        .finally(() => {
+            if (setIsProcessing !== undefined) setIsProcessing(false)
+        })
+}
+
+export function resetPassword(
+    email: string,
+    setSuccessMessage?: (message: string) => void,
+    setErrorMessage?: (message: string) => void,
+    setIsProcessing?: (status: boolean) => void
+) {
+    const auth = getAuth()
+
+    sendPasswordResetEmail(auth, email)
+        .then(() => {
+            if (setSuccessMessage !== undefined)
+                setSuccessMessage('Password reset email sent')
+        })
+        .catch(() => {
+            if (setErrorMessage !== undefined)
+                setErrorMessage(
+                    'An error occurred while processing the request, try again later'
+                )
         })
         .finally(() => {
             if (setIsProcessing !== undefined) setIsProcessing(false)

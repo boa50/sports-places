@@ -10,6 +10,7 @@ export default function LoginForm() {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [errorMessage, setErrorMessage] = useState<string | undefined>()
+    const [successMessage, setSuccessMessage] = useState<string | undefined>()
     const [screen, setScreen] = useState<
         'signIn' | 'signUp' | 'forgotPassword'
     >('signIn')
@@ -21,6 +22,7 @@ export default function LoginForm() {
         setEmail('')
         setPassword('')
         setErrorMessage(undefined)
+        setSuccessMessage(undefined)
     }
 
     useEffect(() => {
@@ -55,8 +57,10 @@ export default function LoginForm() {
             isModalOpen={state.isLoginFormOpen}
             closeModal={handleCloseModal}
         >
-            <div className="flex justify-center w-full text-xs text-red-700 min-h-4">
-                {errorMessage}
+            <div
+                className={`flex justify-center w-full text-xs min-h-4 ${errorMessage !== undefined ? 'text-red-700' : 'text-sky-700'}`}
+            >
+                {errorMessage} {successMessage}
             </div>
             {screen === 'signIn' && (
                 <SignInForm
@@ -78,7 +82,13 @@ export default function LoginForm() {
                 />
             )}
             {screen === 'forgotPassword' && (
-                <ForgotPasswordForm email={email} setEmail={setEmail} />
+                <ForgotPasswordForm
+                    email={email}
+                    setEmail={setEmail}
+                    setErrorMessage={setErrorMessage}
+                    successMessage={successMessage}
+                    setSuccessMessage={setSuccessMessage}
+                />
             )}
         </FormModal>
     )
