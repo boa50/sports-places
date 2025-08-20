@@ -69,17 +69,23 @@ interface ContentProps {
 }
 
 function Content({ state, showWriteReview }: ContentProps) {
+    const writeReviewHint = state.isUserSignedIn
+        ? 'Write a review'
+        : 'Please sign in before writing a review'
+
     return (
         <div className="flex-1 overflow-y-auto">
             <div className="py-4 flex flex-col border-b border-b-gray-200 items-center gap-4">
                 <PlaceRating />
                 <button
                     type="button"
-                    aria-label="Write a review"
-                    title="Write a review"
+                    aria-label={writeReviewHint}
+                    title={writeReviewHint}
                     className="cursor-pointer font-medium rounded-lg text-sm p-2.5 focus:outline-none
-                    text-sky-800 bg-sky-400/20 hover:bg-sky-400/50"
+                    text-sky-800 bg-sky-400/20 hover:bg-sky-400/50
+                    disabled:text-gray-100 disabled:bg-gray-400 disabled:cursor-default"
                     onClick={showWriteReview}
+                    disabled={!state.isUserSignedIn}
                 >
                     <div className="flex items-center gap-1">
                         <Icon type="review" size="size-4" filled="none" />

@@ -17,6 +17,7 @@ import PlacesMarkers from './PlacesMarkers'
 import type { LatLng } from 'leaflet'
 import type { Place } from '@/types'
 import LoginButton from './LoginButton'
+import { SignOutButton } from '@/components/LoginButton'
 
 function ClickHandler({
     onMapClick,
@@ -120,6 +121,7 @@ function MapComponents() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <LoginButton />
+            <SignOutButton />
             <ScaleControl
                 position="bottomright"
                 metric={true}

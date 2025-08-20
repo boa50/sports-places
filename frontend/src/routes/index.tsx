@@ -7,6 +7,7 @@ import SidePanel from '@/components/SidePanel'
 import ReviewWrite from '@/components/ReviewWrite'
 import AlertScreen from '@/components/AlertScreen'
 import LoginForm from '@/components/LoginForm'
+import { onUserStateChanged } from '@/auth'
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -17,6 +18,11 @@ function Index() {
     const [isLoading, setIsLoading] = useState(true)
     const [RenderedMap, setRenderedMap] = useState(<Map />)
     const [isShowWriteReview, setIsShowWriteReview] = useState(false)
+
+    useEffect(() => {
+        const userObserver = onUserStateChanged(dispatch)
+        return () => userObserver()
+    }, [])
 
     // Check if mobile on mount and resize
     useEffect(() => {
