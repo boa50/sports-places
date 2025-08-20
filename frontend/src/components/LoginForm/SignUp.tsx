@@ -28,10 +28,13 @@ export default function SignUpForm({
     }, [passwordConfirmation])
 
     const handleSignUp = (
+        event: React.FormEvent<HTMLFormElement>,
         email: string,
         password: string,
         passwordConfirmation: string
     ) => {
+        event.preventDefault()
+
         if (password === passwordConfirmation) {
             setIsProcessing(true)
             createUserWithEmail(
@@ -48,7 +51,9 @@ export default function SignUpForm({
     return (
         <form
             className="space-y-6"
-            action={() => handleSignUp(email, password, passwordConfirmation)}
+            onSubmit={(e) =>
+                handleSignUp(e, email, password, passwordConfirmation)
+            }
         >
             <Input
                 id="email"

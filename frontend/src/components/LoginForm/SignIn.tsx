@@ -24,7 +24,13 @@ export default function SignInForm({
 }: Props) {
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
 
-    const handleSignUp = (email: string, password: string) => {
+    const handleSignUp = (
+        event: React.FormEvent<HTMLFormElement>,
+        email: string,
+        password: string
+    ) => {
+        event.preventDefault()
+
         setIsProcessing(true)
         signInWithEmail(email, password, setErrorMessage, setIsProcessing)
     }
@@ -32,7 +38,7 @@ export default function SignInForm({
     return (
         <form
             className="space-y-6"
-            action={() => handleSignUp(email, password)}
+            onSubmit={(e) => handleSignUp(e, email, password)}
         >
             <Input
                 id="email"

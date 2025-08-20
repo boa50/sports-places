@@ -20,7 +20,12 @@ export default function ForgotPasswordForm({
 }: Props) {
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
 
-    const handlePasswordReset = (email: string) => {
+    const handlePasswordReset = (
+        event: React.FormEvent<HTMLFormElement>,
+        email: string
+    ) => {
+        event.preventDefault()
+
         setIsProcessing(true)
         resetPassword(
             email,
@@ -31,7 +36,10 @@ export default function ForgotPasswordForm({
     }
 
     return (
-        <form className="space-y-6" action={() => handlePasswordReset(email)}>
+        <form
+            className="space-y-6"
+            onSubmit={(e) => handlePasswordReset(e, email)}
+        >
             <Input
                 id="email"
                 label="Email"
