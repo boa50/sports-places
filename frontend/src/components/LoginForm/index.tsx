@@ -82,6 +82,7 @@ export default function LoginForm() {
                     setEmail={setEmail}
                     password={password}
                     setPassword={setPassword}
+                    errorMessage={errorMessage}
                     setErrorMessage={setErrorMessage}
                 />
             )}

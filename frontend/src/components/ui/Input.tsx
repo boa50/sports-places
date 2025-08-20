@@ -10,6 +10,7 @@ interface Props {
     maxValue?: any
     isSameLine?: boolean
     isDisabled?: boolean
+    isCustomIvalidity?: boolean
 }
 
 export function Input({
@@ -24,6 +25,7 @@ export function Input({
     maxValue,
     isSameLine = false,
     isDisabled = false,
+    isCustomIvalidity = false,
 }: Props) {
     return (
         <div
@@ -44,10 +46,11 @@ export function Input({
                 name={id}
                 id={id}
                 title={hint ?? `Fill the ${label}`}
-                className={`bg-gray-50 border border-gray-300 rounded-lg p-2.5 text-sm text-gray-900
+                className={`bg-gray-50 border rounded-lg p-2.5 text-sm text-gray-900
                         focus:outline focus:outline-sky-600 focus:border-sky-600 
                         invalid:border-red-700 
                         disabled:text-gray-500 disabled:bg-gray-200
+                        ${isCustomIvalidity ? 'border-red-700' : 'border-gray-300'}
                         ${isFullWidth && ' w-full '}`}
                 placeholder={placeholder}
                 value={value}

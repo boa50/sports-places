@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createUserWithEmail } from '@/auth'
 import ProcessingButton from './ProcessingButton'
 import { Button, Input } from '../ui'
@@ -8,6 +8,7 @@ interface Props {
     setEmail: React.Dispatch<React.SetStateAction<string>>
     password: string
     setPassword: React.Dispatch<React.SetStateAction<string>>
+    errorMessage: string | undefined
     setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
@@ -16,19 +17,38 @@ export default function SignUpForm({
     setEmail,
     password,
     setPassword,
+    errorMessage,
     setErrorMessage,
 }: Props) {
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
+    const [passwordConfirmation, setPasswordConfirmation] = useState<string>('')
 
-    const handleSignUp = (email: string, password: string) => {
-        setIsProcessing(true)
-        createUserWithEmail(email, password, setErrorMessage, setIsProcessing)
+    useEffect(() => {
+        setErrorMessage(undefined)
+    }, [passwordConfirmation])
+
+    const handleSignUp = (
+        email: string,
+        password: string,
+        passwordConfirmation: string
+    ) => {
+        if (password === passwordConfirmation) {
+            setIsProcessing(true)
+            createUserWithEmail(
+                email,
+                password,
+                setErrorMessage,
+                setIsProcessing
+            )
+        } else {
+            setErrorMessage("Passwords don't match")
+        }
     }
 
     return (
         <form
             className="space-y-6"
-            action={() => handleSignUp(email, password)}
+            action={() => handleSignUp(email, password, passwordConfirmation)}
         >
             <Input
                 id="email"
@@ -51,6 +71,25 @@ export default function SignUpForm({
                 onChange={(e) => setPassword(e.target.value)}
                 isFullWidth={true}
                 isDisabled={isProcessing}
+                isCustomIvalidity={
+                    errorMessage !== undefined &&
+                    password !== passwordConfirmation
+                }
+            />
+            <Input
+                id="password-confirmation"
+                label="Repeat your password"
+                type="password"
+                placeholder="••••••••"
+                hint="Repeat your password"
+                value={passwordConfirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                isFullWidth={true}
+                isDisabled={isProcessing}
+                isCustomIvalidity={
+                    errorMessage !== undefined &&
+                    password !== passwordConfirmation
+                }
             />
             {isProcessing ? (
                 <ProcessingButton width="w-full" />
