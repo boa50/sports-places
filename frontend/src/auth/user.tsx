@@ -6,12 +6,13 @@ export function onUserStateChanged(dispatch: React.Dispatch<AppAction>) {
 
     return onAuthStateChanged(auth, (user) => {
         if (user) {
-            const uid = user.uid
-            console.log('user signed in ', uid, user.displayName)
-            dispatch({ type: 'SET_USER_SIGNED_IN', payload: true })
-            dispatch({ type: 'HIDE_LOGIN_FORM' })
+            if (user.emailVerified) {
+                dispatch({ type: 'SET_USER_SIGNED_IN', payload: true })
+                dispatch({ type: 'HIDE_LOGIN_FORM' })
+            } else {
+                signOut(auth)
+            }
         } else {
-            console.log('user signed out')
             dispatch({ type: 'SET_USER_SIGNED_IN', payload: false })
         }
     })

@@ -10,6 +10,8 @@ interface Props {
     setPassword: React.Dispatch<React.SetStateAction<string>>
     errorMessage: string | undefined
     setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>
+    successMessage: string | undefined
+    setSuccessMessage: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
 export default function SignUpForm({
@@ -19,6 +21,8 @@ export default function SignUpForm({
     setPassword,
     errorMessage,
     setErrorMessage,
+    successMessage,
+    setSuccessMessage,
 }: Props) {
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
     const [passwordConfirmation, setPasswordConfirmation] = useState<string>('')
@@ -41,6 +45,7 @@ export default function SignUpForm({
                 email,
                 password,
                 setErrorMessage,
+                setSuccessMessage,
                 setIsProcessing
             )
         } else {
@@ -64,7 +69,7 @@ export default function SignUpForm({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 isFullWidth={true}
-                isDisabled={isProcessing}
+                isDisabled={isProcessing || successMessage !== undefined}
             />
             <Input
                 id="password"
@@ -75,7 +80,7 @@ export default function SignUpForm({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 isFullWidth={true}
-                isDisabled={isProcessing}
+                isDisabled={isProcessing || successMessage !== undefined}
                 isCustomIvalidity={
                     errorMessage !== undefined &&
                     password !== passwordConfirmation
@@ -90,7 +95,7 @@ export default function SignUpForm({
                 value={passwordConfirmation}
                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                 isFullWidth={true}
-                isDisabled={isProcessing}
+                isDisabled={isProcessing || successMessage !== undefined}
                 isCustomIvalidity={
                     errorMessage !== undefined &&
                     password !== passwordConfirmation
@@ -99,7 +104,12 @@ export default function SignUpForm({
             {isProcessing ? (
                 <ProcessingButton width="w-full" />
             ) : (
-                <Button title="Sign Up" width="w-full" isSubmit={true} />
+                <Button
+                    title="Sign Up"
+                    width="w-full"
+                    isSubmit={true}
+                    isDisabled={successMessage !== undefined}
+                />
             )}
         </form>
     )

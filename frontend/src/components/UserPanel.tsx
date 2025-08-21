@@ -19,7 +19,7 @@ export default function UserPanel() {
                 action={() => dispatch({ type: 'HIDE_USER_PANEL' })}
             >
                 <div className="absolute right-0 top-0 z-1000 w-fit h-fit mr-8 mt-18">
-                    <div className="flex flex-col bg-gray-200 px-8 py-4 gap-6 w-xs rounded-xl shadow-sm/30">
+                    <div className="flex flex-col bg-gray-200 p-4 gap-6 w-xs rounded-xl shadow-sm/30">
                         <div className="flex flex-col items-center gap-2">
                             <div className="flex w-full justify-between">
                                 <div className="size-6"></div>

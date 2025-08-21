@@ -3,18 +3,27 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
+    sendEmailVerification,
 } from 'firebase/auth'
 
 export function createUserWithEmail(
     email: string,
     password: string,
     setErrorMessage?: (message: string) => void,
+    setSuccessMessage?: (message: string) => void,
     setIsProcessing?: (status: boolean) => void
 ) {
     const auth = getAuth()
 
     createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {})
+        .then((userCredential) => {
+            sendEmailVerification(userCredential.user)
+
+            if (setSuccessMessage !== undefined)
+                setSuccessMessage(
+                    'Email verification sent. Please check your inbox'
+                )
+        })
         .catch((error) => {
             if (setErrorMessage !== undefined)
                 switch (error.code) {
@@ -38,7 +47,7 @@ export function createUserWithEmail(
         })
 }
 
-export function signInWithEmail(
+export async function signInWithEmail(
     email: string,
     password: string,
     setErrorMessage?: (message: string) => void,
@@ -47,7 +56,14 @@ export function signInWithEmail(
     const auth = getAuth()
 
     signInWithEmailAndPassword(auth, email, password)
-        .then(() => {})
+        .then((userCredential) => {
+            if (!userCredential.user.emailVerified) {
+                if (setErrorMessage !== undefined)
+                    setErrorMessage(
+                        'Email not verified yet. Please check your inbox'
+                    )
+            }
+        })
         .catch((error) => {
             if (setErrorMessage !== undefined)
                 switch (error.code) {

@@ -84,6 +84,8 @@ export default function LoginForm() {
                     setPassword={setPassword}
                     errorMessage={errorMessage}
                     setErrorMessage={setErrorMessage}
+                    successMessage={successMessage}
+                    setSuccessMessage={setSuccessMessage}
                 />
             )}
             {screen === 'forgotPassword' && (
