@@ -10,7 +10,8 @@ const initialState: AppState = {
     isAlertScreenVisible: false,
     alertScreen: { message: '', type: 'info' },
     isLoginFormOpen: false,
-    isUserSignedIn: false,
+    isUserSignedIn: undefined,
+    isUserPanelOpen: false,
 }
 
 const appReducer = (state: AppState, action: AppAction): AppState => {
@@ -76,6 +77,16 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
             return {
                 ...state,
                 isUserSignedIn: action.payload,
+            }
+        case 'SHOW_USER_PANEL':
+            return {
+                ...state,
+                isUserPanelOpen: true,
+            }
+        case 'HIDE_USER_PANEL':
+            return {
+                ...state,
+                isUserPanelOpen: false,
             }
         default:
             return state

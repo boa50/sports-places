@@ -8,6 +8,7 @@ import ReviewWrite from '@/components/ReviewWrite'
 import AlertScreen from '@/components/AlertScreen'
 import LoginForm from '@/components/LoginForm'
 import { onUserStateChanged } from '@/auth'
+import UserPanel from '@/components/UserPanel'
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -83,6 +84,7 @@ function Index() {
                 }}
             />
             <LoginForm />
+            <UserPanel />
             {RenderedMap}
             {state.isAlertScreenVisible && (
                 <AlertScreen

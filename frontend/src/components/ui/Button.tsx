@@ -1,3 +1,6 @@
+import { Icon } from './Icon'
+import type { Icons } from './Icon'
+
 interface Props {
     title: string
     width?: string
@@ -5,6 +8,7 @@ interface Props {
     isSubmit?: boolean
     isSecondary?: boolean
     onClick?: () => void
+    icon?: Icons
 }
 
 export function Button({
@@ -14,6 +18,7 @@ export function Button({
     isSubmit = false,
     isSecondary = false,
     onClick,
+    icon,
 }: Props) {
     const btnClass = `${width} cursor-pointer font-medium rounded-lg text-sm p-2.5 focus:outline-none ${
         isSecondary
@@ -31,7 +36,14 @@ export function Button({
             disabled={isDisabled}
             onClick={onClick}
         >
-            {title}
+            {icon !== undefined ? (
+                <div className="flex w-full justify-center items-center gap-1">
+                    <Icon type={icon} size="size-4" filled="none" />
+                    {title}
+                </div>
+            ) : (
+                title
+            )}
         </button>
     )
 }
