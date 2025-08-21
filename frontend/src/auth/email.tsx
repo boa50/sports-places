@@ -47,38 +47,18 @@ export function createUserWithEmail(
         })
 }
 
-export async function signInWithEmail(
-    email: string,
-    password: string,
-    setErrorMessage?: (message: string) => void,
-    setIsProcessing?: (status: boolean) => void
-) {
+export async function signInWithEmail(email: string, password: string) {
     const auth = getAuth()
 
-    signInWithEmailAndPassword(auth, email, password)
+    return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            if (!userCredential.user.emailVerified) {
-                if (setErrorMessage !== undefined)
-                    setErrorMessage(
-                        'Email not verified yet. Please check your inbox'
-                    )
-            }
+            if (!userCredential.user.emailVerified)
+                return { type: 'error', payload: 'auth/mail-unverified' }
+
+            return { type: 'success', payload: userCredential.user.uid }
         })
         .catch((error) => {
-            if (setErrorMessage !== undefined)
-                switch (error.code) {
-                    case 'auth/invalid-credential':
-                        setErrorMessage('Invalid email or password')
-                        break
-                    default:
-                        setErrorMessage(
-                            'An error occurred while signing in, try again later'
-                        )
-                        break
-                }
-        })
-        .finally(() => {
-            if (setIsProcessing !== undefined) setIsProcessing(false)
+            return { type: 'error', payload: error.code }
         })
 }
 

@@ -1,3 +1,9 @@
+export type User = {
+    userId: number
+    avatar: string
+    displayName: string
+}
+
 export type Place = {
     placeId: number
     lat: number

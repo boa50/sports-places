@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import queries.queries as qu
 import utils
-from classes import ReviewWrite, PlaceWrite
+from classes import ReviewWrite, PlaceWrite, UserWrite
 
 
 def get_places():
@@ -50,3 +50,9 @@ def create_review(review: ReviewWrite):
         return {"place_id": review.place_id, "is_new_place": is_new_place}
     else:
         return -1
+
+
+def create_user(user: UserWrite):
+    user_id = qu.insert_user(user)
+
+    return user_id

@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS users  (
     user_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_data INT
+    user_provider_id VARCHAR(40) NOT NULL,
+    avatar VARCHAR(10),
+    display_name VARCHAR(25)
 );
 
 CREATE TABLE IF NOT EXISTS places  (

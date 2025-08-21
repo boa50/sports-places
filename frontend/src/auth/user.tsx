@@ -8,7 +8,6 @@ export function onUserStateChanged(dispatch: React.Dispatch<AppAction>) {
         if (user) {
             if (user.emailVerified) {
                 dispatch({ type: 'SET_USER_SIGNED_IN', payload: true })
-                dispatch({ type: 'HIDE_LOGIN_FORM' })
             } else {
                 signOut(auth)
             }

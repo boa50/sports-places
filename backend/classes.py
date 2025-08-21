@@ -14,3 +14,9 @@ class ReviewWrite(BaseModel):
 class PlaceWrite(BaseModel):
     lat: float
     lng: float
+
+
+class UserWrite(BaseModel):
+    user_provider_id: str
+    avatar: str
+    display_name: str

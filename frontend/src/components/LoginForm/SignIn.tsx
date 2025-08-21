@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { useAppContext } from '@/contexts/AppContext'
 import { signInWithEmail } from '@/auth'
 import ProcessingButton from './ProcessingButton'
 import { Button, Input, Link } from '../ui'
+
+import { createUser } from '@/api'
+import { useMutation } from '@tanstack/react-query'
 
 interface Props {
     email: string
@@ -22,9 +26,32 @@ export default function SignInForm({
     setScreen,
     setErrorMessage,
 }: Props) {
+    const { dispatch } = useAppContext()
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
 
-    const handleSignUp = (
+    const createUserMutation = useMutation({
+        mutationFn: (user: {
+            userProviderId: string
+            avatar: string
+            displayName: string
+        }) => createUser(user.userProviderId, user.avatar, user.displayName),
+        onSuccess: (data: { user_id: number }) => {
+            console.log('User created with success', data.user_id)
+        },
+        onError: () => {
+            console.log('Error creating user')
+            // dispatch({
+            //     type: 'SHOW_ALERT_SCREEN',
+            //     payload: {
+            //         message: 'Error creating review',
+            //         type: 'error',
+            //         timeToHide: defaults.alertScreenTimeToHide,
+            //     },
+            // })
+        },
+    })
+
+    const handleSignIn = async (
         event: React.FormEvent<HTMLFormElement>,
         email: string,
         password: string
@@ -32,13 +59,40 @@ export default function SignInForm({
         event.preventDefault()
 
         setIsProcessing(true)
-        signInWithEmail(email, password, setErrorMessage, setIsProcessing)
+        const ret = await signInWithEmail(email, password)
+        setIsProcessing(false)
+
+        if (ret.type === 'success') {
+            createUserMutation.mutate({
+                userProviderId: 'yDdAIgdeULSi9b7L8dFeaSG3yUr2',
+                avatar: 'default',
+                displayName: 'Name',
+            })
+
+            dispatch({ type: 'HIDE_LOGIN_FORM' })
+        } else if (ret.type === 'error') {
+            switch (ret.payload) {
+                case 'auth/invalid-credential':
+                    setErrorMessage('Invalid email or password')
+                    break
+                case 'auth/mail-unverified':
+                    setErrorMessage(
+                        'Email not verified, please check your inbox'
+                    )
+                    break
+                default:
+                    setErrorMessage(
+                        'An error occurred while signing in, try again later'
+                    )
+                    break
+            }
+        }
     }
 
     return (
         <form
             className="space-y-6"
-            onSubmit={(e) => handleSignUp(e, email, password)}
+            onSubmit={(e) => handleSignIn(e, email, password)}
         >
             <Input
                 id="email"

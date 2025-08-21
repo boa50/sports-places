@@ -1,9 +1,9 @@
 -- USERS
-INSERT INTO users(user_data)
-VALUES (0);
+INSERT INTO users(user_provider_id, avatar, display_name)
+VALUES ('kajsdghkjas', 'default', 'Name 1');
 
-INSERT INTO users(user_data)
-VALUES (1);
+INSERT INTO users(user_provider_id, avatar, display_name)
+VALUES ('kajsdghkjax', 'default', 'Name 2');
 
 -- PLACES
 INSERT INTO places(lat, lng)
