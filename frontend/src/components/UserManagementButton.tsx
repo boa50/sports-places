@@ -1,5 +1,6 @@
 import { useAppContext } from '@/contexts/AppContext'
 import CustomControl from './CustomControl'
+import UserAvatar from './UserAvatar'
 import { Button, Icon } from './ui'
 
 export default function UserManagementButton() {
@@ -43,10 +44,10 @@ function UserButton({ showUserPanel }: UserButtonProps) {
         <button
             title="User"
             aria-label="User"
-            className="bg-gray-400 text-gray-100 p-1.5 rounded-full cursor-pointer"
+            className="rounded-full cursor-pointer"
             onClick={showUserPanel}
         >
-            <Icon type="user" size="size-5" />
+            <UserAvatar size="small" />
         </button>
     )
 }

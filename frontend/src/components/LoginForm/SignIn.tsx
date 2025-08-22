@@ -3,7 +3,7 @@ import { useAppContext } from '@/contexts/AppContext'
 import { signInWithEmail } from '@/auth'
 import ProcessingButton from './ProcessingButton'
 import { Button, Input, Link } from '../ui'
-
+import { defaults } from '../defaults'
 import { createUser } from '@/api'
 import { useMutation } from '@tanstack/react-query'
 import type { AppAction } from '@/types'
@@ -41,14 +41,14 @@ export default function SignInForm({
         },
         onError: () => {
             console.log('Error creating user')
-            // dispatch({
-            //     type: 'SHOW_ALERT_SCREEN',
-            //     payload: {
-            //         message: 'Error creating review',
-            //         type: 'error',
-            //         timeToHide: defaults.alertScreenTimeToHide,
-            //     },
-            // })
+            dispatch({
+                type: 'SHOW_ALERT_SCREEN',
+                payload: {
+                    message: 'Error confirming user preferences',
+                    type: 'error',
+                    timeToHide: defaults.alertScreenTimeToHide,
+                },
+            })
         },
     })
 

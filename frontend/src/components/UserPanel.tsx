@@ -1,5 +1,6 @@
 import { useAppContext } from '@/contexts/AppContext'
 import { getCurrentUser, signOutUser } from '@/auth'
+import UserAvatar from './UserAvatar'
 import { HandleOutsideClick, Button, Icon } from './ui'
 
 export default function UserPanel() {
@@ -7,6 +8,7 @@ export default function UserPanel() {
 
     const user = getCurrentUser()
     const email = user?.email
+    const userName = 'User Name'
 
     const handleSignOut = () => {
         dispatch({ type: 'HIDE_USER_PANEL' })
@@ -29,13 +31,15 @@ export default function UserPanel() {
                                     aria-label="Close"
                                     title="Close"
                                     className="cursor-pointer text-gray-900 hover:text-sky-800"
+                                    onClick={() =>
+                                        dispatch({ type: 'HIDE_USER_PANEL' })
+                                    }
                                 >
                                     <Icon type="x" size="size-6" />
                                 </button>
                             </div>
-                            <div className="bg-gray-400 text-gray-100 p-1.5 rounded-full cursor-pointer">
-                                <Icon type="user" size="size-14" />
-                            </div>
+                            <UserAvatar size="big" />
+                            <div>Hello, {userName}!</div>
                         </div>
                         <div className="flex justify-center">
                             <Button
