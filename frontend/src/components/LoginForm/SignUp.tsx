@@ -31,33 +31,19 @@ export default function SignUpForm({
         setErrorMessage(undefined)
     }, [passwordConfirmation])
 
-    const handleSignUp = (
-        event: React.FormEvent<HTMLFormElement>,
-        email: string,
-        password: string,
-        passwordConfirmation: string
-    ) => {
-        event.preventDefault()
-
-        if (password === passwordConfirmation) {
-            setIsProcessing(true)
-            createUserWithEmail(
-                email,
-                password,
-                setErrorMessage,
-                setSuccessMessage,
-                setIsProcessing
-            )
-        } else {
-            setErrorMessage("Passwords don't match")
-        }
-    }
-
     return (
         <form
             className="space-y-6"
             onSubmit={(e) =>
-                handleSignUp(e, email, password, passwordConfirmation)
+                handleSignUp(
+                    e,
+                    email,
+                    password,
+                    passwordConfirmation,
+                    setIsProcessing,
+                    setErrorMessage,
+                    setSuccessMessage
+                )
             }
         >
             <Input
@@ -113,4 +99,46 @@ export default function SignUpForm({
             )}
         </form>
     )
+}
+
+async function handleSignUp(
+    event: React.FormEvent<HTMLFormElement>,
+    email: string,
+    password: string,
+    passwordConfirmation: string,
+    setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>,
+    setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>,
+    setSuccessMessage: React.Dispatch<React.SetStateAction<string | undefined>>
+) {
+    event.preventDefault()
+
+    if (password === passwordConfirmation) {
+        setIsProcessing(true)
+        const ret = await createUserWithEmail(email, password)
+        setIsProcessing(false)
+
+        if (ret.type === 'success') {
+            setSuccessMessage(
+                'Email verification sent. Please check your inbox'
+            )
+        } else if (ret.type === 'error') {
+            switch (ret.payload) {
+                case 'auth/weak-password':
+                    setErrorMessage(
+                        'The password should have at least 6 characters'
+                    )
+                    break
+                case 'auth/email-already-in-use':
+                    setErrorMessage('Email already in use')
+                    break
+                default:
+                    setErrorMessage(
+                        'An error occurred while creating an account, try again later'
+                    )
+                    break
+            }
+        }
+    } else {
+        setErrorMessage("Passwords don't match")
+    }
 }

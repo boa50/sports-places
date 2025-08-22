@@ -6,6 +6,7 @@ import { Button, Input, Link } from '../ui'
 
 import { createUser } from '@/api'
 import { useMutation } from '@tanstack/react-query'
+import type { AppAction } from '@/types'
 
 interface Props {
     email: string
@@ -51,48 +52,32 @@ export default function SignInForm({
         },
     })
 
-    const handleSignIn = async (
-        event: React.FormEvent<HTMLFormElement>,
-        email: string,
-        password: string
+    const successMutation = (
+        userProviderId: string,
+        avatar: string,
+        displayName: string
     ) => {
-        event.preventDefault()
-
-        setIsProcessing(true)
-        const ret = await signInWithEmail(email, password)
-        setIsProcessing(false)
-
-        if (ret.type === 'success') {
-            createUserMutation.mutate({
-                userProviderId: 'yDdAIgdeULSi9b7L8dFeaSG3yUr2',
-                avatar: 'default',
-                displayName: 'Name',
-            })
-
-            dispatch({ type: 'HIDE_LOGIN_FORM' })
-        } else if (ret.type === 'error') {
-            switch (ret.payload) {
-                case 'auth/invalid-credential':
-                    setErrorMessage('Invalid email or password')
-                    break
-                case 'auth/mail-unverified':
-                    setErrorMessage(
-                        'Email not verified, please check your inbox'
-                    )
-                    break
-                default:
-                    setErrorMessage(
-                        'An error occurred while signing in, try again later'
-                    )
-                    break
-            }
-        }
+        createUserMutation.mutate({
+            userProviderId: 'yDdAIgdeULSi9b7L8dFeaSG3yUr2',
+            avatar: 'default',
+            displayName: 'Name',
+        })
     }
 
     return (
         <form
             className="space-y-6"
-            onSubmit={(e) => handleSignIn(e, email, password)}
+            onSubmit={(e) =>
+                handleSignIn(
+                    e,
+                    email,
+                    password,
+                    dispatch,
+                    successMutation,
+                    setIsProcessing,
+                    setErrorMessage
+                )
+            }
         >
             <Input
                 id="email"
@@ -135,4 +120,43 @@ export default function SignInForm({
             </div>
         </form>
     )
+}
+
+async function handleSignIn(
+    event: React.FormEvent<HTMLFormElement>,
+    email: string,
+    password: string,
+    dispatch: React.Dispatch<AppAction>,
+    successMutation: (
+        userProviderId: string,
+        avatar: string,
+        displayName: string
+    ) => void,
+    setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>,
+    setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>
+) {
+    event.preventDefault()
+
+    setIsProcessing(true)
+    const ret = await signInWithEmail(email, password)
+    setIsProcessing(false)
+
+    if (ret.type === 'success') {
+        successMutation('', '', '')
+        dispatch({ type: 'HIDE_LOGIN_FORM' })
+    } else if (ret.type === 'error') {
+        switch (ret.payload) {
+            case 'auth/invalid-credential':
+                setErrorMessage('Invalid email or password')
+                break
+            case 'auth/email-unverified':
+                setErrorMessage('Email not verified, please check your inbox')
+                break
+            default:
+                setErrorMessage(
+                    'An error occurred while signing in, try again later'
+                )
+                break
+        }
+    }
 }

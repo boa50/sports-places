@@ -20,25 +20,18 @@ export default function ForgotPasswordForm({
 }: Props) {
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
 
-    const handlePasswordReset = (
-        event: React.FormEvent<HTMLFormElement>,
-        email: string
-    ) => {
-        event.preventDefault()
-
-        setIsProcessing(true)
-        resetPassword(
-            email,
-            setSuccessMessage,
-            setErrorMessage,
-            setIsProcessing
-        )
-    }
-
     return (
         <form
             className="space-y-6"
-            onSubmit={(e) => handlePasswordReset(e, email)}
+            onSubmit={(e) =>
+                handlePasswordReset(
+                    e,
+                    email,
+                    setIsProcessing,
+                    setErrorMessage,
+                    setSuccessMessage
+                )
+            }
         >
             <Input
                 id="email"
@@ -63,4 +56,26 @@ export default function ForgotPasswordForm({
             )}
         </form>
     )
+}
+
+async function handlePasswordReset(
+    event: React.FormEvent<HTMLFormElement>,
+    email: string,
+    setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>,
+    setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>,
+    setSuccessMessage: React.Dispatch<React.SetStateAction<string | undefined>>
+) {
+    event.preventDefault()
+
+    setIsProcessing(true)
+    const ret = await resetPassword(email)
+    setIsProcessing(false)
+
+    if (ret.type === 'success') {
+        setSuccessMessage('Password reset email sent')
+    } else if (ret.type === 'error') {
+        setErrorMessage(
+            'An error occurred while processing the request, try again later'
+        )
+    }
 }

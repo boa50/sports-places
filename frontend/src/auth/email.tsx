@@ -6,44 +6,16 @@ import {
     sendEmailVerification,
 } from 'firebase/auth'
 
-export function createUserWithEmail(
-    email: string,
-    password: string,
-    setErrorMessage?: (message: string) => void,
-    setSuccessMessage?: (message: string) => void,
-    setIsProcessing?: (status: boolean) => void
-) {
+export async function createUserWithEmail(email: string, password: string) {
     const auth = getAuth()
 
-    createUserWithEmailAndPassword(auth, email, password)
+    return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             sendEmailVerification(userCredential.user)
-
-            if (setSuccessMessage !== undefined)
-                setSuccessMessage(
-                    'Email verification sent. Please check your inbox'
-                )
+            return { type: 'success', payload: 'auth/email-verification-sent' }
         })
         .catch((error) => {
-            if (setErrorMessage !== undefined)
-                switch (error.code) {
-                    case 'auth/weak-password':
-                        setErrorMessage(
-                            'The password should have at least 6 characters'
-                        )
-                        break
-                    case 'auth/email-already-in-use':
-                        setErrorMessage('Email already in use')
-                        break
-                    default:
-                        setErrorMessage(
-                            'An error occurred while creating an account, try again later'
-                        )
-                        break
-                }
-        })
-        .finally(() => {
-            if (setIsProcessing !== undefined) setIsProcessing(false)
+            return { type: 'error', payload: error.code }
         })
 }
 
@@ -53,7 +25,7 @@ export async function signInWithEmail(email: string, password: string) {
     return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             if (!userCredential.user.emailVerified)
-                return { type: 'error', payload: 'auth/mail-unverified' }
+                return { type: 'error', payload: 'auth/email-unverified' }
 
             return { type: 'success', payload: userCredential.user.uid }
         })
@@ -62,26 +34,14 @@ export async function signInWithEmail(email: string, password: string) {
         })
 }
 
-export function resetPassword(
-    email: string,
-    setSuccessMessage?: (message: string) => void,
-    setErrorMessage?: (message: string) => void,
-    setIsProcessing?: (status: boolean) => void
-) {
+export async function resetPassword(email: string) {
     const auth = getAuth()
 
-    sendPasswordResetEmail(auth, email)
+    return sendPasswordResetEmail(auth, email)
         .then(() => {
-            if (setSuccessMessage !== undefined)
-                setSuccessMessage('Password reset email sent')
+            return { type: 'success', payload: 'auth/email-reset-sent' }
         })
-        .catch(() => {
-            if (setErrorMessage !== undefined)
-                setErrorMessage(
-                    'An error occurred while processing the request, try again later'
-                )
-        })
-        .finally(() => {
-            if (setIsProcessing !== undefined) setIsProcessing(false)
+        .catch((error) => {
+            return { type: 'error', payload: error.code }
         })
 }
