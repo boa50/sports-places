@@ -6,7 +6,7 @@ from classes import ReviewWrite, PlaceWrite, UserWrite
 
 
 def get_places():
-    data, column_names = qu.get_places_data()
+    data, column_names = qu.get_places()
 
     df = pd.DataFrame(data, columns=column_names)
 
@@ -14,7 +14,7 @@ def get_places():
 
 
 def get_reviews(place_id: str):
-    data, column_names = qu.get_reviews_data(place_id=place_id)
+    data, column_names = qu.get_reviews(place_id=place_id)
 
     df = pd.DataFrame(data, columns=column_names)
 
@@ -44,12 +44,20 @@ def create_review(review: ReviewWrite):
         if isinstance(place_id, list):
             review.place_id = place_id[0][0]
 
-    review_data = qu.insert_review_data(review)
+    review_data = qu.insert_review(review)
 
     if isinstance(review_data, list):
         return {"place_id": review.place_id, "is_new_place": is_new_place}
     else:
         return -1
+
+
+def get_user(user_provider_id: str):
+    data, column_names = qu.get_user(user_provider_id)
+
+    df = pd.DataFrame(data, columns=column_names)
+
+    return df
 
 
 def create_user(user: UserWrite):

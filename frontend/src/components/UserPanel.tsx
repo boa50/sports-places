@@ -1,19 +1,21 @@
 import { useAppContext } from '@/contexts/AppContext'
 import { getCurrentUser, signOutUser } from '@/auth'
 import UserAvatar from './UserAvatar'
+import { useQuery } from '@tanstack/react-query'
+import { userQueryOptions } from '@/queryOptions'
 import { HandleOutsideClick, Button, Icon } from './ui'
 
 export default function UserPanel() {
     const { state, dispatch } = useAppContext()
 
-    const user = getCurrentUser()
-    const email = user?.email
-    const userName = 'User Name'
-
     const handleSignOut = () => {
         dispatch({ type: 'HIDE_USER_PANEL' })
         signOutUser()
     }
+
+    const user = getCurrentUser()
+    const email = user?.email
+    const { data: userData } = useQuery(userQueryOptions(user?.uid))
 
     return (
         state.isUserPanelOpen && (
@@ -39,7 +41,7 @@ export default function UserPanel() {
                                 </button>
                             </div>
                             <UserAvatar size="big" />
-                            <div>Hello, {userName}!</div>
+                            <div>Hello, {userData?.displayName}</div>
                         </div>
                         <div className="flex justify-center">
                             <Button

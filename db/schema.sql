@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users  (
     user_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_provider_id VARCHAR(40) NOT NULL,
+    user_provider_id VARCHAR(40) UNIQUE NOT NULL,
     avatar VARCHAR(10),
     display_name VARCHAR(25)
 );

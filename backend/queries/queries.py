@@ -3,7 +3,7 @@ from queries.utils import return_select, return_commit
 from classes import ReviewWrite, PlaceWrite, UserWrite
 
 
-def get_places_data():
+def get_places():
     sql = """
         SELECT * FROM places;
     """
@@ -25,7 +25,7 @@ def insert_place(place: PlaceWrite):
     return return_commit(data, "Place inserted with success!")
 
 
-def get_reviews_data(place_id: str):
+def get_reviews(place_id: str):
     sql = f"""
         SELECT user_id, experience_date, rating, route_link FROM reviews
         WHERE place_id = {place_id}
@@ -37,7 +37,7 @@ def get_reviews_data(place_id: str):
     return return_select(data, column_names)
 
 
-def insert_review_data(review: ReviewWrite):
+def insert_review(review: ReviewWrite):
     sql = f"""
         INSERT INTO reviews (
             user_id, 
@@ -59,6 +59,17 @@ def insert_review_data(review: ReviewWrite):
     data, _ = execute_query(sql)
 
     return return_commit(data, "Review inserted with success!")
+
+
+def get_user(user_provider_id: str):
+    sql = f"""
+        SELECT user_id, avatar, display_name FROM users
+        WHERE user_provider_id = '{user_provider_id}';
+    """
+
+    data, column_names = execute_query(sql)
+
+    return return_select(data, column_names)
 
 
 def insert_user(user: UserWrite):

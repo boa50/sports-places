@@ -1,14 +1,20 @@
 import { useAppContext } from '@/contexts/AppContext'
 import CustomControl from './CustomControl'
 import UserAvatar from './UserAvatar'
-import { Button, Icon } from './ui'
+import { getCurrentUser } from '@/auth'
+import { useQuery } from '@tanstack/react-query'
+import { userQueryOptions } from '@/queryOptions'
+import { Button } from './ui'
 
 export default function UserManagementButton() {
     const { state, dispatch } = useAppContext()
 
+    const user = getCurrentUser()
+    const { data: userData } = useQuery(userQueryOptions(user?.uid))
+
     return (
         <CustomControl
-            childrenState={state.isUserSignedIn}
+            childrenState={userData?.avatar}
             position="topright"
             clearDefaultClass={false}
             customMargins={{ right: '36px', top: '12px' }}
@@ -19,6 +25,7 @@ export default function UserManagementButton() {
                         showUserPanel={() =>
                             dispatch({ type: 'SHOW_USER_PANEL' })
                         }
+                        avatar={userData?.avatar}
                     />
                 ) : (
                     <Button
@@ -37,9 +44,10 @@ export default function UserManagementButton() {
 
 interface UserButtonProps {
     showUserPanel: () => void
+    avatar?: string
 }
 
-function UserButton({ showUserPanel }: UserButtonProps) {
+function UserButton({ showUserPanel, avatar }: UserButtonProps) {
     return (
         <button
             title="User"
@@ -47,7 +55,7 @@ function UserButton({ showUserPanel }: UserButtonProps) {
             className="rounded-full cursor-pointer"
             onClick={showUserPanel}
         >
-            <UserAvatar size="small" />
+            <UserAvatar size="small" type={avatar ?? 'default'} />
         </button>
     )
 }

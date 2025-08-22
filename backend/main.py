@@ -50,6 +50,12 @@ async def create_review(review: ReviewWrite):
     return ret
 
 
+@app.get("/api/users")
+async def get_user(user_provider_id: str):
+    df = data.get_user(user_provider_id=user_provider_id)
+    return Response(df.to_json(orient="records"), media_type="application/json")
+
+
 @app.post("/api/user")
 async def create_user(user: UserWrite):
     ret = data.create_user(user)
