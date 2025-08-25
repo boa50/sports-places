@@ -27,7 +27,8 @@ def insert_place(place: PlaceWrite):
 
 def get_reviews(place_id: str):
     sql = f"""
-        SELECT user_id, experience_date, rating, route_link FROM reviews
+        SELECT users.user_provider_id, experience_date, rating, route_link FROM reviews
+        LEFT JOIN users ON reviews.user_id = users.user_id
         WHERE place_id = {place_id}
         ORDER BY experience_date DESC;
     """

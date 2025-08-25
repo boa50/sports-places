@@ -6,13 +6,13 @@ import { Icon } from './ui'
 
 interface Props {
     size: 'small' | 'medium' | 'big'
-    type?: string
+    avatarUrl?: string
 }
 
-export default function UserAvatar({ size, type }: Props) {
+export default function UserAvatar({ size, avatarUrl }: Props) {
     return (
         <Suspense fallback={<DefaultAvatar size={size} />}>
-            <Avatar size={size} type={type} />
+            <Avatar size={size} avatarUrl={avatarUrl} />
         </Suspense>
     )
 }
@@ -27,15 +27,15 @@ function DefaultAvatar({ size }: { size: 'small' | 'medium' | 'big' }) {
 
 function Avatar({
     size,
-    type,
+    avatarUrl,
 }: {
     size: 'small' | 'medium' | 'big'
-    type?: string
+    avatarUrl?: string
 }) {
     const { data: userData } =
-        type === undefined
+        avatarUrl === undefined
             ? useSuspenseQuery(userQueryOptions(getCurrentUser()?.uid))
-            : { data: { avatarUrl: type } }
+            : { data: { avatarUrl: avatarUrl } }
 
     return userData?.avatarUrl === 'default' ? (
         <DefaultAvatar size={size} />

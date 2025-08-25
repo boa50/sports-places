@@ -11,7 +11,7 @@ export type Place = {
 }
 
 export type Review = {
-    userId: number
+    userProviderId: string
     experienceDate: Date
     rating: number
     routeLink?: string

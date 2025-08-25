@@ -55,7 +55,7 @@ function UserButton({ showUserPanel, avatarUrl }: UserButtonProps) {
             className="rounded-full cursor-pointer"
             onClick={showUserPanel}
         >
-            <UserAvatar size="small" type={avatarUrl ?? 'default'} />
+            <UserAvatar size="small" avatarUrl={avatarUrl ?? 'default'} />
         </button>
     )
 }

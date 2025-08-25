@@ -1,8 +1,7 @@
 import { Icon, RatingStars, Link } from './ui'
 import { getRelativeTime } from '@/utils'
-import { getCurrentUser } from '@/auth'
 import UserAvatar from './UserAvatar'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { userQueryOptions } from '@/queryOptions'
 import type { Review } from '@/types'
 
@@ -11,13 +10,14 @@ interface Props {
 }
 
 export default function Review({ review }: Props) {
-    const user = getCurrentUser()
-    const { data: userData } = useQuery(userQueryOptions(user?.uid))
+    const { data: userData } = useSuspenseQuery(
+        userQueryOptions(review.userProviderId)
+    )
 
     return (
         <div className="flex text-sm font-sans font-normal gap-2">
             <div className="mt-1">
-                <UserAvatar size="small" />
+                <UserAvatar size="small" avatarUrl={userData.avatarUrl} />
             </div>
             <div className="flex flex-col">
                 <div className="flex flex-col leading-3">
