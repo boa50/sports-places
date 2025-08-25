@@ -21,3 +21,8 @@ CREATE TABLE IF NOT EXISTS reviews  (
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (place_id) REFERENCES places (place_id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS avatars (
+    description VARCHAR(10) UNIQUE NOT NULL,
+    url VARCHAR(50) UNIQUE NOT NULL
+);

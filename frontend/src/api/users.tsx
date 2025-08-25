@@ -3,7 +3,7 @@ import type { User } from '@/types'
 
 type UserApi = {
     user_id: number
-    avatar: string
+    avatar_url: string
     display_name: string
 }
 
@@ -39,13 +39,13 @@ export const fetchUser = async (userProviderId: string): Promise<User> => {
     if (user.length === 0)
         return {
             userId: -1,
-            avatar: 'default',
+            avatarUrl: 'default',
             displayName: 'User',
         }
 
     return {
         userId: user[0].user_id,
-        avatar: user[0].avatar,
+        avatarUrl: user[0].avatar_url,
         displayName: user[0].display_name,
     }
 }

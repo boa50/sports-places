@@ -63,7 +63,8 @@ def insert_review(review: ReviewWrite):
 
 def get_user(user_provider_id: str):
     sql = f"""
-        SELECT user_id, avatar, display_name FROM users
+        SELECT user_id, avatars.url as avatar_url, display_name FROM users
+        LEFT JOIN avatars ON users.avatar = avatars.description
         WHERE user_provider_id = '{user_provider_id}';
     """
 

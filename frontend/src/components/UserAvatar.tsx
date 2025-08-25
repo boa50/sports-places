@@ -18,27 +18,9 @@ export default function UserAvatar({ size, type }: Props) {
 }
 
 function DefaultAvatar({ size }: { size: 'small' | 'medium' | 'big' }) {
-    let cssSize = ''
-
-    switch (size) {
-        case 'small':
-            cssSize = 'size-5'
-            break
-        case 'medium':
-            cssSize = 'size-8'
-            break
-        case 'big':
-            cssSize = 'size-14'
-            break
-
-        default:
-            cssSize = 'size-8'
-            break
-    }
-
     return (
         <div className="bg-gray-400 text-gray-100 p-1.5 rounded-full">
-            <Icon type="user" size={cssSize} />
+            <Icon type="user" size={getCssSize(size, true)} />
         </div>
     )
 }
@@ -53,11 +35,27 @@ function Avatar({
     const { data: userData } =
         type === undefined
             ? useSuspenseQuery(userQueryOptions(getCurrentUser()?.uid))
-            : { data: { avatar: type } }
+            : { data: { avatarUrl: type } }
 
-    return userData?.avatar === 'default' ? (
+    return userData?.avatarUrl === 'default' ? (
         <DefaultAvatar size={size} />
     ) : (
-        <></>
+        <img
+            src={userData?.avatarUrl}
+            className={`${getCssSize(size, false)} rounded-full`}
+        />
     )
+}
+
+function getCssSize(size: 'small' | 'medium' | 'big', isDefault: boolean) {
+    switch (size) {
+        case 'small':
+            return isDefault ? 'size-5' : 'size-8'
+        case 'medium':
+            return isDefault ? 'size-8' : 'size-11'
+        case 'big':
+            return isDefault ? 'size-14' : 'size-17'
+        default:
+            return isDefault ? 'size-8' : 'size-11'
+    }
 }

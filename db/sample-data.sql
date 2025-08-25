@@ -27,3 +27,16 @@ VALUES (1, 2, 2, '2023-01-01');
 
 INSERT INTO reviews(user_id, place_id, rating, experience_date, route_link)
 VALUES (1, 3, 5, '2024-12-21', 'https://connect.garmin.com/1789236');
+
+-- AVATARS
+INSERT INTO avatars(description, url)
+VALUES ('default', 'default');
+
+INSERT INTO avatars(description, url)
+VALUES ('red', 'https://i.ibb.co/C5prjF4G/red.webp');
+
+INSERT INTO avatars(description, url)
+VALUES ('green', 'https://i.ibb.co/WWDgDSSh/green.webp');
+
+INSERT INTO avatars(description, url)
+VALUES ('blue', 'https://i.ibb.co/VWy8KXTN/blue.webp');

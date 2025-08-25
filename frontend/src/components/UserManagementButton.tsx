@@ -14,7 +14,7 @@ export default function UserManagementButton() {
 
     return (
         <CustomControl
-            childrenState={userData?.avatar}
+            childrenState={userData?.avatarUrl}
             position="topright"
             clearDefaultClass={false}
             customMargins={{ right: '36px', top: '12px' }}
@@ -25,7 +25,7 @@ export default function UserManagementButton() {
                         showUserPanel={() =>
                             dispatch({ type: 'SHOW_USER_PANEL' })
                         }
-                        avatar={userData?.avatar}
+                        avatarUrl={userData?.avatarUrl}
                     />
                 ) : (
                     <Button
@@ -44,10 +44,10 @@ export default function UserManagementButton() {
 
 interface UserButtonProps {
     showUserPanel: () => void
-    avatar?: string
+    avatarUrl?: string
 }
 
-function UserButton({ showUserPanel, avatar }: UserButtonProps) {
+function UserButton({ showUserPanel, avatarUrl }: UserButtonProps) {
     return (
         <button
             title="User"
@@ -55,7 +55,7 @@ function UserButton({ showUserPanel, avatar }: UserButtonProps) {
             className="rounded-full cursor-pointer"
             onClick={showUserPanel}
         >
-            <UserAvatar size="small" type={avatar ?? 'default'} />
+            <UserAvatar size="small" type={avatarUrl ?? 'default'} />
         </button>
     )
 }
