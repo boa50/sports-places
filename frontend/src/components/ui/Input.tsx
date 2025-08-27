@@ -11,6 +11,7 @@ interface Props {
     placeholder?: string
     isFullWidth?: boolean
     maxValue?: any
+    maxLength?: number
     isSameLine?: boolean
     isDisabled?: boolean
     isCustomIvalidity?: boolean
@@ -26,6 +27,7 @@ export function Input({
     placeholder = '',
     isFullWidth = false,
     maxValue,
+    maxLength,
     isSameLine = false,
     isDisabled = false,
     isCustomIvalidity = false,
@@ -71,6 +73,7 @@ export function Input({
                     value={value}
                     onChange={onChange}
                     max={maxValue}
+                    maxLength={maxLength}
                     disabled={isDisabled}
                     aria-invalid={isCustomIvalidity}
                 />

@@ -136,6 +136,7 @@ export default function UserCustomisationForm() {
                     onChange={(e) => setDisplayName(e.target.value)}
                     isFullWidth={true}
                     isDisabled={isProcessing}
+                    maxLength={25}
                 />
                 <Avatars
                     selectedAvatar={selectedAvatar}
