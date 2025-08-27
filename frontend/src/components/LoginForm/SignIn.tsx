@@ -106,7 +106,6 @@ async function handleSignIn(
 
     if (ret.type === 'success') {
         dispatch({ type: 'HIDE_LOGIN_FORM' })
-        dispatch({ type: 'SHOW_USER_CUSTOMISATION_FORM' })
         resetFields()
     } else if (ret.type === 'error') {
         switch (ret.payload) {

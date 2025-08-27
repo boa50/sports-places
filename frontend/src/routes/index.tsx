@@ -8,8 +8,11 @@ import ReviewWrite from '@/components/ReviewWrite'
 import AlertScreen from '@/components/AlertScreen'
 import LoginForm from '@/components/LoginForm'
 import UserCustomisationForm from '@/components/UserCustomisationForm'
-import { onUserStateChanged } from '@/auth'
 import UserPanel from '@/components/UserPanel'
+import { onUserStateChanged } from '@/auth'
+import { useQuery } from '@tanstack/react-query'
+import { userQueryOptions } from '@/queryOptions'
+import { getCurrentUser } from '@/auth'
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -25,6 +28,19 @@ function Index() {
         const userObserver = onUserStateChanged(dispatch)
         return () => userObserver()
     }, [])
+
+    const { data: userData, isPending: isPendingUserData } = useQuery(
+        userQueryOptions(getCurrentUser()?.uid)
+    )
+
+    useEffect(() => {
+        if (
+            state.isUserSignedIn &&
+            !isPendingUserData &&
+            userData?.userId === -1
+        )
+            dispatch({ type: 'SHOW_USER_CUSTOMISATION_FORM' })
+    }, [state.isUserSignedIn, isPendingUserData, userData])
 
     // Check if mobile on mount and resize
     useEffect(() => {

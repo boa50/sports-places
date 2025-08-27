@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useAppContext } from '@/contexts/AppContext'
+import { useQuery } from '@tanstack/react-query'
+import { userQueryOptions } from '@/queryOptions'
 import { getCurrentUser } from '@/auth'
 import { createUser } from '@/api'
 import { defaults } from './defaults'
@@ -12,6 +14,30 @@ export default function UserCustomisationForm() {
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
     const [displayName, setDisplayName] = useState<string>('')
     const [selectedAvatar, setSelectedAvatar] = useState<string>('default')
+
+    const { data: userData } = useQuery(userQueryOptions(getCurrentUser()?.uid))
+
+    useEffect(() => {
+        if (userData === undefined || userData?.userId === -1) {
+            setDisplayName(
+                'Name ' + Math.floor(Math.random() * (999999 - 0 + 1))
+            )
+        } else {
+            setDisplayName(userData.displayName)
+
+            const availableAvatars = [
+                { type: 'default', url: 'default' },
+                { type: 'red', url: 'https://i.ibb.co/C5prjF4G/red.webp' },
+                { type: 'green', url: 'https://i.ibb.co/WWDgDSSh/green.webp' },
+                { type: 'blue', url: 'https://i.ibb.co/VWy8KXTN/blue.webp' },
+            ]
+
+            availableAvatars.forEach((avatar) => {
+                if (avatar.url === userData.avatarUrl)
+                    setSelectedAvatar(avatar.type)
+            })
+        }
+    }, [userData])
 
     const createUserMutation = useMutation({
         mutationFn: (user: { avatar: string; displayName: string }) =>
