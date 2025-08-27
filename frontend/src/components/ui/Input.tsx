@@ -3,7 +3,7 @@ import { Icon } from './Icon'
 
 interface Props {
     id: string
-    type: 'email' | 'url' | 'date' | 'password'
+    type: 'email' | 'url' | 'date' | 'password' | 'text'
     label: string
     value: any
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void

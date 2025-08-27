@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import { useAppContext } from '@/contexts/AppContext'
 import { signInWithEmail } from '@/auth'
-import ProcessingButton from './ProcessingButton'
-import { Button, Input, Link } from '../ui'
-import { defaults } from '../defaults'
-import { createUser } from '@/api'
-import { useMutation } from '@tanstack/react-query'
+import { Button, Input, Link, ProcessingButton } from '../ui'
 import type { AppAction } from '@/types'
 
 interface Props {
@@ -30,38 +26,9 @@ export default function SignInForm({
     const { dispatch } = useAppContext()
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
 
-    const createUserMutation = useMutation({
-        mutationFn: (user: {
-            userProviderId: string
-            avatar: string
-            displayName: string
-        }) => createUser(user.userProviderId, user.avatar, user.displayName),
-        onSuccess: (data: { user_id: number }) => {
-            console.log('User created with success', data.user_id)
-        },
-        onError: () => {
-            console.log('Error creating user')
-            dispatch({
-                type: 'SHOW_ALERT_SCREEN',
-                payload: {
-                    message: 'Error confirming user preferences',
-                    type: 'error',
-                    timeToHide: defaults.alertScreenTimeToHide,
-                },
-            })
-        },
-    })
-
-    const successMutation = (
-        userProviderId: string,
-        avatar: string,
-        displayName: string
-    ) => {
-        createUserMutation.mutate({
-            userProviderId: 'yDdAIgdeULSi9b7L8dFeaSG3yUr2',
-            avatar: 'default',
-            displayName: 'Name',
-        })
+    const resetFields = () => {
+        setEmail('')
+        setPassword('')
     }
 
     return (
@@ -73,9 +40,9 @@ export default function SignInForm({
                     email,
                     password,
                     dispatch,
-                    successMutation,
                     setIsProcessing,
-                    setErrorMessage
+                    setErrorMessage,
+                    resetFields
                 )
             }
         >
@@ -127,13 +94,9 @@ async function handleSignIn(
     email: string,
     password: string,
     dispatch: React.Dispatch<AppAction>,
-    successMutation: (
-        userProviderId: string,
-        avatar: string,
-        displayName: string
-    ) => void,
     setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>
+    setErrorMessage: React.Dispatch<React.SetStateAction<string | undefined>>,
+    resetFields: () => void
 ) {
     event.preventDefault()
 
@@ -142,8 +105,9 @@ async function handleSignIn(
     setIsProcessing(false)
 
     if (ret.type === 'success') {
-        successMutation('', '', '')
         dispatch({ type: 'HIDE_LOGIN_FORM' })
+        dispatch({ type: 'SHOW_USER_CUSTOMISATION_FORM' })
+        resetFields()
     } else if (ret.type === 'error') {
         switch (ret.payload) {
             case 'auth/invalid-credential':

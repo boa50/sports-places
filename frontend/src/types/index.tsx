@@ -32,6 +32,7 @@ export type AppState = {
     isAlertScreenVisible: boolean
     alertScreen: AlertScreen
     isLoginFormOpen: boolean
+    isUserCustomisationFormOpen: boolean
     isUserSignedIn: boolean | undefined
     isUserPanelOpen: boolean
 }
@@ -48,6 +49,8 @@ export type AppAction =
     | { type: 'HIDE_ALERT_SCREEN' }
     | { type: 'SHOW_LOGIN_FORM' }
     | { type: 'HIDE_LOGIN_FORM' }
+    | { type: 'SHOW_USER_CUSTOMISATION_FORM' }
+    | { type: 'HIDE_USER_CUSTOMISATION_FORM' }
     | { type: 'SET_USER_SIGNED_IN'; payload: boolean }
     | { type: 'SHOW_USER_PANEL' }
     | { type: 'HIDE_USER_PANEL' }

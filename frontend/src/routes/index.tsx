@@ -7,6 +7,7 @@ import SidePanel from '@/components/SidePanel'
 import ReviewWrite from '@/components/ReviewWrite'
 import AlertScreen from '@/components/AlertScreen'
 import LoginForm from '@/components/LoginForm'
+import UserCustomisationForm from '@/components/UserCustomisationForm'
 import { onUserStateChanged } from '@/auth'
 import UserPanel from '@/components/UserPanel'
 
@@ -84,6 +85,7 @@ function Index() {
                 }}
             />
             <LoginForm />
+            <UserCustomisationForm />
             <UserPanel />
             {RenderedMap}
             {state.isAlertScreenVisible && (

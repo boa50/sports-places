@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { createUserWithEmail } from '@/auth'
-import ProcessingButton from './ProcessingButton'
-import { Button, Input } from '../ui'
+import { Button, Input, ProcessingButton } from '../ui'
 
 interface Props {
     email: string

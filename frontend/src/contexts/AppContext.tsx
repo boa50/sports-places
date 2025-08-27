@@ -10,6 +10,7 @@ const initialState: AppState = {
     isAlertScreenVisible: false,
     alertScreen: { message: '', type: 'info' },
     isLoginFormOpen: false,
+    isUserCustomisationFormOpen: false,
     isUserSignedIn: undefined,
     isUserPanelOpen: false,
 }
@@ -72,6 +73,16 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
             return {
                 ...state,
                 isLoginFormOpen: false,
+            }
+        case 'SHOW_USER_CUSTOMISATION_FORM':
+            return {
+                ...state,
+                isUserCustomisationFormOpen: true,
+            }
+        case 'HIDE_USER_CUSTOMISATION_FORM':
+            return {
+                ...state,
+                isUserCustomisationFormOpen: false,
             }
         case 'SET_USER_SIGNED_IN':
             return {
