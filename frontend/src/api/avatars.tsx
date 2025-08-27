@@ -14,7 +14,7 @@ export const fetchAvatarUrl = async (description: string): Promise<string> => {
     )
     const ret = await response.json()
 
-    if (ret.url === undefined) return 'default'
+    if (ret === undefined || ret[0] === undefined) return 'default'
 
-    return ret.url
+    return ret[0].url
 }

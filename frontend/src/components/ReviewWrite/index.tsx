@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createReview } from '@/api'
 import { useAppContext } from '@/contexts/AppContext'
+import { getCurrentUser } from '@/auth'
+import { useQuery } from '@tanstack/react-query'
+import { userQueryOptions } from '@/queryOptions'
 import { defaults } from '../defaults'
 import { FormModal } from '../ui'
-import type { Place } from '@/types'
-
 import ReviewContent from './Content'
 import Buttons from './Buttons'
+import type { Place } from '@/types'
 
 interface Props {
     isShow: boolean
@@ -23,17 +25,17 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     const [routeLink, setRouteLink] = useState<string>('')
     const queryClient = useQueryClient()
     const routeLinkMaxLength = 250
+    const { data: userData } = useQuery(userQueryOptions(getCurrentUser()?.uid))
 
     const writeReviewMutation = useMutation({
         mutationFn: (review: {
-            userId: number
             place: Place
             rating: number
             experienceDate: string
             routeLink: string | null
         }) =>
             createReview(
-                review.userId,
+                userData?.userId ?? -1,
                 review.place,
                 review.experienceDate,
                 review.rating,
@@ -96,7 +98,6 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
     const handlePost = (e: React.FormEvent) => {
         e.preventDefault()
         writeReviewMutation.mutate({
-            userId: 1,
             place: state.selectedPlace ?? { placeId: -1, lat: 0, lng: 0 },
             experienceDate: experienceDate,
             rating: rating,

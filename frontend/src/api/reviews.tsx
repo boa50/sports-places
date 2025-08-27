@@ -2,7 +2,8 @@ import { getApiUrl } from './utils'
 import type { Place, Review } from '@/types'
 
 export type ReviewApi = {
-    user_provider_id: string
+    user_display_name: string
+    user_avatar_description: string
     experience_date: number
     rating: number
     route_link?: string
@@ -16,7 +17,8 @@ export const fetchReviews = async (place_id: number): Promise<Review[]> => {
 
     reviews = reviews.map((review: ReviewApi) => {
         return {
-            userProviderId: review.user_provider_id,
+            userDisplayName: review.user_display_name,
+            userAvatarDescription: review.user_avatar_description,
             experienceDate: new Date(review.experience_date),
             rating: review.rating,
             routeLink: review.route_link,
