@@ -84,3 +84,24 @@ def insert_user(user: UserWrite):
     data, _ = execute_query(sql)
 
     return return_commit(data, "User inserted with success!")
+
+
+def get_avatars():
+    sql = """
+        SELECT description, url FROM avatars;
+    """
+
+    data, column_names = execute_query(sql)
+
+    return return_select(data, column_names)
+
+
+def get_avatar(avatar_description: str):
+    sql = f"""
+        SELECT url FROM avatars
+        WHERE description = '{avatar_description}';
+    """
+
+    data, column_names = execute_query(sql)
+
+    return return_select(data, column_names)

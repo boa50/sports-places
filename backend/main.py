@@ -62,6 +62,18 @@ async def create_user(user: UserWrite):
     return ret
 
 
+@app.get("/api/avatars")
+async def get_avatars():
+    df = data.get_avatars()
+    return Response(df.to_json(orient="records"), media_type="application/json")
+
+
+@app.get("/api/avatarUrl")
+async def get_avatar(avatar_description: str):
+    df = data.get_avatar(avatar_description)
+    return Response(df.to_json(orient="records"), media_type="application/json")
+
+
 if __name__ == "__main__":
     import uvicorn
 

@@ -64,3 +64,19 @@ def create_user(user: UserWrite):
     user_id = qu.insert_user(user)
 
     return user_id
+
+
+def get_avatars():
+    data, column_names = qu.get_avatars()
+
+    df = pd.DataFrame(data, columns=column_names)
+
+    return df
+
+
+def get_avatar(avatar_description: str):
+    data, column_names = qu.get_avatar(avatar_description=avatar_description)
+
+    df = pd.DataFrame(data, columns=column_names)
+
+    return df
