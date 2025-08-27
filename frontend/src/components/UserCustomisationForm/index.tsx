@@ -5,15 +5,17 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { userQueryOptions } from '@/queryOptions'
 import { getCurrentUser } from '@/auth'
 import { createUser } from '@/api'
-import { defaults } from './defaults'
-import { FormModal, Input, Button, ProcessingButton } from './ui'
-import UserAvatar from './UserAvatar'
+import { defaults } from '../defaults'
+import { FormModal, Input } from '../ui'
+import Avatars from './Avatars'
+import Buttons from './Buttons'
 
 export default function UserCustomisationForm() {
     const { state, dispatch } = useAppContext()
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
     const [displayName, setDisplayName] = useState<string>('')
     const [selectedAvatar, setSelectedAvatar] = useState<string>('default')
+    const [isNewUser, setIsNewUser] = useState<boolean>(false)
 
     const queryClient = useQueryClient()
     const { data: userData } = useQuery(userQueryOptions(getCurrentUser()?.uid))
@@ -24,6 +26,7 @@ export default function UserCustomisationForm() {
                 'Name ' + Math.floor(Math.random() * (999999 - 0 + 1))
             )
             setSelectedAvatar('default')
+            setIsNewUser(true)
         } else {
             setDisplayName(userData.displayName)
 
@@ -87,7 +90,7 @@ export default function UserCustomisationForm() {
     const handleClose = () => {
         dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
 
-        if (userData === undefined || userData?.userId === -1)
+        if (isNewUser)
             createUserMutation.mutate({
                 avatar: selectedAvatar,
                 displayName: displayName,
@@ -141,91 +144,9 @@ export default function UserCustomisationForm() {
                 <Buttons
                     isProcessing={isProcessing}
                     handleCancel={handleCancel}
+                    isNewUser={isNewUser}
                 />
             </form>
         </FormModal>
-    )
-}
-
-interface AvatarsProps {
-    selectedAvatar: string
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
-
-export function Avatars({ selectedAvatar, handleChange }: AvatarsProps) {
-    const availableAvatars = [
-        { type: 'default', url: 'default' },
-        { type: 'red', url: 'https://i.ibb.co/C5prjF4G/red.webp' },
-        { type: 'green', url: 'https://i.ibb.co/WWDgDSSh/green.webp' },
-        { type: 'blue', url: 'https://i.ibb.co/VWy8KXTN/blue.webp' },
-    ]
-
-    return (
-        <div className="flex flex-col gap-4">
-            <div className="text-sm font-medium text-gray-900">
-                Display Picture
-            </div>
-            <div className="flex justify-around">
-                {availableAvatars.map((d, i) => (
-                    <div key={i}>
-                        <input
-                            type="radio"
-                            id={`value-${d.type}`}
-                            name="ratingStarsRadio"
-                            value={d.type}
-                            checked={selectedAvatar === d.type}
-                            onChange={handleChange}
-                            className="hidden peer"
-                        />
-                        <label
-                            htmlFor={`value-${d.type}`}
-                            className="cursor-pointer"
-                        >
-                            <div
-                                className={
-                                    selectedAvatar === d.type
-                                        ? 'ring-5 ring-sky-600/70 rounded-full'
-                                        : ''
-                                }
-                            >
-                                <UserAvatar size="big" avatarUrl={d.url} />
-                            </div>
-                        </label>
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
-}
-
-interface ButtonsProps {
-    isProcessing: boolean
-    handleCancel: () => void
-}
-
-export function Buttons({ isProcessing, handleCancel }: ButtonsProps) {
-    const btnWidth = 'w-28'
-    const containerClass = 'flex gap-2 justify-end mt-10'
-
-    return isProcessing ? (
-        <div className={containerClass}>
-            <Button
-                title="Cancel"
-                isSecondary={true}
-                isDisabled={true}
-                width={btnWidth}
-            />
-            <ProcessingButton width={btnWidth} />
-        </div>
-    ) : (
-        <div className={containerClass}>
-            <Button
-                title="Cancel"
-                isSecondary={true}
-                onClick={handleCancel}
-                width={btnWidth}
-            />
-            <Button title="Save Changes" isSubmit={true} width={btnWidth} />
-        </div>
     )
 }
