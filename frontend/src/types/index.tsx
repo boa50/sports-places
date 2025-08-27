@@ -4,6 +4,11 @@ export type User = {
     displayName: string
 }
 
+export type Avatar = {
+    description: string
+    url: string
+}
+
 export type Place = {
     placeId: number
     lat: number

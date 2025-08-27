@@ -1,4 +1,9 @@
+import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { avatarsQueryOptions } from '@/queryOptions'
 import UserAvatar from '../UserAvatar'
+
+import type { Avatar } from '@/types'
 
 interface Props {
     selectedAvatar: string
@@ -6,12 +11,16 @@ interface Props {
 }
 
 export default function Avatars({ selectedAvatar, handleChange }: Props) {
-    const availableAvatars = [
-        { type: 'default', url: 'default' },
-        { type: 'red', url: 'https://i.ibb.co/C5prjF4G/red.webp' },
-        { type: 'green', url: 'https://i.ibb.co/WWDgDSSh/green.webp' },
-        { type: 'blue', url: 'https://i.ibb.co/VWy8KXTN/blue.webp' },
-    ]
+    const [availableAvatars, setAvailableAvatars] = useState<Avatar[]>([])
+    const { data: avatarsData } = useQuery(avatarsQueryOptions())
+
+    useEffect(() => {
+        if (avatarsData !== undefined)
+            setAvailableAvatars([
+                { description: 'default', url: 'default' },
+                ...avatarsData,
+            ])
+    }, [avatarsData])
 
     return (
         <div className="flex flex-col gap-4">
@@ -23,20 +32,20 @@ export default function Avatars({ selectedAvatar, handleChange }: Props) {
                     <div key={i}>
                         <input
                             type="radio"
-                            id={`value-${d.type}`}
+                            id={`value-${d.description}`}
                             name="ratingStarsRadio"
-                            value={d.type}
-                            checked={selectedAvatar === d.type}
+                            value={d.description}
+                            checked={selectedAvatar === d.description}
                             onChange={handleChange}
                             className="hidden peer"
                         />
                         <label
-                            htmlFor={`value-${d.type}`}
+                            htmlFor={`value-${d.description}`}
                             className="cursor-pointer"
                         >
                             <div
                                 className={
-                                    selectedAvatar === d.type
+                                    selectedAvatar === d.description
                                         ? 'ring-5 ring-sky-600/70 rounded-full'
                                         : ''
                                 }

@@ -1,5 +1,12 @@
 import { queryOptions } from '@tanstack/react-query'
-import { fetchPlaces, fetchReviews, validateRouteLink, fetchUser } from '@/api'
+import {
+    fetchPlaces,
+    fetchReviews,
+    validateRouteLink,
+    fetchUser,
+    fetchAvatars,
+    fetchAvatarUrl,
+} from '@/api'
 
 export const placesQueryOptions = queryOptions({
     queryKey: ['places'],
@@ -23,4 +30,17 @@ export const userQueryOptions = (userProviderId: string | undefined) =>
         queryKey: ['user', userProviderId],
         queryFn: () => fetchUser(userProviderId ?? 'undefined'),
         enabled: !!userProviderId,
+    })
+
+export const avatarsQueryOptions = () =>
+    queryOptions({
+        queryKey: ['avatars'],
+        queryFn: () => fetchAvatars(),
+    })
+
+export const avatarUrlQueryOptions = (avatarDescription: string | undefined) =>
+    queryOptions({
+        queryKey: ['avatarUrl', avatarDescription],
+        queryFn: () => fetchAvatarUrl(avatarDescription ?? 'undefined'),
+        enabled: !!avatarDescription,
     })
