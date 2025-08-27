@@ -8,9 +8,7 @@ import { Button } from './ui'
 
 export default function UserManagementButton() {
     const { state, dispatch } = useAppContext()
-
-    const user = getCurrentUser()
-    const { data: userData } = useQuery(userQueryOptions(user?.uid))
+    const { data: userData } = useQuery(userQueryOptions(getCurrentUser()?.uid))
 
     return (
         <CustomControl

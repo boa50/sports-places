@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useAppContext } from '@/contexts/AppContext'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { userQueryOptions } from '@/queryOptions'
 import { getCurrentUser } from '@/auth'
 import { createUser } from '@/api'
@@ -15,6 +15,7 @@ export default function UserCustomisationForm() {
     const [displayName, setDisplayName] = useState<string>('')
     const [selectedAvatar, setSelectedAvatar] = useState<string>('default')
 
+    const queryClient = useQueryClient()
     const { data: userData } = useQuery(userQueryOptions(getCurrentUser()?.uid))
 
     useEffect(() => {
@@ -22,6 +23,7 @@ export default function UserCustomisationForm() {
             setDisplayName(
                 'Name ' + Math.floor(Math.random() * (999999 - 0 + 1))
             )
+            setSelectedAvatar('default')
         } else {
             setDisplayName(userData.displayName)
 
@@ -56,6 +58,11 @@ export default function UserCustomisationForm() {
                     timeToHide: defaults.alertScreenTimeToHide,
                 },
             })
+
+            queryClient.invalidateQueries({
+                queryKey: ['user', getCurrentUser()?.uid],
+            })
+
             setIsProcessing(false)
         },
         onError: () => {
@@ -68,12 +75,23 @@ export default function UserCustomisationForm() {
                     timeToHide: defaults.alertScreenTimeToHide,
                 },
             })
+
             setIsProcessing(false)
         },
     })
 
     const handleCancel = () => {
         dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
+    }
+
+    const handleClose = () => {
+        dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
+
+        if (userData === undefined || userData?.userId === -1)
+            createUserMutation.mutate({
+                avatar: selectedAvatar,
+                displayName: displayName,
+            })
     }
 
     const handleSubmit = (
@@ -99,7 +117,7 @@ export default function UserCustomisationForm() {
         <FormModal
             title={'Change your preferences'}
             isModalOpen={state.isUserCustomisationFormOpen}
-            closeModal={handleCancel}
+            closeModal={handleClose}
         >
             <form
                 className="space-y-6"
