@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useMutation } from '@tanstack/react-query'
 import { useAppContext } from '@/contexts/AppContext'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { userQueryOptions, avatarsQueryOptions } from '@/queryOptions'
 import { getCurrentUser } from '@/auth'
-import { createUser } from '@/api'
-import { defaults } from '../defaults'
 import { FormModal, Input } from '../ui'
 import Avatars from './Avatars'
 import Buttons from './Buttons'
+import { createUserMutation } from './mutations'
 
 export default function UserCustomisationForm() {
     const { state, dispatch } = useAppContext()
@@ -20,6 +18,12 @@ export default function UserCustomisationForm() {
     const queryClient = useQueryClient()
     const { data: userData } = useQuery(userQueryOptions(getCurrentUser()?.uid))
     const { data: avatarsData } = useQuery(avatarsQueryOptions())
+
+    const createUser = createUserMutation(
+        dispatch,
+        queryClient,
+        setIsProcessing
+    )
 
     useEffect(() => {
         if (userData === undefined || userData?.userId === -1) {
@@ -40,45 +44,6 @@ export default function UserCustomisationForm() {
         }
     }, [userData, avatarsData])
 
-    const createUserMutation = useMutation({
-        mutationFn: (user: { avatar: string; displayName: string }) =>
-            createUser(
-                getCurrentUser()?.uid ?? '',
-                user.avatar,
-                user.displayName
-            ),
-        onSuccess: () => {
-            dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
-            dispatch({
-                type: 'SHOW_ALERT_SCREEN',
-                payload: {
-                    message: 'User preferences changed',
-                    type: 'success',
-                    timeToHide: defaults.alertScreenTimeToHide,
-                },
-            })
-
-            queryClient.invalidateQueries({
-                queryKey: ['user', getCurrentUser()?.uid],
-            })
-
-            setIsProcessing(false)
-        },
-        onError: () => {
-            dispatch({
-                type: 'SHOW_ALERT_SCREEN',
-                payload: {
-                    message:
-                        'Failed to customise user preferences, try again later',
-                    type: 'error',
-                    timeToHide: defaults.alertScreenTimeToHide,
-                },
-            })
-
-            setIsProcessing(false)
-        },
-    })
-
     const handleCancel = () => {
         dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
     }
@@ -87,7 +52,7 @@ export default function UserCustomisationForm() {
         dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
 
         if (isNewUser)
-            createUserMutation.mutate({
+            createUser.mutate({
                 avatar: selectedAvatar,
                 displayName: displayName,
             })
@@ -101,7 +66,7 @@ export default function UserCustomisationForm() {
         event.preventDefault()
 
         setIsProcessing(true)
-        createUserMutation.mutate({
+        createUser.mutate({
             avatar: avatar,
             displayName: displayName,
         })
