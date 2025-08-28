@@ -13,6 +13,11 @@ export default function UserPanel() {
         signOutUser()
     }
 
+    const handleEdit = () => {
+        dispatch({ type: 'SHOW_USER_CUSTOMISATION_FORM' })
+        dispatch({ type: 'HIDE_USER_PANEL' })
+    }
+
     const user = getCurrentUser()
     const email = user?.email
     const { data: userData } = useQuery(userQueryOptions(user?.uid))
@@ -43,12 +48,20 @@ export default function UserPanel() {
                             <UserAvatar size="big" />
                             <div>Hello, {userData?.displayName}</div>
                         </div>
-                        <div className="flex justify-center">
+                        <div className="flex justify-center gap-4">
+                            <Button
+                                onClick={handleEdit}
+                                title="Edit"
+                                isSecondary={true}
+                                icon="review"
+                                width="w-28"
+                            />
                             <Button
                                 onClick={handleSignOut}
                                 title="SignOut"
                                 isSecondary={true}
                                 icon="signOut"
+                                width="w-28"
                             />
                         </div>
                     </div>

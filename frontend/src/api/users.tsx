@@ -23,9 +23,11 @@ export const createUser = async (
             display_name: displayName,
         }),
     })
+
     if (!response.ok) {
         throw new Error('Failed to create a new user')
     }
+
     return response.json()
 }
 
@@ -50,11 +52,26 @@ export const fetchUser = async (userProviderId: string): Promise<User> => {
     }
 }
 
-// export const updateUserAvatar = async (userId: number, avatar: string) => {
-//     const response = await fetch(`${getApiUrl()}/user/${userId}/?avatar=${avatar}`)
+export const updateUser = async (
+    userId: number,
+    avatar: string,
+    displayName: string
+) => {
+    const response = await fetch(`${getApiUrl()}/userUpdate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            avatar: avatar,
+            display_name: displayName,
+        }),
+    })
 
-// }
+    if (!response.ok) {
+        throw new Error('Failed to update the user')
+    }
 
-// export const updateUserDisplayName = async (userId: number, displayName: string) => {
-//     const response = await fetch(`${getApiUrl()}/user/${userId}/?display_name=${displayName}`)
-// }
+    return response.json()
+}

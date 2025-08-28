@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import queries.queries as qu
 import utils
-from classes import ReviewWrite, PlaceWrite, UserWrite
+from classes import ReviewWrite, PlaceWrite, UserWrite, UserUpdate
 
 
 def get_places():
@@ -62,6 +62,12 @@ def get_user(user_provider_id: str):
 
 def create_user(user: UserWrite):
     user_id = qu.insert_user(user)
+
+    return user_id
+
+
+def update_user(user: UserUpdate):
+    user_id = qu.update_user(user)
 
     return user_id
 

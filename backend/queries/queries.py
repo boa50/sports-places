@@ -1,6 +1,6 @@
 from queries.connection import execute_query
 from queries.utils import return_select, return_commit
-from classes import ReviewWrite, PlaceWrite, UserWrite
+from classes import ReviewWrite, PlaceWrite, UserWrite, UserUpdate
 
 
 def get_places():
@@ -80,6 +80,19 @@ def insert_user(user: UserWrite):
     sql = f"""
         INSERT INTO users (user_provider_id, avatar, display_name)
         VALUES ('{user.user_provider_id}', '{user.avatar}', '{user.display_name}')
+        RETURNING user_id;
+    """
+
+    data, _ = execute_query(sql)
+
+    return return_commit(data, "User inserted with success!")
+
+
+def update_user(user: UserUpdate):
+    sql = f"""
+        UPDATE users
+        SET avatar = '{user.avatar}', display_name = '{user.display_name}'
+        WHERE user_id = '{user.user_id}'
         RETURNING user_id;
     """
 

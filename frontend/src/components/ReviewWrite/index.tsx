@@ -31,53 +31,6 @@ export default function ReviewWrite({ isShow, hideWriteReview }: Props) {
         userData?.userId ?? -1
     )
 
-    // const writeReviewMutation = useMutation({
-    //     mutationFn: (review: {
-    //         place: Place
-    //         rating: number
-    //         experienceDate: string
-    //         routeLink: string | null
-    //     }) =>
-    //         createReview(
-    //             userData?.userId ?? -1,
-    //             review.place,
-    //             review.experienceDate,
-    //             review.rating,
-    //             review.routeLink
-    //         ),
-    //     onSuccess: (data: { place_id: number; is_new_place: boolean }) => {
-    //         if (data.is_new_place)
-    //             queryClient.invalidateQueries({ queryKey: ['places'] })
-
-    //         queryClient.invalidateQueries({
-    //             queryKey: ['reviews', data.place_id],
-    //         })
-    //         dispatch({
-    //             type: 'CHANGE_SELECTED_PLACE',
-    //             payload: { placeId: data.place_id, lat: -999, lng: -999 },
-    //         })
-
-    //         dispatch({
-    //             type: 'SHOW_ALERT_SCREEN',
-    //             payload: {
-    //                 message: 'Review created',
-    //                 type: 'success',
-    //                 timeToHide: defaults.alertScreenTimeToHide,
-    //             },
-    //         })
-    //     },
-    //     onError: () => {
-    //         dispatch({
-    //             type: 'SHOW_ALERT_SCREEN',
-    //             payload: {
-    //                 message: 'Error creating review',
-    //                 type: 'error',
-    //                 timeToHide: defaults.alertScreenTimeToHide,
-    //             },
-    //         })
-    //     },
-    // })
-
     const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRating(parseInt(e.target.value))
     }

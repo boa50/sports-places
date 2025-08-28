@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import data
 import utils
-from classes import ReviewWrite, UserWrite
+from classes import ReviewWrite, UserWrite, UserUpdate
 
 load_dotenv()
 
@@ -59,6 +59,12 @@ async def get_user(user_provider_id: str):
 @app.post("/api/user")
 async def create_user(user: UserWrite):
     ret = data.create_user(user)
+    return ret
+
+
+@app.post("/api/userUpdate")
+async def update_user(user: UserUpdate):
+    ret = data.update_user(user)
     return ret
 
 

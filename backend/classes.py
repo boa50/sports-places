@@ -20,3 +20,9 @@ class UserWrite(BaseModel):
     user_provider_id: str
     avatar: str
     display_name: str
+
+
+class UserUpdate(BaseModel):
+    user_id: int
+    avatar: str
+    display_name: str

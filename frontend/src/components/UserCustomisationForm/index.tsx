@@ -6,7 +6,8 @@ import { getCurrentUser } from '@/auth'
 import { FormModal, Input } from '../ui'
 import Avatars from './Avatars'
 import Buttons from './Buttons'
-import { createUserMutation } from './mutations'
+import { createUserMutation, updateUserMutation } from './mutations'
+import type { User } from '@/types'
 
 export default function UserCustomisationForm() {
     const { state, dispatch } = useAppContext()
@@ -25,14 +26,14 @@ export default function UserCustomisationForm() {
         setIsProcessing
     )
 
-    useEffect(() => {
-        if (userData === undefined || userData?.userId === -1) {
-            setDisplayName(
-                'Name ' + Math.floor(Math.random() * (999999 - 0 + 1))
-            )
-            setSelectedAvatar('default')
-            setIsNewUser(true)
-        } else {
+    const updateUser = updateUserMutation(
+        dispatch,
+        queryClient,
+        setIsProcessing
+    )
+
+    const resetUserState = (userData: User | undefined) => {
+        if (userData !== undefined) {
             setDisplayName(userData.displayName)
 
             setSelectedAvatar('default')
@@ -42,13 +43,29 @@ export default function UserCustomisationForm() {
                         setSelectedAvatar(avatar.description)
                 })
         }
+    }
+
+    useEffect(() => {
+        if (userData === undefined || userData?.userId === -1) {
+            setDisplayName(
+                'Name ' + Math.floor(Math.random() * (999999 - 0 + 1))
+            )
+            setSelectedAvatar('default')
+            setIsNewUser(true)
+        } else {
+            setIsNewUser(false)
+            resetUserState(userData)
+        }
     }, [userData, avatarsData])
 
     const handleCancel = () => {
         dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
+        resetUserState(userData)
     }
 
     const handleClose = () => {
+        if (isProcessing) return
+
         dispatch({ type: 'HIDE_USER_CUSTOMISATION_FORM' })
 
         if (isNewUser)
@@ -56,6 +73,7 @@ export default function UserCustomisationForm() {
                 avatar: selectedAvatar,
                 displayName: displayName,
             })
+        else resetUserState(userData)
     }
 
     const handleSubmit = (
@@ -64,12 +82,20 @@ export default function UserCustomisationForm() {
         avatar: string
     ) => {
         event.preventDefault()
-
         setIsProcessing(true)
-        createUser.mutate({
-            avatar: avatar,
-            displayName: displayName,
-        })
+
+        if (isNewUser) {
+            createUser.mutate({
+                avatar: avatar,
+                displayName: displayName,
+            })
+        } else {
+            updateUser.mutate({
+                userId: userData?.userId ?? -1,
+                avatar: avatar,
+                displayName: displayName,
+            })
+        }
     }
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
