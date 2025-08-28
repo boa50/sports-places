@@ -1,19 +1,11 @@
 import pandas as pd
 import numpy as np
-import queries.queries as qu
-import utils
-from classes import ReviewWrite, PlaceWrite, UserWrite, UserUpdate
+from app.queries import reviews as qu, places as places_qu
+import app.data.utils as utils
+from app.classes import ReviewWrite, PlaceWrite
 
 
-def get_places():
-    data, column_names = qu.get_places()
-
-    df = pd.DataFrame(data, columns=column_names)
-
-    return df
-
-
-def get_reviews(place_id: str):
+def get_reviews(place_id: str) -> pd.DataFrame:
     data, column_names = qu.get_reviews(place_id=place_id)
 
     df = pd.DataFrame(data, columns=column_names)
@@ -39,7 +31,7 @@ def create_review(review: ReviewWrite):
     if review.place_id == -1:
         is_new_place = True
         newPlace = PlaceWrite(**{"lat": review.lat, "lng": review.lng})
-        place_id = qu.insert_place(newPlace)
+        place_id = places_qu.insert_place(newPlace)
 
         if isinstance(place_id, list):
             review.place_id = place_id[0][0]
@@ -50,39 +42,3 @@ def create_review(review: ReviewWrite):
         return {"place_id": review.place_id, "is_new_place": is_new_place}
     else:
         return -1
-
-
-def get_user(user_provider_id: str):
-    data, column_names = qu.get_user(user_provider_id)
-
-    df = pd.DataFrame(data, columns=column_names)
-
-    return df
-
-
-def create_user(user: UserWrite):
-    user_id = qu.insert_user(user)
-
-    return user_id
-
-
-def update_user(user: UserUpdate):
-    user_id = qu.update_user(user)
-
-    return user_id
-
-
-def get_avatars():
-    data, column_names = qu.get_avatars()
-
-    df = pd.DataFrame(data, columns=column_names)
-
-    return df
-
-
-def get_avatar(avatar_description: str):
-    data, column_names = qu.get_avatar(avatar_description=avatar_description)
-
-    df = pd.DataFrame(data, columns=column_names)
-
-    return df
