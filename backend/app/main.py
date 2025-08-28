@@ -24,6 +24,11 @@ app.include_router(users.router)
 app.include_router(avatars.router)
 
 
+@app.get("/")
+async def get_avatars():
+    return {"msg": "its working"}
+
+
 if __name__ == "__main__":
     import uvicorn
 
