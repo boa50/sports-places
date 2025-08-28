@@ -37,7 +37,7 @@ function Avatar({
             ? useSuspenseQuery(userQueryOptions(getCurrentUser()?.uid))
             : { data: { avatarUrl: avatarUrl } }
 
-    return userData?.avatarUrl === 'default' ? (
+    return ['default', null].includes(userData?.avatarUrl) ? (
         <DefaultAvatar size={size} />
     ) : (
         <img
