@@ -26,7 +26,7 @@ app.include_router(avatars.router)
 
 @app.get("/")
 async def get_avatars():
-    return {"msg": "its working"}
+    return {"msg": "its running"}
 
 
 if __name__ == "__main__":
