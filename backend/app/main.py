@@ -25,7 +25,7 @@ app.include_router(avatars.router)
 
 
 @app.get("/")
-async def get_avatars():
+async def running_test():
     return {"msg": "its running"}
 
 

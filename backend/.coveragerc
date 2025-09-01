@@ -1,0 +1,6 @@
+[run]
+omit = 
+    app/queries/connection.py
+    app/main.py
+    tests/*
+    *__init__.py
