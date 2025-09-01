@@ -5,3 +5,5 @@ In case of the venv not activating automatically, use the command `source ../.ve
 To run the server execute the command `python -m app.main`
 
 To run the tests execute the command `pytest`
+
+The swagger documentation can be accessed by the url `http://localhost:8000/docs`
