@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+from .utils import build_mock_execute_query
 
 from app.main import app
 
@@ -9,9 +10,7 @@ def build_avatar_object(description: str, url: str):
     return {"description": description, "url": url}
 
 
-def mock_execute_query(mocker, data: list, column_names: list):
-    mock_execute_query = mocker.patch("app.queries.avatars.execute_query")
-    mock_execute_query.return_value = data, column_names
+mock_execute_query = build_mock_execute_query("avatars")
 
 
 def test_get_available_avatars(mocker):

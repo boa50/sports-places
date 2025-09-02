@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+from .utils import build_mock_execute_query
 
 from app.main import app
 
@@ -9,9 +10,7 @@ def build_user_object(user_id: int, avatar_url: str, display_name: str):
     return {"user_id": user_id, "avatar_url": avatar_url, "display_name": display_name}
 
 
-def mock_execute_query(mocker, data: list, column_names: list):
-    mock_execute_query = mocker.patch("app.queries.users.execute_query")
-    mock_execute_query.return_value = data, column_names
+mock_execute_query = build_mock_execute_query("users")
 
 
 def test_get_user(mocker):

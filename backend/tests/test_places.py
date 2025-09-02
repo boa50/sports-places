@@ -1,13 +1,12 @@
 from fastapi.testclient import TestClient
+from .utils import build_mock_execute_query
 
 from app.main import app
 
 client = TestClient(app)
 
 
-def mock_execute_query(mocker, data: list, column_names: list):
-    mock_execute_query = mocker.patch("app.queries.places.execute_query")
-    mock_execute_query.return_value = data, column_names
+mock_execute_query = build_mock_execute_query("places")
 
 
 def test_get_zero_places(mocker):
