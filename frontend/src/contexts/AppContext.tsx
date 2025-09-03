@@ -104,7 +104,7 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
     }
 }
 
-const AppContext = createContext<
+export const AppContext = createContext<
     | {
           state: AppState
           dispatch: Dispatch<AppAction>
