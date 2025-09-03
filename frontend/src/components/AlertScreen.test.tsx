@@ -1,13 +1,9 @@
 import AlertScreen from './AlertScreen'
-import { AppProvider, AppContext } from '@/contexts/AppContext'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { customRender } from '@/test-utils'
 
 test('load alert screen', async () => {
-    render(
-        <AppProvider>
-            <AlertScreen message="any message" type="info" />
-        </AppProvider>
-    )
+    customRender(<AlertScreen message="any message" type="info" />)
 
     await screen.findByRole('alert')
 
@@ -17,11 +13,7 @@ test('load alert screen', async () => {
 test('right text message', async () => {
     const definedTextMessage = 'Some interesting text message'
 
-    render(
-        <AppProvider>
-            <AlertScreen message={definedTextMessage} type="info" />
-        </AppProvider>
-    )
+    customRender(<AlertScreen message={definedTextMessage} type="info" />)
 
     await screen.findByRole('alert')
 
@@ -34,20 +26,17 @@ test('call to hide alert screen', async () => {
 
     vi.useFakeTimers()
 
-    render(
-        <AppContext.Provider
-            value={{
-                // @ts-ignore Not testing the context state
-                state: {},
-                dispatch: mockDispatch,
-            }}
-        >
-            <AlertScreen
-                message="any random message"
-                type="info"
-                timeToHide={timeToHide}
-            />
-        </AppContext.Provider>
+    customRender(
+        <AlertScreen
+            message="any random message"
+            type="info"
+            timeToHide={timeToHide}
+        />,
+        {
+            // @ts-ignore Not testing the context state
+            state: {},
+            dispatch: mockDispatch,
+        }
     )
 
     vi.advanceTimersByTime(timeToHide - 1)
