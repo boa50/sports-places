@@ -26,6 +26,8 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'jsdom',
+        clearMocks: true,
+        setupFiles: ['src/test/setup-tests.tsx'],
         coverage: {
             enabled: true, // Enable coverage
             provider: 'v8', // or 'istanbul'
