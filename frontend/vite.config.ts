@@ -31,7 +31,12 @@ export default defineConfig({
             provider: 'v8', // or 'istanbul'
             reporter: ['text', 'html'], // Output reports in text and HTML format
             include: ['src/**/*.tsx'], // Specify files to include in coverage
-            exclude: [], // Specify files to exclude from coverage
+            exclude: [
+                'src/test/*',
+                'src/types/*',
+                'src/routes/__root.tsx',
+                'src/main.tsx',
+            ], // Specify files to exclude from coverage
             thresholds: {
                 global: {
                     branches: 80,

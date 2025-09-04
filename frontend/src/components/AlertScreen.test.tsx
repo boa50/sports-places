@@ -1,6 +1,6 @@
 import AlertScreen from './AlertScreen'
 import { screen } from '@testing-library/react'
-import { customRender } from '@/test-utils'
+import { customRender } from '@/test/utils'
 
 test('load alert screen', async () => {
     customRender(<AlertScreen message="any message" type="info" />)
