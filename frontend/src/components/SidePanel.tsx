@@ -27,12 +27,12 @@ export default function SidePanel({ showWriteReview }: Props) {
     }
 
     return (
-        <div className={getPanelClasses()}>
+        <aside className={getPanelClasses()} aria-expanded={state.isOpenPanel}>
             <div className="flex flex-col h-screen">
                 <Header dispatch={dispatch} />
                 <Content state={state} showWriteReview={showWriteReview} />
             </div>
-        </div>
+        </aside>
     )
 }
 
@@ -76,7 +76,7 @@ function Content({ state, showWriteReview }: ContentProps) {
     return (
         <div className="flex-1 overflow-y-auto">
             <div className="py-4 flex flex-col border-b border-b-gray-200 items-center gap-4">
-                <PlaceRating />
+                {state.selectedPlace?.placeId !== -1 && <PlaceRating />}
                 <button
                     type="button"
                     aria-label={writeReviewHint}
@@ -95,7 +95,7 @@ function Content({ state, showWriteReview }: ContentProps) {
             </div>
             <div className="mt-2">
                 {state.selectedPlace?.placeId === -1 ? (
-                    <p className="pl-4">
+                    <p className="pl-4" data-testid="no-reviews-list">
                         There are no reviews for this place, write the first one
                         :)
                     </p>
