@@ -10,7 +10,7 @@ vi.mock('@/auth', () => ({
     signOutUser: vi.fn(),
 }))
 
-vi.mock('./UserAvatar', () => {
+vi.mock('../UserAvatar', () => {
     return {
         default: () => <div data-testid="user-avatar"></div>,
     }

@@ -2,13 +2,13 @@ import SidePanel from './SidePanel'
 import { screen, fireEvent } from '@testing-library/react'
 import { customRender, mockApiCalls } from '@/test/utils'
 
-vi.mock('./ReviewsList', () => {
+vi.mock('../ReviewsList', () => {
     return {
         default: () => <div data-testid="reviews-list"></div>,
     }
 })
 
-vi.mock('./PlaceRating', () => {
+vi.mock('../PlaceRating', () => {
     return {
         default: () => <div data-testid="place-rating"></div>,
     }

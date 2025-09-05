@@ -1,10 +1,10 @@
 import { useAppContext } from '@/contexts/AppContext'
-import CustomControl from './CustomControl'
-import UserAvatar from './UserAvatar'
+import CustomControl from '../CustomControl'
+import UserAvatar from '../UserAvatar'
 import { getCurrentUser } from '@/auth'
 import { useQuery } from '@tanstack/react-query'
 import { userQueryOptions } from '@/queryOptions'
-import { Button } from './ui'
+import { Button } from '../ui'
 
 export default function UserManagementButton() {
     const { state, dispatch } = useAppContext()

@@ -2,7 +2,7 @@ import { getCurrentUser } from '@/auth'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { userQueryOptions } from '@/queryOptions'
 import { Suspense } from 'react'
-import { Icon } from './ui'
+import { Icon } from '../ui'
 
 interface Props {
     size: 'small' | 'medium' | 'big'

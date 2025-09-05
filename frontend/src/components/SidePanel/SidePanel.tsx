@@ -1,7 +1,7 @@
 import { useAppContext } from '@/contexts/AppContext'
-import { Icon } from './ui'
-import ReviewsList from './ReviewsList'
-import PlaceRating from './PlaceRating'
+import { Icon } from '../ui'
+import ReviewsList from '../ReviewsList'
+import PlaceRating from '../PlaceRating'
 import type { AppAction, AppState } from '@/types'
 
 interface Props {

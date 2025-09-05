@@ -1,9 +1,9 @@
 import { useAppContext } from '@/contexts/AppContext'
 import { getCurrentUser, signOutUser } from '@/auth'
-import UserAvatar from './UserAvatar'
+import UserAvatar from '../UserAvatar'
 import { useQuery } from '@tanstack/react-query'
 import { userQueryOptions } from '@/queryOptions'
-import { HandleOutsideClick, Button, Icon } from './ui'
+import { HandleOutsideClick, Button, Icon } from '../ui'
 
 export default function UserPanel() {
     const { state, dispatch } = useAppContext()

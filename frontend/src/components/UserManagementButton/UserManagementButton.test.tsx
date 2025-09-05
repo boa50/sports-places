@@ -2,7 +2,7 @@ import UserManagementButton from './UserManagementButton'
 import { screen, fireEvent } from '@testing-library/react'
 import { customRender, mockApiCalls } from '@/test/utils'
 
-vi.mock('./CustomControl', () => {
+vi.mock('../CustomControl', () => {
     return {
         default: ({ children }: { children: React.ReactNode }) => (
             <div data-testid="custom-control">{children}</div>
