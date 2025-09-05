@@ -19,7 +19,10 @@ export default function UserAvatar({ size, avatarUrl }: Props) {
 
 function DefaultAvatar({ size }: { size: 'small' | 'medium' | 'big' }) {
     return (
-        <div className="bg-gray-400 text-gray-100 p-1.5 rounded-full">
+        <div
+            className="bg-gray-400 text-gray-100 p-1.5 rounded-full"
+            data-testid="default-user-avatar"
+        >
             <Icon type="user" size={getCssSize(size, true)} />
         </div>
     )

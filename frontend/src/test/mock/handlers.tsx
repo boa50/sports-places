@@ -8,15 +8,24 @@ export const handlers = [
         const url = new URL(request.url)
         const userProviderId = url.searchParams.get('user_provider_id')
 
-        if (userProviderId !== testVariables.validUserProviderId)
-            return HttpResponse.json([])
+        if (userProviderId === testVariables.validUserProviderId)
+            return HttpResponse.json([
+                {
+                    user_id: 1,
+                    avatar_url: null,
+                    display_name: testVariables.validUserDisplayName,
+                },
+            ])
 
-        return HttpResponse.json([
-            {
-                user_id: 1,
-                avatar_url: 'red',
-                display_name: testVariables.validUserDisplayName,
-            },
-        ])
+        if (userProviderId === testVariables.validUserProviderIdCustomAvatar)
+            return HttpResponse.json([
+                {
+                    user_id: 2,
+                    avatar_url: testVariables.customAvatarUrl,
+                    display_name: testVariables.validUserDisplayName,
+                },
+            ])
+
+        return HttpResponse.json([])
     }),
 ]

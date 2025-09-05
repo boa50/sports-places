@@ -56,6 +56,8 @@ export const mockApiCalls = () => {
 
 export const testVariables = {
     validUserProviderId: 'someUserProviderId',
+    validUserProviderIdCustomAvatar: 'someUserProviderIdCustomAvatar',
     validUserDisplayName: 'First User',
+    customAvatarUrl: 'http://www.custom-avatar.com',
     invalidUserProviderId: 'noUserProviderId',
 }
