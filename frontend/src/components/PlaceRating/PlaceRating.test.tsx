@@ -1,7 +1,6 @@
 import PlaceRating from './PlaceRating'
 import { screen, act } from '@testing-library/react'
-import { customRender, mockApiCalls } from '@/test/utils'
-import { testVariables } from '@/test/utils'
+import { customRender, mockApiCalls, testVariables } from '@/test/utils'
 
 vi.mock('../ui', () => {
     return {

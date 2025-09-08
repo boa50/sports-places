@@ -53,4 +53,15 @@ export const handlers = [
 
         return HttpResponse.json(reviews)
     }),
+    http.get(`${apiUrl}/places`, () => {
+        const places = [...Array(testVariables.numberOfPlaces).keys()].map(
+            (k) => ({
+                placeId: k + 1,
+                lat: k,
+                lng: k - 1,
+            })
+        )
+
+        return HttpResponse.json(places)
+    }),
 ]

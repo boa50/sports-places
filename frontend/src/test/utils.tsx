@@ -63,4 +63,5 @@ export const testVariables = {
     reviewDefaultDate: new Date(628021800000),
     reviewDefaultDateAPI: 628021800000,
     reviewDefaultRating: 3,
+    numberOfPlaces: 2,
 }

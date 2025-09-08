@@ -20,7 +20,7 @@ test('panel closed state desktop', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
         // @ts-ignore Not testing all the states
         state: { isMobile: false, isOpenPanel: false },
-        dispatch: () => {},
+        dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
@@ -38,7 +38,7 @@ test('panel closed state mobile', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
         // @ts-ignore Not testing all the states
         state: { isMobile: true, isOpenPanel: false },
-        dispatch: () => {},
+        dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
@@ -54,7 +54,7 @@ test('panel open state desktop', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
         // @ts-ignore Not testing all the states
         state: { isMobile: false, isOpenPanel: true },
-        dispatch: () => {},
+        dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
@@ -73,7 +73,7 @@ test('panel open state mobile', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
         // @ts-ignore Not testing all the states
         state: { isMobile: true, isOpenPanel: true },
-        dispatch: () => {},
+        dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
