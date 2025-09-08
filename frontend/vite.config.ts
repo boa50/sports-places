@@ -38,6 +38,7 @@ export default defineConfig({
                 'src/types/*',
                 'src/routes/__root.tsx',
                 'src/main.tsx',
+                'src/components/**/index.tsx',
             ], // Specify files to exclude from coverage
             thresholds: {
                 global: {
