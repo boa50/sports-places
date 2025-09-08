@@ -9,14 +9,14 @@ import {
     useMapEvents,
 } from 'react-leaflet'
 import { latLngBounds, latLng } from 'leaflet'
-import { defaults } from './defaults'
-import PlaceMarker from './PlaceMarker'
+import { defaults } from '../defaults'
+import PlaceMarker from '../PlaceMarker'
 import RecenterMapButton from './RecenterMapButton'
-import PlacesMarkers from './PlacesMarkers'
+import PlacesMarkers from '../PlacesMarkers'
 
 import type { LatLng } from 'leaflet'
 import type { Place } from '@/types'
-import UserManagementButton from './UserManagementButton'
+import UserManagementButton from '../UserManagementButton'
 
 function ClickHandler({
     onMapClick,

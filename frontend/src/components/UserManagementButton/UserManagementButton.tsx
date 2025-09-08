@@ -1,5 +1,5 @@
 import { useAppContext } from '@/contexts/AppContext'
-import CustomControl from '../CustomControl'
+import { CustomControl } from '../Map'
 import UserAvatar from '../UserAvatar'
 import { getCurrentUser } from '@/auth'
 import { useQuery } from '@tanstack/react-query'

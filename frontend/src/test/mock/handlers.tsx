@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import { testVariables } from '../utils'
 
-const apiUrl = 'http://apimock.com/api'
+const apiUrl = 'http://apimock.com'
 
 export const handlers = [
     http.get(`${apiUrl}/users`, ({ request }) => {

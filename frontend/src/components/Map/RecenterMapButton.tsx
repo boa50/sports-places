@@ -1,6 +1,6 @@
 import { useAppContext } from '@/contexts/AppContext'
 import CustomControl from './CustomControl'
-import { Icon } from './ui/Icon'
+import { Icon } from '../ui'
 import type { Map, ControlPosition } from 'leaflet'
 
 interface Props {

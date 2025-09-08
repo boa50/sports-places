@@ -1,3 +1,3 @@
 export function getApiUrl(): string {
-    return `${import.meta.env.VITE_BACKEND_URL}/api`
+    return `${import.meta.env.VITE_BACKEND_URL}`
 }
