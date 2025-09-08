@@ -30,12 +30,27 @@ export const handlers = [
     }),
     http.get(`${apiUrl}/avatarUrl`, ({ request }) => {
         const url = new URL(request.url)
-        const avatar_description = url.searchParams.get('avatar_description')
+        const avatarDescription = url.searchParams.get('avatar_description')
 
         return HttpResponse.json([
             {
-                url: avatar_description,
+                url: avatarDescription,
             },
         ])
+    }),
+    http.get(`${apiUrl}/reviews`, ({ request }) => {
+        const url = new URL(request.url)
+        const placeId = url.searchParams.get('place_id')
+
+        if (placeId === '-1') return HttpResponse.json([])
+
+        const reviews = [...Array(parseInt(placeId ?? '0')).keys()].map(() => ({
+            userDisplayName: 'some name',
+            userAvatarDescription: 'some avatar',
+            experienceDate: testVariables.reviewDefaultDateAPI,
+            rating: testVariables.reviewDefaultRating,
+        }))
+
+        return HttpResponse.json(reviews)
     }),
 ]

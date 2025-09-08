@@ -60,4 +60,7 @@ export const testVariables = {
     validUserDisplayName: 'First User',
     customAvatarUrl: 'http://www.custom-avatar.com',
     invalidUserProviderId: 'noUserProviderId',
+    reviewDefaultDate: new Date(628021800000),
+    reviewDefaultDateAPI: 628021800000,
+    reviewDefaultRating: 3,
 }
