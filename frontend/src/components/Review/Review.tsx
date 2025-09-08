@@ -1,8 +1,8 @@
-import { Icon, RatingStars, Link } from './ui'
+import { Icon, RatingStars, Link } from '../ui'
 import { getRelativeTime } from '@/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { avatarUrlQueryOptions } from '@/queryOptions'
-import UserAvatar from './UserAvatar'
+import UserAvatar from '../UserAvatar'
 import type { Review } from '@/types'
 
 interface Props {

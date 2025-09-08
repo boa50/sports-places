@@ -28,4 +28,14 @@ export const handlers = [
 
         return HttpResponse.json([])
     }),
+    http.get(`${apiUrl}/avatarUrl`, ({ request }) => {
+        const url = new URL(request.url)
+        const avatar_description = url.searchParams.get('avatar_description')
+
+        return HttpResponse.json([
+            {
+                url: avatar_description,
+            },
+        ])
+    }),
 ]
