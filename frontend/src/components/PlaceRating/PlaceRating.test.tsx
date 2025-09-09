@@ -21,9 +21,9 @@ test('display with zero reviews', async () => {
         })
     })
 
-    expect(screen.queryByTestId('total-score')).toBeNull()
-    expect(screen.queryByTestId('rating-stars')).toBeNull()
-    expect(screen.queryByTestId('total-reviews')).toBeNull()
+    expect(screen.queryByTestId('total-score')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('rating-stars')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('total-reviews')).not.toBeInTheDocument()
 })
 
 test('display with 1 review', async () => {
@@ -39,17 +39,17 @@ test('display with 1 review', async () => {
 
     const ratingStarsComponent = screen.getByTestId('rating-stars')
 
-    expect(screen.queryByTestId('total-score')).toBeDefined()
-    expect(screen.queryByTestId('total-score')?.textContent).toContain(
-        testVariables.reviewDefaultRating
-    )
-    expect(ratingStarsComponent).toBeDefined()
-    expect(ratingStarsComponent.textContent).toBe(
+    expect(screen.queryByTestId('total-score')).toBeInTheDocument()
+    expect(screen.queryByTestId('total-score')).toHaveTextContent(
         testVariables.reviewDefaultRating.toString()
     )
-    expect(screen.queryByTestId('total-reviews')).toBeDefined()
-    expect(screen.queryByTestId('total-reviews')?.textContent).toContain(
-        nReviews
+    expect(ratingStarsComponent).toBeInTheDocument()
+    expect(ratingStarsComponent).toHaveTextContent(
+        testVariables.reviewDefaultRating.toString()
+    )
+    expect(screen.queryByTestId('total-reviews')).toBeInTheDocument()
+    expect(screen.queryByTestId('total-reviews')).toHaveTextContent(
+        nReviews.toString()
     )
 })
 
@@ -66,16 +66,16 @@ test('display with many reviews', async () => {
 
     const ratingStarsComponent = screen.getByTestId('rating-stars')
 
-    expect(screen.queryByTestId('total-score')).toBeDefined()
-    expect(screen.queryByTestId('total-score')?.textContent).toContain(
-        testVariables.reviewDefaultRating
-    )
-    expect(ratingStarsComponent).toBeDefined()
-    expect(ratingStarsComponent.textContent).toBe(
+    expect(screen.queryByTestId('total-score')).toBeInTheDocument()
+    expect(screen.queryByTestId('total-score')).toHaveTextContent(
         testVariables.reviewDefaultRating.toString()
     )
-    expect(screen.queryByTestId('total-reviews')).toBeDefined()
-    expect(screen.queryByTestId('total-reviews')?.textContent).toContain(
-        nReviews
+    expect(ratingStarsComponent).toBeInTheDocument()
+    expect(ratingStarsComponent).toHaveTextContent(
+        testVariables.reviewDefaultRating.toString()
+    )
+    expect(screen.queryByTestId('total-reviews')).toBeInTheDocument()
+    expect(screen.queryByTestId('total-reviews')).toHaveTextContent(
+        nReviews.toString()
     )
 })

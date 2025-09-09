@@ -26,11 +26,11 @@ test('showing zero reviews', async () => {
         dispatch: vi.fn(),
     })
 
-    expect(screen.getByTestId('spinner')).toBeDefined()
+    expect(screen.getByTestId('spinner')).toBeInTheDocument()
 
     await screen.findByRole('list')
 
-    expect(screen.queryByTestId('review')).toBeNull()
+    expect(screen.queryByTestId('review')).not.toBeInTheDocument()
 })
 
 test('showing one review', async () => {
@@ -42,12 +42,15 @@ test('showing one review', async () => {
         dispatch: vi.fn(),
     })
 
-    expect(screen.getByTestId('spinner')).toBeDefined()
+    expect(screen.getByTestId('spinner')).toBeInTheDocument()
 
     await screen.findByRole('list')
 
-    expect(screen.getAllByTestId('review')).toBeDefined()
-    expect(screen.getAllByTestId('review').length).toBe(nReviews)
+    const reviews = screen.getAllByTestId('review')
+    expect(reviews.length).toBe(nReviews)
+    reviews.forEach((review) => {
+        expect(review).toBeInTheDocument()
+    })
 })
 
 test('showing many reviews', async () => {
@@ -59,10 +62,13 @@ test('showing many reviews', async () => {
         dispatch: vi.fn(),
     })
 
-    expect(screen.getByTestId('spinner')).toBeDefined()
+    expect(screen.getByTestId('spinner')).toBeInTheDocument()
 
     await screen.findByRole('list')
 
-    expect(screen.getAllByTestId('review')).toBeDefined()
-    expect(screen.getAllByTestId('review').length).toBe(nReviews)
+    const reviews = screen.getAllByTestId('review')
+    expect(reviews.length).toBe(nReviews)
+    reviews.forEach((review) => {
+        expect(review).toBeInTheDocument()
+    })
 })

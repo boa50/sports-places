@@ -18,81 +18,78 @@ mockApiCalls()
 
 test('panel closed state desktop', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
-        // @ts-ignore Not testing all the states
         state: { isMobile: false, isOpenPanel: false },
         dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
 
-    expect(screen.getByRole('complementary')).toBeDefined()
-    expect(
-        screen
-            .getByRole('complementary')
-            .classList.contains('-translate-x-full')
-    ).toBe(true)
-    expect(screen.getByRole('complementary').ariaExpanded).toBe('false')
+    expect(screen.getByRole('complementary')).toBeInTheDocument()
+    expect(screen.getByRole('complementary')).toHaveClass('-translate-x-full')
+    expect(screen.getByRole('complementary')).toHaveProperty(
+        'ariaExpanded',
+        'false'
+    )
 })
 
 test('panel closed state mobile', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
-        // @ts-ignore Not testing all the states
         state: { isMobile: true, isOpenPanel: false },
         dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
 
-    expect(screen.getByRole('complementary')).toBeDefined()
-    expect(
-        screen.getByRole('complementary').classList.contains('translate-y-full')
-    ).toBe(true)
-    expect(screen.getByRole('complementary').ariaExpanded).toBe('false')
+    expect(screen.getByRole('complementary')).toBeInTheDocument()
+    expect(screen.getByRole('complementary')).toHaveClass('translate-y-full')
+    expect(screen.getByRole('complementary')).toHaveProperty(
+        'ariaExpanded',
+        'false'
+    )
 })
 
 test('panel open state desktop', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
-        // @ts-ignore Not testing all the states
         state: { isMobile: false, isOpenPanel: true },
         dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
 
-    expect(screen.getByRole('complementary')).toBeDefined()
-    expect(
-        screen.getByRole('complementary').classList.contains('translate-x-0')
-    ).toBe(true)
-    expect(screen.getByRole('complementary').ariaExpanded).toBe('true')
+    expect(screen.getByRole('complementary')).toBeInTheDocument()
+    expect(screen.getByRole('complementary')).toHaveClass('translate-x-0')
+    expect(screen.getByRole('complementary')).toHaveProperty(
+        'ariaExpanded',
+        'true'
+    )
 
-    expect(screen.getByRole('heading', { level: 2 })).toBeDefined()
-    expect(screen.getByRole('button', { name: 'Close' })).toBeDefined()
+    expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
 })
 
 test('panel open state mobile', async () => {
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
-        // @ts-ignore Not testing all the states
         state: { isMobile: true, isOpenPanel: true },
         dispatch: vi.fn(),
     })
 
     await screen.findByRole('complementary')
 
-    expect(screen.getByRole('complementary')).toBeDefined()
-    expect(
-        screen.getByRole('complementary').classList.contains('translate-y-0')
-    ).toBe(true)
-    expect(screen.getByRole('complementary').ariaExpanded).toBe('true')
+    expect(screen.getByRole('complementary')).toBeInTheDocument()
+    expect(screen.getByRole('complementary')).toHaveClass('translate-y-0')
+    expect(screen.getByRole('complementary')).toHaveProperty(
+        'ariaExpanded',
+        'true'
+    )
 
-    expect(screen.getByRole('heading', { level: 2 })).toBeDefined()
-    expect(screen.getByRole('button', { name: 'Close' })).toBeDefined()
+    expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
 })
 
 test('close button click', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<SidePanel showWriteReview={vi.fn()} />, {
-        // @ts-ignore Not testing all the states
         state: { isOpenPanel: true },
         dispatch: mockDispatch,
     })
@@ -100,7 +97,7 @@ test('close button click', async () => {
     await screen.findByRole('complementary')
 
     const closeBtn = screen.getByRole('button', { name: 'Close' })
-    expect(closeBtn).toBeDefined()
+    expect(closeBtn).toBeInTheDocument()
 
     fireEvent.click(closeBtn)
 
@@ -120,7 +117,6 @@ test('signed out user write review try', async () => {
     const mockShowWriteReview = vi.fn()
 
     customRender(<SidePanel showWriteReview={mockShowWriteReview} />, {
-        // @ts-ignore Not testing all the states
         state: { isOpenPanel: true, isUserSignedIn: false },
         dispatch: vi.fn(),
     })
@@ -130,7 +126,7 @@ test('signed out user write review try', async () => {
     const writeReviewBtn = screen.getByRole('button', {
         name: 'Please sign in before writing a review',
     })
-    expect(writeReviewBtn).toBeDefined()
+    expect(writeReviewBtn).toBeInTheDocument()
     expect(writeReviewBtn).toHaveProperty('disabled', true)
 
     fireEvent.click(writeReviewBtn)
@@ -142,7 +138,6 @@ test('signed in user write review try', async () => {
     const mockShowWriteReview = vi.fn()
 
     customRender(<SidePanel showWriteReview={mockShowWriteReview} />, {
-        // @ts-ignore Not testing all the states
         state: { isOpenPanel: true, isUserSignedIn: true },
         dispatch: vi.fn(),
     })
@@ -152,7 +147,7 @@ test('signed in user write review try', async () => {
     const writeReviewBtn = screen.getByRole('button', {
         name: 'Write a review',
     })
-    expect(writeReviewBtn).toBeDefined()
+    expect(writeReviewBtn).toBeInTheDocument()
     expect(writeReviewBtn).toHaveProperty('disabled', false)
 
     fireEvent.click(writeReviewBtn)
@@ -169,9 +164,9 @@ test('show place without reviews', async () => {
 
     await screen.findByRole('complementary')
 
-    expect(screen.queryByTestId('place-rating')).toBeNull()
-    expect(screen.queryByTestId('reviews-list')).toBeNull()
-    expect(screen.getByTestId('no-reviews-list')).toBeDefined()
+    expect(screen.queryByTestId('place-rating')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('reviews-list')).not.toBeInTheDocument()
+    expect(screen.getByTestId('no-reviews-list')).toBeInTheDocument()
 })
 
 test('show places with reviews', async () => {
@@ -183,7 +178,7 @@ test('show places with reviews', async () => {
 
     await screen.findByRole('complementary')
 
-    expect(screen.getByTestId('place-rating')).toBeDefined()
-    expect(screen.getByTestId('reviews-list')).toBeDefined()
-    expect(screen.queryByTestId('no-reviews-list')).toBeNull()
+    expect(screen.getByTestId('place-rating')).toBeInTheDocument()
+    expect(screen.getByTestId('reviews-list')).toBeInTheDocument()
+    expect(screen.queryByTestId('no-reviews-list')).not.toBeInTheDocument()
 })

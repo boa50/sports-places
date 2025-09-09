@@ -31,14 +31,13 @@ test('show place marker', async () => {
     const slectedPlace = buildTestPlace(1)
 
     customRender(<PlaceMarker place={place} />, {
-        // @ts-ignore Not testing all the states
         state: { selectedPlace: slectedPlace },
         dispatch: vi.fn(),
     })
 
     await screen.findByTestId('leaflet-marker')
 
-    expect(screen.getByTestId('leaflet-marker')).toBeDefined()
+    expect(screen.getByTestId('leaflet-marker')).toBeInTheDocument()
 })
 
 test('click place marker without click action', async () => {
@@ -48,7 +47,6 @@ test('click place marker without click action', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<PlaceMarker place={place} hasClickAction={false} />, {
-        // @ts-ignore Not testing all the states
         state: { selectedPlace: slectedPlace },
         dispatch: mockDispatch,
     })
@@ -56,7 +54,7 @@ test('click place marker without click action', async () => {
     await screen.findByTestId('leaflet-marker')
 
     const markerBtn = screen.getByTestId('leaflet-marker')
-    expect(markerBtn).toBeDefined()
+    expect(markerBtn).toBeInTheDocument()
 
     fireEvent.click(markerBtn)
 
@@ -70,7 +68,6 @@ test('click place marker with click action', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<PlaceMarker place={place} hasClickAction={true} />, {
-        // @ts-ignore Not testing all the states
         state: { selectedPlace: slectedPlace },
         dispatch: mockDispatch,
     })
@@ -78,7 +75,7 @@ test('click place marker with click action', async () => {
     await screen.findByTestId('leaflet-marker')
 
     const markerBtn = screen.getByTestId('leaflet-marker')
-    expect(markerBtn).toBeDefined()
+    expect(markerBtn).toBeInTheDocument()
 
     fireEvent.click(markerBtn)
 

@@ -18,16 +18,15 @@ mockApiCalls()
 
 test('rendering the component', async () => {
     customRender(<PlacesMarkers />, {
-        // @ts-ignore Not testing all the states
         state: {},
         dispatch: vi.fn(),
     })
 
-    expect(screen.getByTestId('alert-screen')).toBeDefined()
-    expect(screen.queryByTestId('place-marker')).toBeNull()
+    expect(screen.getByTestId('alert-screen')).toBeInTheDocument()
+    expect(screen.queryByTestId('place-marker')).not.toBeInTheDocument()
 
     await screen.findAllByTestId('place-marker')
-    expect(screen.queryByTestId('alert-screen')).toBeNull()
+    expect(screen.queryByTestId('alert-screen')).not.toBeInTheDocument()
     expect(screen.getAllByTestId('place-marker').length).toBe(
         testVariables.numberOfPlaces
     )

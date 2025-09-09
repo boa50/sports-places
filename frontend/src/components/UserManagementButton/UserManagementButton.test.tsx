@@ -18,23 +18,25 @@ mockApiCalls()
 
 test('show no button', async () => {
     customRender(<UserManagementButton />, {
-        // @ts-ignore Not testing all the states
         state: { isUserSignedIn: undefined },
         dispatch: () => {},
     })
 
     await screen.findByTestId('custom-control')
 
-    expect(screen.getByTestId('custom-control')).toBeDefined()
-    expect(screen.queryByRole('button', { name: 'Sign in' })).toBeNull()
-    expect(screen.queryByRole('button', { name: 'User' })).toBeNull()
+    expect(screen.getByTestId('custom-control')).toBeInTheDocument()
+    expect(
+        screen.queryByRole('button', { name: 'Sign in' })
+    ).not.toBeInTheDocument()
+    expect(
+        screen.queryByRole('button', { name: 'User' })
+    ).not.toBeInTheDocument()
 })
 
 test('show signed out button', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<UserManagementButton />, {
-        // @ts-ignore Not testing all the states
         state: { isUserSignedIn: false },
         dispatch: mockDispatch,
     })
@@ -43,9 +45,11 @@ test('show signed out button', async () => {
 
     const signInBtn = screen.getByRole('button', { name: 'Sign in' })
 
-    expect(screen.getByTestId('custom-control')).toBeDefined()
-    expect(signInBtn).toBeDefined()
-    expect(screen.queryByRole('button', { name: 'User' })).toBeNull()
+    expect(screen.getByTestId('custom-control')).toBeInTheDocument()
+    expect(signInBtn).toBeInTheDocument()
+    expect(
+        screen.queryByRole('button', { name: 'User' })
+    ).not.toBeInTheDocument()
 
     fireEvent.click(signInBtn)
 
@@ -58,7 +62,6 @@ test('show signed in button', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<UserManagementButton />, {
-        // @ts-ignore Not testing all the states
         state: { isUserSignedIn: true },
         dispatch: mockDispatch,
     })
@@ -67,9 +70,11 @@ test('show signed in button', async () => {
 
     const userBtn = screen.getByRole('button', { name: 'User' })
 
-    expect(screen.getByTestId('custom-control')).toBeDefined()
-    expect(screen.queryByRole('button', { name: 'Sign in' })).toBeNull()
-    expect(userBtn).toBeDefined()
+    expect(screen.getByTestId('custom-control')).toBeInTheDocument()
+    expect(
+        screen.queryByRole('button', { name: 'Sign in' })
+    ).not.toBeInTheDocument()
+    expect(userBtn).toBeInTheDocument()
 
     fireEvent.click(userBtn)
 

@@ -45,7 +45,6 @@ test('standard review', async () => {
             <Review review={review} />
         </Suspense>,
         {
-            // @ts-ignore Not testing all the states
             state: {},
             dispatch: vi.fn(),
         }
@@ -56,14 +55,16 @@ test('standard review', async () => {
     const userAvatarComponent = screen.getByTestId('user-avatar')
     const ratingStarsComponent = screen.getByTestId('rating-stars')
 
-    expect(userAvatarComponent).toBeDefined()
-    expect(userAvatarComponent.textContent).toBe(review.userAvatarDescription)
-    expect(ratingStarsComponent).toBeDefined()
-    expect(ratingStarsComponent.textContent).toBe(review.rating.toString())
-    expect(screen.getByText(review.userDisplayName)).toBeDefined()
-    expect(screen.getByText(review.experienceDate.toISOString())).toBeDefined()
-    expect(screen.queryByTestId('link')).toBeNull()
-    expect(screen.queryByTestId('icon')).toBeNull()
+    expect(userAvatarComponent).toBeInTheDocument()
+    expect(userAvatarComponent).toHaveTextContent(review.userAvatarDescription)
+    expect(ratingStarsComponent).toBeInTheDocument()
+    expect(ratingStarsComponent).toHaveTextContent(review.rating.toString())
+    expect(screen.getByText(review.userDisplayName)).toBeInTheDocument()
+    expect(
+        screen.getByText(review.experienceDate.toISOString())
+    ).toBeInTheDocument()
+    expect(screen.queryByTestId('link')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('icon')).not.toBeInTheDocument()
 })
 
 test('review with trusted route link', async () => {
@@ -81,7 +82,6 @@ test('review with trusted route link', async () => {
             <Review review={review} />
         </Suspense>,
         {
-            // @ts-ignore Not testing all the states
             state: {},
             dispatch: vi.fn(),
         }
@@ -93,15 +93,18 @@ test('review with trusted route link', async () => {
     const ratingStarsComponent = screen.getByTestId('rating-stars')
     const linkComponent = screen.getByTestId('link')
 
-    expect(userAvatarComponent).toBeDefined()
-    expect(userAvatarComponent.textContent).toBe(review.userAvatarDescription)
-    expect(ratingStarsComponent).toBeDefined()
-    expect(ratingStarsComponent.textContent).toBe(review.rating.toString())
-    expect(screen.getByText(review.userDisplayName)).toBeDefined()
-    expect(screen.getByText(review.experienceDate.toISOString())).toBeDefined()
-    expect(linkComponent).toBeDefined()
-    expect(linkComponent.textContent).toBe(review.routeLink)
-    expect(screen.queryByTestId('icon')).toBeNull()
+    expect(userAvatarComponent).toBeInTheDocument()
+    expect(userAvatarComponent).toHaveTextContent(review.userAvatarDescription)
+    expect(ratingStarsComponent).toBeInTheDocument()
+    expect(ratingStarsComponent).toHaveTextContent(review.rating.toString())
+    expect(screen.getByText(review.userDisplayName)).toBeInTheDocument()
+    expect(
+        screen.getByText(review.experienceDate.toISOString())
+    ).toBeInTheDocument()
+    expect(linkComponent).toBeInTheDocument()
+    const reviewRouteLink = review.routeLink ?? ''
+    expect(linkComponent).toHaveTextContent(reviewRouteLink)
+    expect(screen.queryByTestId('icon')).not.toBeInTheDocument()
 })
 
 test('review with untrusted route link', async () => {
@@ -119,7 +122,6 @@ test('review with untrusted route link', async () => {
             <Review review={review} />
         </Suspense>,
         {
-            // @ts-ignore Not testing all the states
             state: {},
             dispatch: vi.fn(),
         }
@@ -132,14 +134,17 @@ test('review with untrusted route link', async () => {
     const linkComponent = screen.getByTestId('link')
     const iconComponent = screen.getByTestId('icon')
 
-    expect(userAvatarComponent).toBeDefined()
-    expect(userAvatarComponent.textContent).toBe(review.userAvatarDescription)
-    expect(ratingStarsComponent).toBeDefined()
-    expect(ratingStarsComponent.textContent).toBe(review.rating.toString())
-    expect(screen.getByText(review.userDisplayName)).toBeDefined()
-    expect(screen.getByText(review.experienceDate.toISOString())).toBeDefined()
-    expect(linkComponent).toBeDefined()
-    expect(linkComponent.textContent).toBe(review.routeLink)
-    expect(iconComponent).toBeDefined()
-    expect(iconComponent.textContent).toBe('alert')
+    expect(userAvatarComponent).toBeInTheDocument()
+    expect(userAvatarComponent).toHaveTextContent(review.userAvatarDescription)
+    expect(ratingStarsComponent).toBeInTheDocument()
+    expect(ratingStarsComponent).toHaveTextContent(review.rating.toString())
+    expect(screen.getByText(review.userDisplayName)).toBeInTheDocument()
+    expect(
+        screen.getByText(review.experienceDate.toISOString())
+    ).toBeInTheDocument()
+    expect(linkComponent).toBeInTheDocument()
+    const reviewRouteLink = review.routeLink ?? ''
+    expect(linkComponent).toHaveTextContent(reviewRouteLink)
+    expect(iconComponent).toBeInTheDocument()
+    expect(iconComponent).toHaveTextContent('alert')
 })

@@ -7,7 +7,7 @@ import type { AppState } from '@/types'
 
 interface Props {
     children: React.ReactNode
-    contextValue?: { state: AppState; dispatch: () => any }
+    contextValue?: { state: Partial<AppState>; dispatch: () => any }
 }
 
 const CustomProvider = ({ children, contextValue }: Props) => {
@@ -28,6 +28,7 @@ const CustomProvider = ({ children, contextValue }: Props) => {
 
     return (
         <QueryClientProvider client={queryClient}>
+            {/* @ts-ignore Not testing all state values all the time */}
             <AppContext.Provider value={contextValue}>
                 {children}
             </AppContext.Provider>
@@ -37,7 +38,7 @@ const CustomProvider = ({ children, contextValue }: Props) => {
 
 export const customRender = (
     ui: React.ReactNode,
-    context?: { state: AppState; dispatch: () => any },
+    context?: { state: Partial<AppState>; dispatch: () => any },
     options?: RenderOptions
 ) => {
     return render(ui, {

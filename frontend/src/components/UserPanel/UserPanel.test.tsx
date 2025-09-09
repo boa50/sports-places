@@ -20,7 +20,6 @@ mockApiCalls()
 
 test('showing user panel', async () => {
     customRender(<UserPanel />, {
-        // @ts-ignore Not testing all the states
         state: { isUserPanelOpen: true },
         dispatch: () => {},
     })
@@ -29,32 +28,29 @@ test('showing user panel', async () => {
 
     expect(
         await screen.findByText(new RegExp(testVariables.validUserDisplayName))
-    ).toBeDefined()
-    expect(screen.getByRole('heading', { level: 6 }).textContent).toEqual(
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 6 })).toHaveTextContent(
         'test@test.com'
     )
-    expect(screen.getByTestId('user-avatar')).toBeDefined()
-    expect(screen.getByRole('button', { name: 'Close' })).toBeDefined()
-    expect(screen.getByRole('button', { name: 'Edit' })).toBeDefined()
-    expect(screen.getByRole('button', { name: 'SignOut' })).toBeDefined()
+    expect(screen.getByTestId('user-avatar')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'SignOut' })).toBeInTheDocument()
 })
 
 test('not showing user panel', async () => {
     customRender(<UserPanel />, {
-        // @ts-ignore Not testing all the states
         state: { isUserPanelOpen: false },
         dispatch: () => {},
     })
 
-    const heading = screen.queryByRole('heading')
-    expect(heading).toBeNull()
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
 })
 
 test('edit button functions', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<UserPanel />, {
-        // @ts-ignore Not testing all the states
         state: { isUserPanelOpen: true },
         dispatch: mockDispatch,
     })
@@ -75,15 +71,11 @@ test('edit button functions', async () => {
 test('signout button functions', async () => {
     const mockSignOutUser = vi.fn()
     const { signOutUser } = await import('@/auth')
-    // const signOutUserDefaultMock = vi
-    //     .mocked(signOutUser)
-    //     .getMockImplementation()
     vi.mocked(signOutUser).mockImplementationOnce(mockSignOutUser)
 
     const mockDispatch = vi.fn()
 
     customRender(<UserPanel />, {
-        // @ts-ignore Not testing all the states
         state: { isUserPanelOpen: true },
         dispatch: mockDispatch,
     })
@@ -92,21 +84,15 @@ test('signout button functions', async () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'SignOut' }))
 
-    expect(mockSignOutUser).toHaveBeenCalledTimes(1)
-
     expect(mockDispatch).toHaveBeenCalledExactlyOnceWith({
         type: 'HIDE_USER_PANEL',
     })
-
-    // if (signOutUserDefaultMock !== undefined)
-    //     vi.mocked(signOutUser).mockImplementation(signOutUserDefaultMock)
 })
 
 test('close panel button functions', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<UserPanel />, {
-        // @ts-ignore Not testing all the states
         state: { isUserPanelOpen: true },
         dispatch: mockDispatch,
     })

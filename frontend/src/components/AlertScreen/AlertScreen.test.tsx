@@ -7,7 +7,7 @@ test('load alert screen', async () => {
 
     await screen.findByRole('alert')
 
-    expect(screen.getByRole('alert')).toBeDefined()
+    expect(screen.getByRole('alert')).toBeInTheDocument()
 })
 
 test('right text message', async () => {
@@ -17,7 +17,7 @@ test('right text message', async () => {
 
     await screen.findByRole('alert')
 
-    expect(screen.getByRole('alert').textContent).toEqual(definedTextMessage)
+    expect(screen.getByRole('alert')).toHaveTextContent(definedTextMessage)
 })
 
 test('call to hide alert screen', async () => {
@@ -33,7 +33,6 @@ test('call to hide alert screen', async () => {
             timeToHide={timeToHide}
         />,
         {
-            // @ts-ignore Not testing the context state
             state: {},
             dispatch: mockDispatch,
         }
@@ -45,8 +44,9 @@ test('call to hide alert screen', async () => {
 
     vi.advanceTimersByTime(1)
 
-    expect(mockDispatch).toHaveBeenCalledTimes(1)
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'HIDE_ALERT_SCREEN' })
+    expect(mockDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: 'HIDE_ALERT_SCREEN',
+    })
 
     vi.useRealTimers()
 })

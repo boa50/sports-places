@@ -32,7 +32,6 @@ vi.mock(import('../ui'), async (importOriginal) => {
 
 test('show default fields', async () => {
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
@@ -65,7 +64,6 @@ test('email writing', async () => {
     const userEmail = 'testemail@mail.com'
 
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
@@ -85,7 +83,6 @@ test('password writing', async () => {
     const userPassword = 'someNicePassw0rd'
 
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
@@ -102,7 +99,6 @@ test('password writing', async () => {
 
 test('processing submit', async () => {
     const { signInWithEmail } = await import('@/auth')
-    // @ts-ignore Not mocking all the properties
     vi.mocked(signInWithEmail).mockImplementationOnce(
         () =>
             new Promise(() => {
@@ -114,7 +110,6 @@ test('processing submit', async () => {
     const user = userEvent.setup()
 
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
@@ -139,7 +134,6 @@ test('processing submit', async () => {
 
 test('process success', async () => {
     const { signInWithEmail } = await import('@/auth')
-    // @ts-ignore Not mocking all the properties
     vi.mocked(signInWithEmail).mockImplementationOnce(
         () =>
             new Promise((resolve) => {
@@ -151,7 +145,6 @@ test('process success', async () => {
     const mockDispatch = vi.fn()
 
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: mockDispatch,
     })
@@ -179,7 +172,6 @@ test('process success', async () => {
 
 test('process error', async () => {
     const { signInWithEmail } = await import('@/auth')
-    // @ts-ignore Not mocking all the properties
     vi.mocked(signInWithEmail).mockImplementationOnce(
         () =>
             new Promise((resolve) => {
@@ -192,7 +184,6 @@ test('process error', async () => {
     const userPassword = 'someNicePassw0rd'
 
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
@@ -229,7 +220,6 @@ test('change to forgot password', async () => {
     const user = userEvent.setup()
 
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
@@ -253,7 +243,6 @@ test('change to sign up', async () => {
     const user = userEvent.setup()
 
     customRender(<LoginForm />, {
-        // @ts-ignore Not testing all the states
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
