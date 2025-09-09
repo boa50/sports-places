@@ -33,6 +33,7 @@ export default function SignInForm({
 
     return (
         <form
+            aria-label="Sign In"
             className="space-y-6"
             onSubmit={(e) =>
                 handleSignIn(
@@ -71,7 +72,10 @@ export default function SignInForm({
             <div className="flex justify-end">
                 <Link
                     title="Forgot password?"
-                    onClick={() => setScreen('forgotPassword')}
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                        event.preventDefault()
+                        setScreen('forgotPassword')
+                    }}
                 />
             </div>
             {isProcessing ? (
@@ -83,7 +87,13 @@ export default function SignInForm({
                 <span className="text-sm font-light text-gray-900">
                     Don’t have an account yet?
                 </span>
-                <Link title="Sign up" onClick={() => setScreen('signUp')} />
+                <Link
+                    title="Sign up"
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                        event.preventDefault()
+                        setScreen('signUp')
+                    }}
+                />
             </div>
         </form>
     )

@@ -9,10 +9,7 @@ export function FormModal({ title, children, isModalOpen, closeModal }: Props) {
     return (
         isModalOpen && (
             <div className="fixed z-1500 flex items-center justify-center w-screen h-screen">
-                <div
-                    aria-hidden="true"
-                    className="z-1000 overflow-y-hidden overflow-x-hidden flex justify-center items-center w-md h-fit rounded-lg shadow-sm/20"
-                >
+                <div className="z-1000 overflow-y-hidden overflow-x-hidden flex justify-center items-center w-md h-fit rounded-lg shadow-sm/20">
                     <div className="relative w-full h-full">
                         <div className="relative bg-white p-4">
                             <Header title={title} />

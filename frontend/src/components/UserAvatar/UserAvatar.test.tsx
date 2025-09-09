@@ -16,11 +16,11 @@ test('default user avatar from url parameter', async () => {
 
 test('default user avatar from query', async () => {
     const { getCurrentUser } = await import('@/auth')
-    const getCurrentUserDefaultMock = vi
-        .mocked(getCurrentUser)
-        .getMockImplementation()
+    // const getCurrentUserDefaultMock = vi
+    //     .mocked(getCurrentUser)
+    //     .getMockImplementation()
     // @ts-ignore Not mocking all the properties
-    vi.mocked(getCurrentUser).mockImplementation(() => ({
+    vi.mocked(getCurrentUser).mockImplementationOnce(() => ({
         uid: testVariables.validUserProviderId,
     }))
 
@@ -30,8 +30,8 @@ test('default user avatar from query', async () => {
 
     expect(screen.getByTestId('default-user-avatar')).toBeDefined()
 
-    if (getCurrentUserDefaultMock !== undefined)
-        vi.mocked(getCurrentUser).mockImplementation(getCurrentUserDefaultMock)
+    // if (getCurrentUserDefaultMock !== undefined)
+    //     vi.mocked(getCurrentUser).mockImplementation(getCurrentUserDefaultMock)
 })
 
 test('custom user avatar from url parameter', async () => {

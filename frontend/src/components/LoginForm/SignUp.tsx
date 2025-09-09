@@ -32,6 +32,7 @@ export default function SignUpForm({
 
     return (
         <form
+            aria-label="Sign Up"
             className="space-y-6"
             onSubmit={(e) =>
                 handleSignUp(

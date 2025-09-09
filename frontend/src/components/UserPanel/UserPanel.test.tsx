@@ -75,10 +75,10 @@ test('edit button functions', async () => {
 test('signout button functions', async () => {
     const mockSignOutUser = vi.fn()
     const { signOutUser } = await import('@/auth')
-    const signOutUserDefaultMock = vi
-        .mocked(signOutUser)
-        .getMockImplementation()
-    vi.mocked(signOutUser).mockImplementation(mockSignOutUser)
+    // const signOutUserDefaultMock = vi
+    //     .mocked(signOutUser)
+    //     .getMockImplementation()
+    vi.mocked(signOutUser).mockImplementationOnce(mockSignOutUser)
 
     const mockDispatch = vi.fn()
 
@@ -98,8 +98,8 @@ test('signout button functions', async () => {
         type: 'HIDE_USER_PANEL',
     })
 
-    if (signOutUserDefaultMock !== undefined)
-        vi.mocked(signOutUser).mockImplementation(signOutUserDefaultMock)
+    // if (signOutUserDefaultMock !== undefined)
+    //     vi.mocked(signOutUser).mockImplementation(signOutUserDefaultMock)
 })
 
 test('close panel button functions', async () => {

@@ -21,6 +21,7 @@ export default function ForgotPasswordForm({
 
     return (
         <form
+            aria-label="Forgot Password"
             className="space-y-6"
             onSubmit={(e) =>
                 handlePasswordReset(
