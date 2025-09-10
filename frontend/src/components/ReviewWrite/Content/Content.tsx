@@ -50,7 +50,8 @@ export default function ReviewContent({
                         <IsTrustedUrl url={routeLink} />
                     ) : (
                         <div
-                            title={`This url is too big, please insert an urll smaller than ${routeLinkMaxLength} characters`}
+                            title={`This url is too big, please insert an url smaller than ${routeLinkMaxLength} characters`}
+                            data-testid="big-route-link-alert"
                         >
                             <Icon type="alert" size="size-4" />
                         </div>
