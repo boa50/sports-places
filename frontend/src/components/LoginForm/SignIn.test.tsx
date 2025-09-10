@@ -30,14 +30,18 @@ vi.mock(import('../ui'), async (importOriginal) => {
     }
 })
 
-test('show default fields', async () => {
+beforeEach(async ({ task }) => {
+    if (task.name.includes('SKIP BEFORE_EACH SETUP')) return
+
     customRender(<LoginForm />, {
         state: { isLoginFormOpen: true },
         dispatch: vi.fn(),
     })
 
     await screen.findByRole('form', { name: /sign in/i })
+})
 
+test('show default fields', async () => {
     expect(screen.getByRole('form', { name: /sign in/i })).toBeInTheDocument()
     expect(screen.queryByTestId('forgot-password')).not.toBeInTheDocument()
     expect(screen.queryByTestId('sign-up')).not.toBeInTheDocument()
@@ -63,13 +67,6 @@ test('email writing', async () => {
     const user = userEvent.setup()
     const userEmail = 'testemail@mail.com'
 
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await screen.findByRole('form', { name: /sign in/i })
-
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
 
     expect(emailInputComponent).toBeInTheDocument()
@@ -81,13 +78,6 @@ test('email writing', async () => {
 test('password writing', async () => {
     const user = userEvent.setup()
     const userPassword = 'someNicePassw0rd'
-
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await screen.findByRole('form', { name: /sign in/i })
 
     const passwordInputComponent = screen.getByLabelText(/password/i)
 
@@ -109,13 +99,6 @@ test('processing submit', async () => {
 
     const user = userEvent.setup()
 
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await screen.findByRole('form', { name: /sign in/i })
-
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
     const passwordInputComponent = screen.getByLabelText(/password/i)
     const signInButtonComponent = screen.getByRole('button', {
@@ -132,7 +115,7 @@ test('processing submit', async () => {
     expect(screen.getByTestId('processing-button')).toBeInTheDocument()
 })
 
-test('process success', async () => {
+test('processing submit success SKIP BEFORE_EACH SETUP', async () => {
     const { signInWithEmail } = await import('@/auth')
     vi.mocked(signInWithEmail).mockImplementationOnce(
         () =>
@@ -170,7 +153,7 @@ test('process success', async () => {
     expect(screen.getByTestId('feedback-message')).toHaveTextContent('')
 })
 
-test('process error', async () => {
+test('processing submit error', async () => {
     const { signInWithEmail } = await import('@/auth')
     vi.mocked(signInWithEmail).mockImplementationOnce(
         () =>
@@ -182,13 +165,6 @@ test('process error', async () => {
     const user = userEvent.setup()
     const userEmail = 'testemail@mail.com'
     const userPassword = 'someNicePassw0rd'
-
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await screen.findByRole('form', { name: /sign in/i })
 
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
     const passwordInputComponent = screen.getByLabelText(/password/i)
@@ -219,13 +195,6 @@ test('process error', async () => {
 test('change to forgot password', async () => {
     const user = userEvent.setup()
 
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await screen.findByRole('form', { name: /sign in/i })
-
     expect(screen.getByRole('form', { name: /sign in/i })).toBeInTheDocument()
     expect(screen.queryByTestId('forgot-password')).not.toBeInTheDocument()
     expect(screen.queryByTestId('sign-up')).not.toBeInTheDocument()
@@ -241,13 +210,6 @@ test('change to forgot password', async () => {
 
 test('change to sign up', async () => {
     const user = userEvent.setup()
-
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await screen.findByRole('form', { name: /sign in/i })
 
     expect(screen.getByRole('form', { name: /sign in/i })).toBeInTheDocument()
     expect(screen.queryByTestId('forgot-password')).not.toBeInTheDocument()

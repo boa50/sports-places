@@ -48,7 +48,7 @@ vi.mock(import('../ui'), async (importOriginal) => {
     }
 })
 
-test('show default fields', async () => {
+beforeEach(async () => {
     const user = userEvent.setup()
 
     customRender(<LoginForm />, {
@@ -58,7 +58,9 @@ test('show default fields', async () => {
 
     await user.click(screen.getByRole('button', { name: /forgot password/i }))
     await screen.findByRole('form', { name: /forgot password/i })
+})
 
+test('show default fields', async () => {
     expect(
         screen.getByRole('form', { name: /forgot password/i })
     ).toBeInTheDocument()
@@ -83,14 +85,6 @@ test('email writing', async () => {
     const user = userEvent.setup()
     const userEmail = 'testemail@mail.com'
 
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await user.click(screen.getByRole('button', { name: /forgot password/i }))
-    await screen.findByRole('form', { name: /forgot password/i })
-
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
 
     expect(emailInputComponent).toBeInTheDocument()
@@ -111,14 +105,6 @@ test('processing submit', async () => {
 
     const user = userEvent.setup()
 
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await user.click(screen.getByRole('button', { name: /forgot password/i }))
-    await screen.findByRole('form', { name: /forgot password/i })
-
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
     const resetPasswordButtonComponent = screen.getByRole('button', {
         name: /reset password/i,
@@ -132,7 +118,7 @@ test('processing submit', async () => {
     expect(screen.getByTestId('processing-button')).toBeInTheDocument()
 })
 
-test('processing success', async () => {
+test('processing submit success', async () => {
     const { resetPassword } = await import('@/auth')
     vi.mocked(resetPassword).mockImplementationOnce(
         () =>
@@ -142,14 +128,6 @@ test('processing success', async () => {
     )
 
     const user = userEvent.setup()
-
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await user.click(screen.getByRole('button', { name: /forgot password/i }))
-    await screen.findByRole('form', { name: /forgot password/i })
 
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
 
@@ -176,7 +154,7 @@ test('processing success', async () => {
     expect(screen.getByTestId('feedback-message')).not.toBeEmptyDOMElement()
 })
 
-test('processing error', async () => {
+test('processing submit error', async () => {
     const { resetPassword } = await import('@/auth')
     vi.mocked(resetPassword).mockImplementationOnce(
         () =>
@@ -186,14 +164,6 @@ test('processing error', async () => {
     )
 
     const user = userEvent.setup()
-
-    customRender(<LoginForm />, {
-        state: { isLoginFormOpen: true },
-        dispatch: vi.fn(),
-    })
-
-    await user.click(screen.getByRole('button', { name: /forgot password/i }))
-    await screen.findByRole('form', { name: /forgot password/i })
 
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
 
