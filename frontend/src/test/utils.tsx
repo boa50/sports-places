@@ -65,4 +65,6 @@ export const testVariables = {
     reviewDefaultDateAPI: 628021800000,
     reviewDefaultRating: 3,
     numberOfPlaces: 2,
+    trustedRouteLink: 'http://www.trusted-route-link.com',
+    untrustedRouteLink: 'http://www.untrusted-route-link.com',
 }

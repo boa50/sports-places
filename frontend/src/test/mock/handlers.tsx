@@ -64,4 +64,12 @@ export const handlers = [
 
         return HttpResponse.json(places)
     }),
+    http.get(`${apiUrl}/checkLink`, ({ request }) => {
+        const url = new URL(request.url)
+        const urlParameter = url.searchParams.get('url')
+
+        if (urlParameter === testVariables.trustedRouteLink)
+            return HttpResponse.json({ trusted: true })
+        else return HttpResponse.json({ trusted: false })
+    }),
 ]
