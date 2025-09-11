@@ -90,4 +90,20 @@ export const handlers = [
             return HttpResponse.json({ trusted: true })
         else return HttpResponse.json({ trusted: false })
     }),
+    http.get(`${apiUrl}/avatars`, () => {
+        return HttpResponse.json([
+            {
+                description: testVariables.avatarListFirstElementDescription,
+                url: testVariables.avatarListFirstElementUrl,
+            },
+            {
+                description: 'second',
+                url: 'http://www.avatar-second.com',
+            },
+            {
+                description: 'third',
+                url: 'http://www.avatar-third.com',
+            },
+        ])
+    }),
 ]

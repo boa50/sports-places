@@ -27,9 +27,9 @@ export default function Avatars({ selectedAvatar, handleChange }: Props) {
             <div className="text-sm font-medium text-gray-900">
                 Display Picture
             </div>
-            <div className="flex justify-around">
+            <ul className="flex justify-around">
                 {availableAvatars.map((d, i) => (
-                    <div key={i}>
+                    <li key={i}>
                         <input
                             type="radio"
                             id={`value-${d.description}`}
@@ -53,9 +53,9 @@ export default function Avatars({ selectedAvatar, handleChange }: Props) {
                                 <UserAvatar size="big" avatarUrl={d.url} />
                             </div>
                         </label>
-                    </div>
+                    </li>
                 ))}
-            </div>
+            </ul>
         </div>
     )
 }

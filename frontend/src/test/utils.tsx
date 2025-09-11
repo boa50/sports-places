@@ -70,4 +70,6 @@ export const testVariables = {
     validPlaceId: 42,
     validPlaceIdNewPlaceInsert: 27,
     invalidPlaceId: -42,
+    avatarListFirstElementDescription: 'first',
+    avatarListFirstElementUrl: 'http://www.avatar-first.com',
 }
