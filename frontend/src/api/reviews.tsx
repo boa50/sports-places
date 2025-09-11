@@ -51,8 +51,8 @@ export const createReview = async (
             route_link: routeLink,
         }),
     })
-    if (!response.ok) {
-        throw new Error('Failed to create review')
-    }
+
+    if (!response.ok) throw new Error('Failed to create review')
+
     return response.json()
 }

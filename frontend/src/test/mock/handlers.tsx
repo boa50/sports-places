@@ -53,6 +53,24 @@ export const handlers = [
 
         return HttpResponse.json(reviews)
     }),
+    http.post(`${apiUrl}/review`, async ({ request }) => {
+        const postFields = await request.clone().json()
+
+        if (postFields.place_id === testVariables.validPlaceId)
+            return HttpResponse.json({
+                place_id: postFields.place_id,
+                is_new_place: false,
+            })
+        else if (
+            postFields.place_id === testVariables.validPlaceIdNewPlaceInsert
+        )
+            return HttpResponse.json({
+                place_id: postFields.place_id,
+                is_new_place: true,
+            })
+
+        return new HttpResponse(null, { status: 403 })
+    }),
     http.get(`${apiUrl}/places`, () => {
         const places = [...Array(testVariables.numberOfPlaces).keys()].map(
             (k) => ({

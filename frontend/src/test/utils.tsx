@@ -67,4 +67,7 @@ export const testVariables = {
     numberOfPlaces: 2,
     trustedRouteLink: 'http://www.trusted-route-link.com',
     untrustedRouteLink: 'http://www.untrusted-route-link.com',
+    validPlaceId: 42,
+    validPlaceIdNewPlaceInsert: 27,
+    invalidPlaceId: -42,
 }

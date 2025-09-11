@@ -7,7 +7,10 @@ interface Props {
 
 export default function Buttons({ handleCancel, isPostDisabled }: Props) {
     return (
-        <div className="flex gap-2 justify-end">
+        <div
+            className="flex gap-2 justify-end"
+            data-testid="review-write-buttons"
+        >
             <Button
                 title="Cancel"
                 isSecondary={true}

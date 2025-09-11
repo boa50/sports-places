@@ -22,7 +22,10 @@ export default function ReviewContent({
     routeLinkMaxLength,
 }: Props) {
     return (
-        <div className="flex flex-col gap-4 text-sm text-gray-500">
+        <div
+            className="flex flex-col gap-4 text-sm text-gray-500"
+            data-testid="review-write-content"
+        >
             <Ratings rating={rating} handleRatingChange={handleRatingChange} />
             <Input
                 id="experience-date"

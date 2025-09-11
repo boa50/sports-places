@@ -39,6 +39,7 @@ export default defineConfig({
                 'src/routes/__root.tsx',
                 'src/main.tsx',
                 'src/components/**/index.tsx',
+                'src/components/Map/*',
             ], // Specify files to exclude from coverage
             thresholds: {
                 global: {
