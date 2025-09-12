@@ -59,7 +59,6 @@ export const testVariables = {
     validUserProviderId: 'someUserProviderId',
     validUserProviderIdCustomAvatar: 'someUserProviderIdCustomAvatar',
     validUserDisplayName: 'First User',
-    customAvatarUrl: 'http://www.custom-avatar.com',
     invalidUserProviderId: 'noUserProviderId',
     reviewDefaultDate: new Date(628021800000),
     reviewDefaultDateAPI: 628021800000,
@@ -72,4 +71,7 @@ export const testVariables = {
     invalidPlaceId: -42,
     avatarListFirstElementDescription: 'first',
     avatarListFirstElementUrl: 'http://www.avatar-first.com',
+    avatarListSecondElementDescription: 'second',
+    avatarListSecondElementUrl: 'http://www.avatar-second.com',
+    userDisplayNameChangeError: 'User Name with error',
 }

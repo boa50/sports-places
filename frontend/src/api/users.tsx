@@ -24,9 +24,7 @@ export const createUser = async (
         }),
     })
 
-    if (!response.ok) {
-        throw new Error('Failed to create a new user')
-    }
+    if (!response.ok) throw new Error('Failed to create a new user')
 
     return response.json()
 }
@@ -69,9 +67,7 @@ export const updateUser = async (
         }),
     })
 
-    if (!response.ok) {
-        throw new Error('Failed to update the user')
-    }
+    if (!response.ok) throw new Error('Failed to update the user')
 
     return response.json()
 }

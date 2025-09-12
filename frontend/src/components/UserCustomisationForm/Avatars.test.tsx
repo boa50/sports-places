@@ -24,6 +24,7 @@ test('initial state, default avatar', async () => {
     })
 
     await screen.findByRole('list')
+    await screen.findAllByRole('radio')
 
     expect(screen.getAllByRole('radio')).not.toHaveLength(0)
 
@@ -50,6 +51,7 @@ test('initial state, selected avatar', async () => {
     })
 
     await screen.findByRole('list')
+    await screen.findAllByRole('radio')
 
     expect(screen.getAllByRole('radio')).not.toHaveLength(0)
 
@@ -87,6 +89,7 @@ test('changing selected avatar', async () => {
     const user = userEvent.setup()
 
     await screen.findByRole('list')
+    await screen.findAllByRole('radio')
 
     expect(
         screen.getByRole('radio', {

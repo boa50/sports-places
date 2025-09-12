@@ -30,20 +30,23 @@ test('default user avatar from query', async () => {
 
 test('custom user avatar from url parameter', async () => {
     customRender(
-        <UserAvatar size="medium" avatarUrl={testVariables.customAvatarUrl} />
+        <UserAvatar
+            size="medium"
+            avatarUrl={testVariables.avatarListFirstElementUrl}
+        />
     )
 
     const customAvatar = screen.getByRole('img')
 
     expect(customAvatar).toBeInTheDocument()
-    expect(customAvatar).toHaveAttribute('src', testVariables.customAvatarUrl)
+    expect(customAvatar).toHaveAttribute(
+        'src',
+        testVariables.avatarListFirstElementUrl
+    )
 })
 
 test('custom user avatar from query', async () => {
     const { getCurrentUser } = await import('@/auth')
-    const getCurrentUserDefaultMock = vi
-        .mocked(getCurrentUser)
-        .getMockImplementation()
     // @ts-ignore Not mocking all the properties
     vi.mocked(getCurrentUser).mockImplementation(() => ({
         uid: testVariables.validUserProviderIdCustomAvatar,
@@ -56,8 +59,10 @@ test('custom user avatar from query', async () => {
     const customAvatar = screen.getByRole('img')
 
     expect(customAvatar).toBeInTheDocument()
-    expect(customAvatar).toHaveAttribute('src', testVariables.customAvatarUrl)
+    expect(customAvatar).toHaveAttribute(
+        'src',
+        testVariables.avatarListFirstElementUrl
+    )
 
-    if (getCurrentUserDefaultMock !== undefined)
-        vi.mocked(getCurrentUser).mockImplementation(getCurrentUserDefaultMock)
+    vi.mocked(getCurrentUser).mockReset()
 })

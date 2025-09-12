@@ -15,7 +15,10 @@ export default function Buttons({
     const containerClass = 'flex gap-2 justify-end mt-10'
 
     return isProcessing ? (
-        <div className={containerClass}>
+        <div
+            className={containerClass}
+            data-testid="user-customisation-buttons"
+        >
             {!isNewUser && (
                 <Button
                     title="Cancel"
@@ -27,7 +30,10 @@ export default function Buttons({
             <ProcessingButton width={btnWidth} />
         </div>
     ) : (
-        <div className={containerClass}>
+        <div
+            className={containerClass}
+            data-testid="user-customisation-buttons"
+        >
             {!isNewUser && (
                 <Button
                     title="Cancel"

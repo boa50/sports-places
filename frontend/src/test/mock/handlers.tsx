@@ -21,12 +21,34 @@ export const handlers = [
             return HttpResponse.json([
                 {
                     user_id: 2,
-                    avatar_url: testVariables.customAvatarUrl,
+                    avatar_url: testVariables.avatarListFirstElementUrl,
                     display_name: testVariables.validUserDisplayName,
                 },
             ])
 
         return HttpResponse.json([])
+    }),
+    http.post(`${apiUrl}/user`, async ({ request }) => {
+        const postFields = await request.clone().json()
+
+        if (
+            postFields.display_name === testVariables.userDisplayNameChangeError
+        ) {
+            return new HttpResponse(null, { status: 403 })
+        } else {
+            return new HttpResponse(0, { status: 200 })
+        }
+    }),
+    http.post(`${apiUrl}/userUpdate`, async ({ request }) => {
+        const postFields = await request.clone().json()
+
+        if (
+            postFields.display_name === testVariables.userDisplayNameChangeError
+        ) {
+            return new HttpResponse(null, { status: 403 })
+        } else {
+            return new HttpResponse(postFields.user_id, { status: 200 })
+        }
     }),
     http.get(`${apiUrl}/avatarUrl`, ({ request }) => {
         const url = new URL(request.url)
@@ -97,8 +119,8 @@ export const handlers = [
                 url: testVariables.avatarListFirstElementUrl,
             },
             {
-                description: 'second',
-                url: 'http://www.avatar-second.com',
+                description: testVariables.avatarListSecondElementDescription,
+                url: testVariables.avatarListSecondElementUrl,
             },
             {
                 description: 'third',

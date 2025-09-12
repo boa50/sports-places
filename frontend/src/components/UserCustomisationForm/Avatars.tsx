@@ -23,7 +23,10 @@ export default function Avatars({ selectedAvatar, handleChange }: Props) {
     }, [avatarsData])
 
     return (
-        <div className="flex flex-col gap-4">
+        <div
+            className="flex flex-col gap-4"
+            data-testid="user-customisation-avatars"
+        >
             <div className="text-sm font-medium text-gray-900">
                 Display Picture
             </div>

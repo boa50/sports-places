@@ -20,6 +20,7 @@ export function FormModal({ title, children, isModalOpen, closeModal }: Props) {
                 <div
                     className="fixed z-900 bg-gray-900/30 w-screen h-screen"
                     onClick={closeModal}
+                    data-testid="close-form-modal"
                 ></div>
             </div>
         )
