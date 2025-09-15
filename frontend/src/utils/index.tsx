@@ -1,4 +1,4 @@
-import type { Review } from './types'
+import type { Review } from '../types'
 
 export async function checkLocationPermission(): Promise<PermissionState> {
     // Check if geolocation is supported at all
@@ -76,6 +76,8 @@ export function getRelativeTime(date: Date) {
 
 export function averageReviews(reviews: Review[]) {
     const nReviews = reviews.length
+
+    if (nReviews === 0) return 0
 
     return (
         reviews.reduce(
