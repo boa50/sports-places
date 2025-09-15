@@ -1,5 +1,5 @@
-import { screen, render } from '@testing-library/react'
 import { Alert } from './Alert'
+import { screen, render } from '@testing-library/react'
 
 test('show success alert', () => {
     const message = 'some success message'
