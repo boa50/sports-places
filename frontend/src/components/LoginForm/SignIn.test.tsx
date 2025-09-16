@@ -54,7 +54,7 @@ test('show default fields', async () => {
     expect(screen.getByTestId('feedback-message')).toBeInTheDocument()
 
     expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument()
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
+    expect(screen.getByLabelText('Password')).toBeInTheDocument()
 
     expect(
         screen.getByRole('button', { name: /forgot password/i })
@@ -79,7 +79,7 @@ test('password writing', async () => {
     const user = userEvent.setup()
     const userPassword = 'someNicePassw0rd'
 
-    const passwordInputComponent = screen.getByLabelText(/password/i)
+    const passwordInputComponent = screen.getByLabelText('Password')
 
     expect(passwordInputComponent).toBeInTheDocument()
     expect(passwordInputComponent).toBeEnabled()
@@ -100,7 +100,7 @@ test('processing submit', async () => {
     const user = userEvent.setup()
 
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
-    const passwordInputComponent = screen.getByLabelText(/password/i)
+    const passwordInputComponent = screen.getByLabelText('Password')
     const signInButtonComponent = screen.getByRole('button', {
         name: /sign in/i,
     })
@@ -135,7 +135,7 @@ test('processing submit success SKIP BEFORE_EACH SETUP', async () => {
     await screen.findByRole('form', { name: /sign in/i })
 
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
-    const passwordInputComponent = screen.getByLabelText(/password/i)
+    const passwordInputComponent = screen.getByLabelText('Password')
     const signInButtonComponent = screen.getByRole('button', {
         name: /sign in/i,
     })
@@ -167,7 +167,7 @@ test('processing submit error', async () => {
     const userPassword = 'someNicePassw0rd'
 
     const emailInputComponent = screen.getByRole('textbox', { name: /email/i })
-    const passwordInputComponent = screen.getByLabelText(/password/i)
+    const passwordInputComponent = screen.getByLabelText('Password')
 
     await user.type(emailInputComponent, userEmail)
     await user.type(passwordInputComponent, userPassword)
