@@ -79,9 +79,10 @@ export function Input({
                 />
                 {type === 'password' && (
                     <div className="flex items-center justify-around">
-                        <span
+                        <button
                             className="cursor-pointer absolute mr-10 text-gray-600"
                             onClick={togglePasswordVisibility}
+                            aria-label="Toggle password visibility"
                         >
                             {isPasswordVisible ? (
                                 <Icon
@@ -96,7 +97,7 @@ export function Input({
                                     filled="none"
                                 />
                             )}
-                        </span>
+                        </button>
                     </div>
                 )}
             </div>
